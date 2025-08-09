@@ -312,6 +312,7 @@
         .grid-item-content {
             font-size: 2.5rem; /* Tamaño base del emoji/texto dentro del cuadro */
             line-height: 1; /* Elimina espacio extra de línea para emojis */
+            /* Por defecto, no hay filtros ni transformaciones */
             transition: filter 0.3s ease, transform 0.3s ease; /* Transiciones para los efectos */
         }
         /* Ajuste para que el tamaño del texto se mantenga si no es un emoji */
@@ -365,11 +366,10 @@
             transform: scale(1.1); /* Ligeramente más grande al pasar el ratón */
         }
 
-        /* Estilos para la actividad 'size-comparison' */
+        /* Estilos para la actividad 'size-comparison' - APLICAN EFECTOS AQUÍ */
         .size-reference {
             text-align: center; /* Centra el contenido */
             margin: 20px 0; /* Margen superior e inferior */
-            /* El font-size de referencia es manejado por .grid-item-content */
         }
         .size-reference-emoji {
             font-size: 3rem; /* Tamaño por defecto para el emoji de referencia */
@@ -383,17 +383,32 @@
         .grid-item-content.size-option-xlarge { font-size: 4rem; } /* Aún más grande */
 
 
-        /* Nuevos estilos para los efectos visuales, aplicados al .grid-item-content */
-        .grid-item-content.effect-inverted { filter: invert(100%); }
-        .grid-item-content.effect-grayscale { filter: grayscale(100%); }
-        .grid-item-content.effect-hue-blue { filter: hue-rotate(180deg); }
-        .grid-item-content.effect-hue-green { filter: hue-rotate(90deg); }
-        .grid-item-content.effect-rotated { transform: rotate(15deg); }
-        .grid-item-content.effect-flipped { transform: scaleX(-1); }
-        .grid-item-content.effect-blur { filter: blur(2px); } /* Nuevo efecto de desenfoque */
-        .grid-item-content.effect-brightness { filter: brightness(150%); } /* Nuevo efecto de brillo */
+        /* Estilos para los efectos visuales, APLICADOS SOLO EN shadow-match y size-comparison */
+        .size-comparison .grid-item-content.effect-inverted,
+        .shadow-match .grid-item-content.effect-inverted { filter: invert(100%); }
 
-        /* Estilos para la actividad 'shadow-match' */
+        .size-comparison .grid-item-content.effect-grayscale,
+        .shadow-match .grid-item-content.effect-grayscale { filter: grayscale(100%); }
+
+        .size-comparison .grid-item-content.effect-hue-blue,
+        .shadow-match .grid-item-content.effect-hue-blue { filter: hue-rotate(180deg); }
+
+        .size-comparison .grid-item-content.effect-hue-green,
+        .shadow-match .grid-item-content.effect-hue-green { filter: hue-rotate(90deg); }
+
+        .size-comparison .grid-item-content.effect-rotated,
+        .shadow-match .grid-item-content.effect-rotated { transform: rotate(15deg); }
+
+        .size-comparison .grid-item-content.effect-flipped,
+        .shadow-match .grid-item-content.effect-flipped { transform: scaleX(-1); }
+
+        .size-comparison .grid-item-content.effect-blur,
+        .shadow-match .grid-item-content.effect-blur { filter: blur(2px); }
+
+        .size-comparison .grid-item-content.effect-brightness,
+        .shadow-match .grid-item-content.effect-brightness { filter: brightness(150%); }
+
+        /* Estilos para la actividad 'shadow-match' - APLICAN EFECTOS AQUÍ */
         .shadow-container {
             display: flex; /* Flexbox para organizar contenido */
             flex-direction: column; /* Elementos en columna */
@@ -817,12 +832,12 @@
                             // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
                             gridItems: [
                                 { emoji: "🍌", effect: "" }, { emoji: "👟", effect: "" }, { emoji: "🦋", effect: "" }, { emoji: "🍐", effect: "" },
-                                { emoji: "🦋", effect: "rotated" }, { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "🍌", effect: "" },
-                                { emoji: "🔑", effect: "" }, { emoji: "👟", effect: "flipped" }, { emoji: "🍌", effect: "" }, { emoji: "🦋", effect: "" },
-                                { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "grayscale" }, { emoji: "👟", effect: "" }, { emoji: "🍌", effect: "" },
-                                { emoji: "🍎", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍇", effect: "blur" }, { emoji: "🍊", effect: "" },
+                                { emoji: "🦋", effect: "" }, { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "🍌", effect: "" },
+                                { emoji: "🔑", effect: "" }, { emoji: "👟", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🦋", effect: "" },
+                                { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "👟", effect: "" }, { emoji: "🍌", effect: "" },
+                                { emoji: "🍎", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍇", effect: "" }, { emoji: "�", effect: "" },
                                 { emoji: "🍌", effect: "" }, { emoji: "🍍", effect: "" }, { emoji: "🍓", effect: "" }, { emoji: "🍌", effect: "" },
-                                { emoji: "🥝", effect: "" }, { emoji: "🍑", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍋", effect: "hue-blue" },
+                                { emoji: "🥝", effect: "" }, { emoji: "🍑", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍋", effect: "" },
                                 { emoji: "🍒", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍉", effect: "" }, { emoji: "🍌", effect: "" }
                             ],
                             target: "🍌" // El elemento a buscar
@@ -834,12 +849,12 @@
                             // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
                             gridItems: [
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
-                                { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "rotated" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
-                                { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "grayscale" },
+                                { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
+                                { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "☕", effect: "" }, { emoji: "🥛", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍶", effect: "" },
-                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "hue-green" }, { emoji: "🍵", effect: "" }, { emoji: "🫖", effect: "" },
-                                { emoji: "🍵", effect: "" }, { emoji: "🍹", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍾", effect: "inverted" },
+                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🫖", effect: "" },
+                                { emoji: "🍵", effect: "" }, { emoji: "🍹", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍾", effect: "" },
                                 { emoji: "🍵", effect: "" }, { emoji: "🥂", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🥃", effect: "" }
                             ],
                             target: "🍵"
@@ -862,11 +877,11 @@
                             // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
                             gridItems: [
                                 { emoji: "6", effect: "" }, { emoji: "7", effect: "" }, { emoji: "8", effect: "" }, { emoji: "9", effect: "" },
-                                { emoji: "7", effect: "" }, { emoji: "5", effect: "" }, { emoji: "4", effect: "rotated" }, { emoji: "7", effect: "" },
-                                { emoji: "3", effect: "" }, { emoji: "2", effect: "grayscale" }, { emoji: "7", effect: "" }, { emoji: "1", effect: "" },
-                                { emoji: "7", effect: "" }, { emoji: "0", effect: "" }, { emoji: "7", effect: "" }, { emoji: "6", effect: "inverted" },
+                                { emoji: "7", effect: "" }, { emoji: "5", effect: "" }, { emoji: "4", effect: "" }, { emoji: "7", effect: "" },
+                                { emoji: "3", effect: "" }, { emoji: "2", effect: "" }, { emoji: "7", effect: "" }, { emoji: "1", effect: "" },
+                                { emoji: "7", effect: "" }, { emoji: "0", effect: "" }, { emoji: "7", effect: "" }, { emoji: "6", effect: "" },
                                 { emoji: "7", effect: "" }, { emoji: "8", effect: "" }, { emoji: "7", effect: "" }, { emoji: "9", effect: "" },
-                                { emoji: "5", effect: "" }, { emoji: "7", effect: "" }, { emoji: "4", effect: "" }, { emoji: "7", effect: "hue-blue" },
+                                { emoji: "5", effect: "" }, { emoji: "7", effect: "" }, { emoji: "4", effect: "" }, { emoji: "7", effect: "" },
                                 { emoji: "2", effect: "" }, { emoji: "7", effect: "" }, { emoji: "1", effect: "" }, { emoji: "0", effect: "" },
                                 { emoji: "7", effect: "" }, { emoji: "3", effect: "" }, { emoji: "7", effect: "" }, { emoji: "8", effect: "" }
                             ],
@@ -879,40 +894,30 @@
                             // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
                             gridItems: [
                                 { emoji: "★", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "" }, { emoji: "■", effect: "" },
-                                { emoji: "●", effect: "rotated" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" }, { emoji: "■", effect: "" },
-                                { emoji: "★", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "grayscale" }, { emoji: "★", effect: "" },
-                                { emoji: "■", effect: "" }, { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "inverted" },
+                                { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" }, { emoji: "■", effect: "" },
+                                { emoji: "★", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "" }, { emoji: "★", effect: "" },
+                                { emoji: "■", effect: "" }, { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" },
                                 { emoji: "■", effect: "" }, { emoji: "★", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "" },
-                                { emoji: "■", effect: "" }, { emoji: "●", effect: "hue-blue" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" },
+                                { emoji: "■", effect: "" }, { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" },
                                 { emoji: "■", effect: "" }, { emoji: "★", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "" },
                                 { emoji: "■", effect: "" }, { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" }
                             ],
                             target: "★"
                         },
-                        { // Actividad de tachar ítems (letras)
-                            type: "strike-item",
-                            title: "Tacha las Letras",
-                            instructions: "Tacha todas las letras que encuentres en la siguiente lista.",
-                            // Rellenado para 32 elementos, 4x8 visualmente si el grid se ajusta
-                            items: [
-                                { text: "7", type: "número", effect: "" }, { text: "A", type: "letra", effect: "" }, // Cambiado a "número", "letra"
-                                { text: "3", type: "número", effect: "rotated" }, { text: "B", type: "letra", effect: "" },
-                                { text: "9", type: "número", effect: "" }, { text: "C", type: "letra", effect: "grayscale" },
-                                { text: "2", type: "número", effect: "" }, { text: "D", type: "letra", effect: "" },
-                                { text: "1", type: "número", effect: "inverted" }, { text: "E", type: "letra", effect: "" },
-                                { text: "8", type: "número", effect: "" }, { text: "F", type: "letra", effect: "hue-blue" },
-                                { text: "5", type: "número", effect: "" }, { text: "G", type: "letra", effect: "" },
-                                { text: "4", type: "número", effect: "" }, { text: "H", type: "letra", effect: "" },
-                                { text: "6", type: "número", effect: "flipped" }, { text: "I", type: "letra", effect: "" },
-                                { text: "0", type: "número", effect: "" }, { text: "J", type: "letra", effect: "brightness" },
-                                { text: "11", type: "número", effect: "" }, { text: "K", type: "letra", effect: "" },
-                                { text: "12", type: "número", effect: "" }, { text: "L", type: "letra", effect: "" },
-                                { text: "10", type: "número", effect: "" }, { text: "M", type: "letra", effect: "" },
-                                { text: "13", type: "número", effect: "" }, { text: "N", type: "letra", effect: "" },
-                                { text: "14", type: "número", effect: "" }, { text: "O", type: "letra", effect: "" },
-                                { text: "15", type: "número", effect: "" }, { text: "P", type: "letra", effect: "" }
-                            ],
-                            targetType: "letra" // El tipo de elemento a tachar
+                        { // Nueva actividad simple para compensar las eliminadas
+                            type: "word-select",
+                            title: "Elige el Animal de la Granja",
+                            instructions: "Selecciona el animal que vive en la granja.",
+                            options: [
+                                { text: "Vaca 🐮", correct: true },
+                                { text: "León 🦁", correct: false },
+                                { text: "Elefante 🐘", correct: false },
+                                { text: "Pingüino 🐧", correct: false },
+                                { text: "Gallina 🐔", correct: true },
+                                { text: "Zorro 🦊", correct: false },
+                                { text: "Tigre 🐅", correct: false },
+                                { text: "Oveja 🐑", correct: true }
+                            ]
                         },
                         {
                             type: "audio-select",
@@ -932,56 +937,46 @@
                             // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
                             gridItems: [
                                 { emoji: "b", effect: "" }, { emoji: "j", effect: "" }, { emoji: "6", effect: "" }, { emoji: "r", effect: "" },
-                                { emoji: "z", effect: "grayscale" }, { emoji: "j", effect: "" }, { emoji: "e", effect: "" }, { emoji: "q", effect: "" },
-                                { emoji: "8", effect: "" }, { emoji: "0", effect: "" }, { emoji: "7", effect: "rotated" }, { emoji: "6", effect: "" },
+                                { emoji: "z", effect: "" }, { emoji: "j", effect: "" }, { emoji: "e", effect: "" }, { emoji: "q", effect: "" },
+                                { emoji: "8", effect: "" }, { emoji: "0", effect: "" }, { emoji: "7", effect: "" }, { emoji: "6", effect: "" },
                                 { emoji: "j", effect: "" }, { emoji: "7", effect: "" }, { emoji: "5", effect: "" }, { emoji: "i", effect: "" },
-                                { emoji: "k", effect: "hue-blue" }, { emoji: "w", effect: "" }, { emoji: "k", effect: "" }, { emoji: "s", effect: "" },
+                                { emoji: "k", effect: "" }, { emoji: "w", effect: "" }, { emoji: "k", effect: "" }, { emoji: "s", effect: "" },
                                 { emoji: "d", effect: "" }, { emoji: "9", effect: "" }, { emoji: "0", effect: "" }, { emoji: "l", effect: "" },
-                                { emoji: "8", effect: "" }, { emoji: "9", effect: "inverted" }, { emoji: "a", effect: "" }, { emoji: "c", effect: "" },
-                                { emoji: "1", effect: "" }, { emoji: "f", effect: "" }, { emoji: "4", effect: "flipped" }, { emoji: "g", effect: "" }
+                                { emoji: "8", effect: "" }, { emoji: "9", effect: "" }, { emoji: "a", effect: "" }, { emoji: "c", effect: "" },
+                                { emoji: "1", effect: "" }, { emoji: "f", effect: "" }, { emoji: "4", effect: "" }, { emoji: "g", effect: "" }
                             ],
                             target: ["6", "8", "0", "7", "9", "5", "1", "4"] // Todos los números en la cuadrícula
                         },
-                        { // Actividad de tachar ítems (plátanos repetidos)
-                            type: "strike-item",
-                            title: "Tacha los Bananos Repetidos", // Cambiado a "Bananos"
-                            instructions: "Tacha los bananos que se repiten en cada fila.", // Cambiado a "Bananos"
-                            // Rellenado para 32 elementos
-                            items: [
-                                { text: "🍌", type: "banana", effect: "" }, { text: "🍎", type: "apple", effect: "" },
-                                { text: "🍌", type: "banana", effect: "" }, { text: "🍊", type: "orange", effect: "rotated" },
-                                { text: "🍓", type: "strawberry", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🍒", type: "cherry", effect: "" }, { text: "🍌", type: "banana", effect: "grayscale" },
-                                { text: "🍑", type: "peach", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🍍", type: "pineapple", effect: "" }, { text: "🍌", type: "banana", effect: "inverted" },
-                                { text: "🥝", type: "kiwi", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🍋", type: "lemon", effect: "" }, { text: "🍌", type: "banana", effect: "hue-blue" },
-                                { text: "🍇", type: "grape", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🍉", type: "watermelon", effect: "" }, { text: "🍌", type: "banana", effect: "flipped" },
-                                { text: "🥭", type: "mango", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🥥", type: "coconut", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🥑", type: "avocado", effect: "" }, { text: "🍌", type: "banana", effect: "" },
-                                { text: "🍆", type: "eggplant", effect: "" }, { text: "🍌", type: "banana", effect: "brightness" },
-                                { text: "🌶️", type: "chilli", effect: "" }, { text: "🍌", type: "banana", effect: "" }
+                        { // Nueva actividad simple
+                            type: "visual-search",
+                            title: "Encuentra las Frutas",
+                            instructions: "Selecciona solo las frutas.",
+                            gridItems: [
+                                { emoji: "🍎", effect: "" }, { emoji: "🥕", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🫛", effect: "" },
+                                { emoji: "🍊", effect: "" }, { emoji: "🥔", effect: "" }, { emoji: "🍇", effect: "" }, { emoji: "🥦", effect: "" },
+                                { emoji: "🍓", effect: "" }, { emoji: "🧅", effect: "" }, { emoji: "🍍", effect: "" }, { emoji: "🌶️", effect: "" },
+                                { emoji: "🍒", effect: "" }, { emoji: "🥒", effect: "" }, { emoji: "🍑", effect: "" }, { emoji: "🌽", effect: "" },
+                                { emoji: "🥝", effect: "" }, { emoji: "🥬", effect: "" }, { emoji: "🍋", effect: "" }, { emoji: "🍆", effect: "" },
+                                { emoji: "🍉", effect: "" }, { emoji: "🍄", effect: "" }, { emoji: "🥭", effect: "" }, { emoji: "🥑", effect: "" },
+                                { emoji: "🍐", effect: "" }, { emoji: "🍅", effect: "" }, { emoji: "🌰", effect: "" }, { emoji: "🧄", effect: "" },
+                                { emoji: "🥥", effect: "" }, { emoji: "🍠", effect: "" }, { emoji: "🌶️", effect: "" }, { emoji: "🫚", effect: "" }
                             ],
-                            targetType: "banana"
+                            target: ["🍎", "🍌", "🍊", "🍇", "🍓", "🍍", "🍒", "🍑", "🥝", "🍋", "🍉", "🥭", "🍐", "🥥"]
                         },
-                        { // Actividad de tachar ítems (mariposas repetidas)
-                            type: "strike-item",
-                            title: "Imágenes Repetidas (Mariposas)", // Cambiado para mayor claridad
-                            instructions: "Selecciona las imágenes de mariposas que se repiten en esta fila.", // Más específico
-                            // Rellenar con más elementos para una cuadrícula más completa (32 elementos)
-                            items: [ { group: [
-                                { emoji: "🚲", effect: "" }, { emoji: "🦋", effect: "" }, { emoji: "💄", effect: "rotated" }, { emoji: "🦋", effect: "" },
-                                { emoji: "🍓", effect: "" }, { emoji: "🚗", effect: "" }, { emoji: "🦋", effect: "inverted" }, { emoji: "🚲", effect: "" },
-                                { emoji: "🦋", effect: "" }, { emoji: "🎈", effect: "" }, { emoji: "🦋", effect: "grayscale" }, { emoji: "🔑", effect: "" },
-                                { emoji: "🦋", effect: "" }, { emoji: "✏️", effect: "" }, { emoji: "🦋", effect: "hue-blue" }, { emoji: "📱", effect: "" },
-                                { emoji: "🦋", effect: "" }, { emoji: "🚲", effect: "" }, { emoji: "🦋", effect: "flipped" }, { emoji: "💄", effect: "" },
-                                { emoji: "🦋", effect: "" }, { emoji: "🍓", effect: "" }, { emoji: "🚗", effect: "blur" }, { emoji: "🦋", effect: "" },
-                                { emoji: "🎈", effect: "" }, { emoji: "🦋", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "🦋", effect: "" },
-                                { emoji: "✏️", effect: "" }, { emoji: "🦋", effect: "" }, { emoji: "📱", effect: "" }, { emoji: "🦋", effect: "brightness" }
-                            ], correct: ["🦋"] } ], // 32 elementos
-                            targetType: "group_correct" // Nuevo tipo para indicar que se usa 'group' y 'correct'
+                        { // Nueva actividad simple
+                            type: "word-select",
+                            title: "Elige las Partes de la Casa",
+                            instructions: "Selecciona las palabras que nombran partes de una casa.",
+                            options: [
+                                { text: "Sala 🛋️", correct: true },
+                                { text: "Río 🌊", correct: false },
+                                { text: "Cocina 🍳", correct: true },
+                                { text: "Montaña ⛰️", correct: false },
+                                { text: "Baño 🛀", correct: true },
+                                { text: "Carro 🚗", correct: false },
+                                { text: "Habitación 🛏️", correct: true },
+                                { text: "Libro 📚", correct: false }
+                            ]
                         },
                         {
                             type: "audio-select",
@@ -994,33 +989,16 @@
                     title: "Funciones Ejecutivas y Secuenciación",
                     pages: [11, 13, 15],
                     activities: [
-                        { // Actividad de tachar símbolos repetidos
-                            type: "strike-item",
-                            title: "Símbolos Repetidos",
-                            instructions: "Selecciona los símbolos que se repiten en la cuadrícula.",
-                            // Rellenar con más elementos para una cuadrícula más completa (32 elementos)
-                            items: [ { group: [
-                                { emoji: "▲", effect: "" }, { emoji: "●", effect: "" }, { emoji: "▲", effect: "rotated" }, { emoji: "■", effect: "" },
-                                { emoji: "●", effect: "" }, { emoji: "★", effect: "" }, { emoji: "■", effect: "grayscale" }, { emoji: "★", effect: "" },
-                                { emoji: "▲", effect: "" }, { emoji: "■", effect: "" }, { emoji: "★", effect: "inverted" }, { emoji: "▲", effect: "" },
-                                { emoji: "●", effect: "" }, { emoji: "■", effect: "hue-blue" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" },
-                                { emoji: "●", effect: "" }, { emoji: "■", effect: "" }, { emoji: "★", effect: "flipped" }, { emoji: "▲", effect: "" },
-                                { emoji: "●", effect: "" }, { emoji: "■", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "blur" },
-                                { emoji: "●", effect: "" }, { emoji: "■", effect: "" }, { emoji: "★", effect: "brightness" }, { emoji: "▲", effect: "" },
-                                { emoji: "●", effect: "" }, { emoji: "■", effect: "" }, { emoji: "★", effect: "" }, { emoji: "▲", effect: "" }
-                            ], correct: ["▲", "●", "■", "★"] } ], // 32 elementos
-                            targetType: "group_correct"
-                        },
                         { // Actividad de ordenar pasos para lavarse el pelo
                             type: "order",
                             title: "Ordena los Pasos para Lavarse el Pelo",
                             instructions: "Haz clic en los pasos en el orden correcto para lavarse el pelo.",
                             items: [
-                                { text: "Mojar el pelo 💦", order: 1 },
-                                { text: "Aplicar champú 🧴", order: 2 },
-                                { text: "Enjuagar con agua 💧", order: 3 },
-                                { text: "Secar con toalla 🧺", order: 4 },
-                                { text: "Peinar el pelo 💇", order: 5 }
+                                { text: "Mojar el pelo 💦", order: 1, effect: "" },
+                                { text: "Aplicar champú 🧴", order: 2, effect: "" },
+                                { text: "Enjuagar con agua 💧", order: 3, effect: "" },
+                                { text: "Secar con toalla 🧺", order: 4, effect: "" },
+                                { text: "Peinar el pelo 💇", order: 5, effect: "" }
                             ],
                             startCountFrom: 1
                         },
@@ -1029,13 +1007,28 @@
                             title: "Ordena los Pasos para Tomar un Taxi",
                             instructions: "Haz clic en los pasos en el orden correcto para tomar un taxi.",
                             items: [
-                                { text: "Levantar la mano para parar el taxi ✋", order: 1 },
-                                { text: "Subir al taxi 🚕", order: 2 },
-                                { text: "Decir el destino al conductor 🗣️", order: 3 },
-                                { text: "Pagar al conductor 💰", order: 4 },
-                                { text: "Bajarse del taxi 👋", order: 5 } // "Bajarse" en lugar de "Bajar"
+                                { text: "Levantar la mano para parar el taxi ✋", order: 1, effect: "" },
+                                { text: "Subir al taxi 🚕", order: 2, effect: "" },
+                                { text: "Decir el destino al conductor 🗣️", order: 3, effect: "" },
+                                { text: "Pagar al conductor 💰", order: 4, effect: "" },
+                                { text: "Bajarse del taxi 👋", order: 5, effect: "" } // "Bajarse" en lugar de "Bajar"
                             ],
                             startCountFrom: 1
+                        },
+                        { // Nueva actividad simple
+                            type: "word-select",
+                            title: "Elige Objetos de Cocina",
+                            instructions: "Selecciona las palabras que nombran objetos de cocina.",
+                            options: [
+                                { text: "Cuchara 🥄", correct: true },
+                                { text: "Martillo 🔨", correct: false },
+                                { text: "Tenedor 🍴", correct: true },
+                                { text: "Alicates 钳子", correct: false },
+                                { text: "Cuchillo 🔪", correct: true },
+                                { text: "Serrucho 🪚", correct: false },
+                                { text: "Plato 🍽️", correct: true },
+                                { text: "Destornillador  screwdriver", correct: false }
+                            ]
                         },
                         {
                             type: "audio-select",
@@ -1053,10 +1046,10 @@
                             title: "Ordena los Pasos para Comprar el Pan",
                             instructions: "Haz clic en los pasos en el orden correcto para comprar pan.",
                             items: [
-                                { text: "Ir a la panadería 🏪", order: 1 },
-                                { text: "Pedir el pan 🥖", order: 2 },
-                                { text: "Pagar al panadero 💰", order: 3 },
-                                { text: "Llevar el pan a casa 🏠", order: 4 }
+                                { text: "Ir a la panadería 🏪", order: 1, effect: "" },
+                                { text: "Pedir el pan 🥖", order: 2, effect: "" },
+                                { text: "Pagar al panadero 💰", order: 3, effect: "" },
+                                { text: "Llevar el pan a casa 🏠", order: 4, effect: "" }
                             ],
                             startCountFrom: 1
                         },
@@ -1065,55 +1058,26 @@
                             title: "Ordena los Pasos para Viajar en Tren",
                             instructions: "Haz clic en los pasos en el orden correcto para viajar en tren.",
                             items: [
-                                { text: "Comprar el tiquete 🎫", order: 1 }, // "Tiquete" en lugar de "billete"
-                                { text: "Esperar en el andén 🚉", order: 2 },
-                                { text: "Subir al tren 🚂", order: 3 },
-                                { text: "Mostrar el tiquete al revisor 📋", order: 4 }, // "Tiquete"
-                                { text: "Buscar asiento 💺", order: 5 },
-                                { text: "Bajarse en tu destino 🚶‍♀️", order: 6 } // "Bajarse"
+                                { text: "Comprar el tiquete 🎫", order: 1, effect: "" }, // "Tiquete" en lugar de "billete"
+                                { text: "Esperar en el andén 🚉", order: 2, effect: "" },
+                                { text: "Subir al tren 🚂", order: 3, effect: "" },
+                                { text: "Mostrar el tiquete al revisor 📋", order: 4, effect: "" }, // "Tiquete"
+                                { text: "Buscar asiento 💺", order: 5, effect: "" },
+                                { text: "Bajarse en tu destino 🚶‍♀️", order: 6, effect: "" } // "Bajarse"
                             ],
                             startCountFrom: 1
                         },
-                        { // Actividad de tachar el intruso (útiles de escritura)
-                            type: "strike-item",
-                            title: "Encuentra el Intruso (Útiles de Escritura)",
-                            instructions: "Tacha el elemento que no pertenece al grupo.",
-                            // Rellenado para 32 elementos
-                            items: [
-                                { text: "Lápiz ✏️", type: "writing", effect: "" },
-                                { text: "Esfero 🖊️", type: "writing", effect: "" },
-                                { text: "Marcador 🖌️", type: "writing", effect: "" },
-                                { text: "Taza ☕", type: "not-writing", effect: "rotated" },
-                                { text: "Borrador 🧼", type: "writing", effect: "" },
-                                { text: "Sacapuntas ✏️", type: "writing", effect: "" },
-                                { text: "Mochila 🎒", type: "not-writing", effect: "grayscale" },
-                                { text: "Cuaderno 📒", type: "writing", effect: "" },
-                                { text: "Resaltador 🖍️", type: "writing", effect: "" },
-                                { text: "Tijeras ✂️", type: "writing", effect: "" },
-                                { text: "Cosedora 📎", type: "writing", effect: "" },
-                                { text: "Agua 💧", type: "not-writing", effect: "inverted" },
-                                { text: "Regla 📏", type: "writing", effect: "" },
-                                { text: "Compás 📐", type: "writing", effect: "" },
-                                { text: "Pegamento 🧴", type: "writing", effect: "" },
-                                { text: "Comida 🍔", type: "not-writing", effect: "hue-blue" },
-                                { text: "Pincel 🖌️", type: "writing", effect: "" },
-                                { text: "Crayola 🖍️", type: "writing", effect: "" },
-                                { text: "Calculadora 🧮", type: "writing", effect: "" },
-                                { text: "Flor 🌸", type: "not-writing", effect: "flipped" },
-                                { text: "Carpetas 📁", type: "writing", effect: "" },
-                                { text: "Clips 📎", type: "writing", effect: "" },
-                                { text: "Destornillador 🔩", type: "not-writing", effect: "blur" },
-                                { text: "Tinta 💧", type: "writing", effect: "" },
-                                { text: "Post-it 🗒️", type: "writing", effect: "" },
-                                { text: "Periódico 📰", type: "not-writing", effect: "brightness" },
-                                { text: "Globo 🎈", type: "not-writing", effect: "" },
-                                { text: "Gafas 👓", type: "not-writing", effect: "" },
-                                { text: "Plato 🍽️", type: "not-writing", effect: "" },
-                                { text: "Cuchillo 🔪", type: "not-writing", effect: "" },
-                                { text: "Reloj ⌚", type: "not-writing", effect: "" },
-                                { text: "Bufanda 🧣", type: "not-writing", effect: "" }
+                        { // Nueva actividad simple
+                            type: "visual-search",
+                            title: "Encuentra los Transportes",
+                            instructions: "Selecciona solo los medios de transporte.",
+                            gridItems: [
+                                { emoji: "🚗", effect: "" }, { emoji: "🏠", effect: "" }, { emoji: "✈️", effect: "" }, { emoji: "📚", effect: "" },
+                                { emoji: "🚌", effect: "" }, { emoji: "🌳", effect: "" }, { emoji: "🚲", effect: "" }, { emoji: "🍎", effect: "" },
+                                { emoji: "🚂", effect: "" }, { emoji: "🛋️", effect: "" }, { emoji: "⛵", effect: "" }, { emoji: "⌚", effect: "" },
+                                { emoji: "🚁", effect: "" }, { emoji: "👕", effect: "" }, { emoji: "🛵", effect: "" }, { emoji: "🍳", effect: "" }
                             ],
-                            targetType: "not-writing"
+                            target: ["🚗", "✈️", "🚌", "🚲", "🚂", "⛵", "🚁", "🛵"]
                         },
                         {
                             type: "audio-select",
@@ -1131,96 +1095,41 @@
                             title: "Ordena los Pasos para Cenar en un Restaurante",
                             instructions: "Ordena los siguientes pasos en el orden correcto para cenar en un restaurante.",
                             items: [
-                                { text: "Reservar mesa 📅", order: 1 },
-                                { text: "Llegar al restaurante 🏢", order: 2 },
-                                { text: "Revisar la carta 📜", order: 3 }, // "La carta" en lugar de "el menú"
-                                { text: "Pedir la comida 🍽️", order: 4 },
-                                { text: "Comer 😋", order: 5 },
-                                { text: "Pagar la cuenta 💳", order: 6 }
+                                { text: "Reservar mesa 📅", order: 1, effect: "" },
+                                { text: "Llegar al restaurante 🏢", order: 2, effect: "" },
+                                { text: "Revisar la carta 📜", order: 3, effect: "" }, // "La carta" en lugar de "el menú"
+                                { text: "Pedir la comida 🍽️", order: 4, effect: "" },
+                                { text: "Comer 😋", order: 5, effect: "" },
+                                { text: "Pagar la cuenta 💳", order: 6, effect: "" }
                             ],
                             startCountFrom: 1
                         },
-                        { // Actividad de tachar el intruso (electrodomésticos)
-                            type: "strike-item",
-                            title: "Encuentra el Intruso (Electrodomésticos)",
-                            instructions: "Tacha el elemento que no es un electrodoméstico.",
-                            // Rellenado para 32 elementos
+                        { // Nueva actividad simple
+                            type: "order",
+                            title: "Ordena los Pasos para Regar una Planta",
+                            instructions: "Ordena los siguientes pasos para regar una planta.",
                             items: [
-                                { text: "Nevera ❄️", type: "appliance", effect: "" },
-                                { text: "Lavadora 🧺", type: "appliance", effect: "" },
-                                { text: "Televisor 📺", type: "appliance", effect: "" },
-                                { text: "Cepillo de dientes 🪥", type: "no-appliance", effect: "rotated" }, // "no-appliance"
-                                { text: "Horno 🍳", type: "appliance", effect: "" },
-                                { text: "Microondas ♨️", type: "appliance", effect: "" },
-                                { text: "Tostadora 🍞", type: "appliance", effect: "" },
-                                { text: "Cama 🛏️", type: "no-appliance", effect: "grayscale" },
-                                { text: "Batidora 🥣", type: "appliance", effect: "" },
-                                { text: "Aspiradora 🧹", type: "appliance", effect: "" },
-                                { text: "Secadora de ropa 👕", type: "appliance", effect: "" },
-                                { text: "Sofá 🛋️", type: "no-appliance", effect: "inverted" },
-                                { text: "Lavaplatos 🍽️", type: "appliance", effect: "" },
-                                { text: "Plancha 👕", type: "appliance", effect: "" },
-                                { text: "Cafetera ☕", type: "appliance", effect: "" },
-                                { text: "Lámpara de mesa 💡", type: "no-appliance", effect: "hue-blue" },
-                                { text: "Robot de cocina 🤖", type: "appliance", effect: "" },
-                                { text: "Extractor de aire 💨", type: "appliance", effect: "" },
-                                { text: "Campana extractora 💨", type: "appliance", effect: "" },
-                                { text: "Zapatos 👟", type: "no-appliance", effect: "flipped" },
-                                { text: "Sandwichera 🥪", type: "appliance", effect: "" },
-                                { text: "Exprimidor 🍊", type: "appliance", effect: "" },
-                                { text: "Pava eléctrica ♨️", type: "appliance", effect: "" },
-                                { text: "Mueble 🚪", type: "no-appliance", effect: "blur" },
-                                { text: "Calefactor 🔥", type: "appliance", effect: "" },
-                                { text: "Aire Acondicionado 🌬️", type: "appliance", effect: "" },
-                                { text: "Reloj de pared 🕰️", type: "no-appliance", effect: "brightness" },
-                                { text: "Manta 🧣", type: "no-appliance", effect: "" },
-                                { text: "Licuadora 🥤", type: "appliance", effect: "" },
-                                { text: "Picadora 🔪", type: "appliance", effect: "" },
-                                { text: "Freidora de aire 🍟", type: "appliance", effect: "" },
-                                { text: "Cojín 🪶", type: "no-appliance", effect: "" }
+                                { text: "Buscar la regadera 🌱", order: 1, effect: "" },
+                                { text: "Llenar la regadera con agua 💧", order: 2, effect: "" },
+                                { text: "Acercarse a la planta 🪴", order: 3, effect: "" },
+                                { text: "Echarle agua a la tierra 💦", order: 4, effect: "" }
                             ],
-                            targetType: "no-appliance"
+                            startCountFrom: 1
                         },
-                        { // Actividad de tachar la palabra intrusa (texturas)
-                            type: "strike-item",
-                            title: "Palabra Intruso (Texturas)",
-                            instructions: "Tacha la palabra que no describe una textura.",
-                            // Rellenado para 32 elementos
-                            items: [
-                                { text: "Áspero 🪨", type: "texture", effect: "" },
-                                { text: "Suave 🧸", type: "texture", effect: "" },
-                                { text: "Liso 🪞", type: "texture", effect: "" },
-                                { text: "Fuerte 💪", type: "no-texture", effect: "rotated" }, // "no-texture"
-                                { text: "Rugoso 🧱", type: "texture", effect: "" },
-                                { text: "Esponjoso ☁️", type: "texture", effect: "" },
-                                { text: "Dulce 🍬", type: "no-texture", effect: "grayscale" },
-                                { text: "Frío 🥶", type: "no-texture", effect: "" },
-                                { text: "Pegajoso 🍯", type: "texture", effect: "" },
-                                { text: "Brillante ✨", type: "no-texture", effect: "inverted" },
-                                { text: "Caliente 🔥", type: "no-texture", effect: "" },
-                                { text: "Húmedo 💧", type: "texture", effect: "" },
-                                { text: "Seco ☀️", type: "texture", effect: "" },
-                                { text: "Rígido 🧱", type: "texture", effect: "" },
-                                { text: "Flexible 🧘", type: "texture", effect: "" },
-                                { text: "Colorido 🌈", type: "no-texture", effect: "hue-blue" },
-                                { text: "Resbaladizo ⚠️", type: "texture", effect: "" },
-                                { text: "Cristalino 💧", type: "no-texture", effect: "" },
-                                { text: "Pesado 🏋️", type: "no-texture", effect: "" },
-                                { text: "Ligero 🍃", type: "no-texture", effect: "flipped" },
-                                { text: "Granuloso 🌰", type: "texture", effect: "" },
-                                { text: "Peludo 🐕", type: "texture", effect: "" },
-                                { text: "Hinchado 🎈", type: "no-texture", effect: "blur" },
-                                { text: "Ácido 🍋", type: "no-texture", effect: "" },
-                                { text: "Crujiente 🍂", type: "texture", effect: "" },
-                                { text: "Delgado 📏", type: "no-texture", effect: "brightness" },
-                                { text: "Grueso 🪵", type: "no-texture", effect: "" },
-                                { text: "Afilado 🗡️", type: "no-texture", effect: "" },
-                                { text: "Redondo ⚪", type: "no-texture", effect: "" },
-                                { text: "Cuadrado ⬛", type: "no-texture", effect: "" },
-                                { text: "Triangular 🔺", type: "no-texture", effect: "" },
-                                { text: "Amargo ☕", type: "no-texture", effect: "" }
-                            ],
-                            targetType: "no-texture"
+                        { // Nueva actividad simple
+                            type: "word-select",
+                            title: "Nombres de Frutas",
+                            instructions: "Selecciona las palabras que son nombres de frutas.",
+                            options: [
+                                { text: "Manzana 🍎", correct: true },
+                                { text: "Mesa 🪑", correct: false },
+                                { text: "Pera 🍐", correct: true },
+                                { text: "Silla 🪑", correct: false },
+                                { text: "Banana 🍌", correct: true },
+                                { text: "Ventana 🪟", correct: false },
+                                { text: "Uva 🍇", correct: true },
+                                { text: "Puerta 🚪", correct: false }
+                            ]
                         },
                         {
                             type: "audio-select",
@@ -1233,99 +1142,60 @@
                     title: "Lenguaje y Razonamiento Verbal",
                     pages: [21, 24],
                     activities: [
-                        { // Actividad de tachar el intruso (metales)
-                            type: "strike-item",
-                            title: "Encuentra el Intruso (Metales)",
-                            instructions: "Tacha el elemento que no es un metal.",
-                            // Rellenado para 32 elementos
-                            items: [
-                                { text: "Aluminio 🥫", type: "metal", effect: "" },
-                                { text: "Cobre 🪙", type: "metal", effect: "" },
-                                { text: "Hierro ⛓️", type: "metal", effect: "" },
-                                { text: "Madera 🪵", type: "no-metal", effect: "rotated" }, // "no-metal"
-                                { text: "Plata 🥈", type: "metal", effect: "" },
-                                { text: "Oro 🥇", type: "metal", effect: "" },
-                                { text: "Vidrio 🪞", type: "no-metal", effect: "grayscale" },
-                                { text: "Plástico 🧪", type: "no-metal", effect: "" },
-                                { text: "Acero 🔩", type: "metal", effect: "" },
-                                { text: "Bronce 🥉", type: "metal", effect: "" },
-                                { text: "Níquel 💰", type: "metal", effect: "" },
-                                { text: "Papel 📄", type: "no-metal", effect: "inverted" },
-                                { text: "Diamante 💎", type: "no-metal", effect: "" },
-                                { text: "Grafito 📝", type: "no-metal", effect: "" },
-                                { text: "Tierra 🏞️", type: "no-metal", effect: "hue-blue" },
-                                { text: "Agua 💧", type: "no-metal", effect: "" },
-                                { text: "Litio 🔋", type: "metal", effect: "" },
-                                { text: "Zinc ⚡", type: "metal", effect: "" },
-                                { text: "Titanio 🚀", type: "metal", effect: "" },
-                                { text: "Tela 🧵", type: "no-metal", effect: "flipped" },
-                                { text: "Plomo 🎱", type: "metal", effect: "" },
-                                { text: "Estaño 🥫", type: "metal", effect: "" },
-                                { text: "Uranio ☢️", type: "metal", effect: "" },
-                                { text: "Roca ⛰️", type: "no-metal", effect: "blur" },
-                                { text: "Platino 💍", type: "metal", effect: "" },
-                                { text: "Mercurio 🌡️", type: "metal", effect: "" },
-                                { text: "Tungsteno 💡", type: "metal", effect: "" },
-                                { text: "Aire 🌬️", type: "no-metal", effect: "brightness" },
-                                { text: "Sodio 🧂", type: "metal", effect: "" },
-                                { text: "Potasio 🍌", type: "metal", effect: "" },
-                                { text: "Calcio 🥛", type: "metal", effect: "" },
-                                { text: "Carbón 🖤", type: "no-metal", effect: "" }
-                            ],
-                            targetType: "no-metal"
-                        },
-                        { // Actividad de tachar el intruso (eventos)
-                            type: "strike-item",
-                            title: "Encuentra el Intruso (Eventos)",
-                            instructions: "Tacha la palabra que no describe un evento o celebración.", // Más claro
-                            // Rellenado para 32 elementos
-                            items: [
-                                { text: "Fiesta 🎉", type: "event", effect: "" },
-                                { text: "Reunión 🤝", type: "event", effect: "" },
-                                { text: "Concierto 🎵", type: "event", effect: "" },
-                                { text: "Árbol 🌳", type: "no-event", effect: "rotated" }, // "no-event"
-                                { text: "Boda 👰", type: "event", effect: "" },
-                                { text: "Cumpleaños 🎂", type: "event", effect: "" },
-                                { text: "Silla 🪑", type: "no-event", effect: "grayscale" },
-                                { text: "Computadora 💻", type: "no-event", effect: "" },
-                                { text: "Festival 🎪", type: "event", effect: "" },
-                                { text: "Grado 🎓", type: "event", effect: "" }, // "Grado" en lugar de "Graduación"
-                                { text: "Exposición 🖼️", type: "event", effect: "" },
-                                { text: "Carro 🚗", type: "no-event", effect: "inverted" }, // "Carro" en lugar de "Coche"
-                                { text: "Seminario 🗣️", type: "event", effect: "" },
-                                { text: "Desfile 🎈", type: "event", effect: "" },
-                                { text: "Ceremonia 🎗️", type: "event", effect: "" },
-                                { text: "Montaña ⛰️", type: "no-event", effect: "hue-blue" },
-                                { text: "Aniversario 🥂", type: "event", effect: "" },
-                                { text: "Funeral 🕊️", type: "event", effect: "" },
-                                { text: "Inauguración 🎊", type: "event", effect: "" },
-                                { text: "Libro 📖", type: "no-event", effect: "flipped" },
-                                { text: "Conferencia 🎤", type: "event", effect: "" },
-                                { text: "Taller 🛠️", type: "event", effect: "" },
-                                { text: "Debate 🗣️", type: "event", effect: "" },
-                                { text: "Casa 🏠", type: "no-event", effect: "blur" },
-                                { text: "Copa 🏆", type: "event", effect: "" },
-                                { text: "Torneo 🏅", type: "event", effect: "" },
-                                { text: "Clase 📚", type: "event", effect: "" },
-                                { text: "Mesa 🪑", type: "no-event", effect: "brightness" },
-                                { text: "Viaje ✈️", type: "event", effect: "" },
-                                { text: "Paseo 🚶", type: "event", effect: "" },
-                                { text: "Cena 🍽️", type: "event", effect: "" },
-                                { text: "Sol ☀️", type: "no-event", effect: "" }
-                            ],
-                            targetType: "no-event"
-                        },
                         { // Actividad de ordenar palabras para formar una frase
                             type: "order",
                             title: "Ordena la Frase: Me rompí un vaso", // "Me rompí" en lugar de "He roto"
                             instructions: "Ordena las palabras para formar la frase: 'Me rompí un vaso'.",
                             items: [
-                                { text: "Me", order: 1 },
-                                { text: "rompí", order: 2 },
-                                { text: "un", order: 3 },
-                                { text: "vaso 🥛", order: 4 }
+                                { text: "Me", order: 1, effect: "" },
+                                { text: "rompí", order: 2, effect: "" },
+                                { text: "un", order: 3, effect: "" },
+                                { text: "vaso 🥛", order: 4, effect: "" }
                             ],
-                            startCountFrom: 1 
+                            startCountFrom: 1
+                        },
+                        { // Nueva actividad simple
+                            type: "word-select",
+                            title: "Días de la Semana",
+                            instructions: "Selecciona los días de la semana.",
+                            options: [
+                                { text: "Lunes 🗓️", correct: true },
+                                { text: "Árbol 🌳", correct: false },
+                                { text: "Martes 🗓️", correct: true },
+                                { text: "Agua 💧", correct: false },
+                                { text: "Miércoles 🗓️", correct: true },
+                                { text: "Nube ☁️", correct: false },
+                                { text: "Jueves 🗓️", correct: true },
+                                { text: "Pájaro 🐦", correct: false }
+                            ]
+                        },
+                        { // Nueva actividad simple
+                            type: "order",
+                            title: "Pasos para Contestar el Celular",
+                            instructions: "Ordena los pasos para contestar el celular.",
+                            items: [
+                                { text: "Escuchar el timbre 📱", order: 1, effect: "" },
+                                { text: "Buscar el celular 📞", order: 2, effect: "" },
+                                { text: "Deslizar para contestar 👆", order: 3, effect: "" },
+                                { text: "Decir 'Aló' 🗣️", order: 4, effect: "" } // "Aló" es común en Colombia
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Nueva actividad simple
+                            type: "visual-search",
+                            title: "Encuentra las Vocales",
+                            instructions: "Selecciona solo las vocales.",
+                            gridItems: [
+                                { emoji: "A", effect: "" }, { emoji: "B", effect: "" }, { emoji: "E", effect: "" }, { emoji: "C", effect: "" },
+                                { emoji: "I", effect: "" }, { emoji: "D", effect: "" }, { emoji: "O", effect: "" }, { emoji: "F", effect: "" },
+                                { emoji: "U", effect: "" }, { emoji: "G", effect: "" }, { emoji: "A", effect: "" }, { emoji: "H", effect: "" },
+                                { emoji: "E", effect: "" }, { emoji: "J", effect: "" }, { emoji: "I", effect: "" }, { emoji: "K", effect: "" },
+                                { emoji: "O", effect: "" }, { emoji: "L", effect: "" }, { emoji: "U", effect: "" }, { emoji: "M", effect: "" },
+                                { emoji: "N", effect: "" }, { emoji: "A", effect: "" }, { emoji: "P", effect: "" }, { emoji: "Q", effect: "" },
+                                { emoji: "E", effect: "" }, { emoji: "R", effect: "" }, { emoji: "I", effect: "" }, { emoji: "S", effect: "" },
+                                { emoji: "O", effect: "" }, { emoji: "T", effect: "" }, { emoji: "U", effect: "" }, { emoji: "V", effect: "" }
+                            ],
+                            target: ["A", "E", "I", "O", "U"]
                         },
                         {
                             type: "audio-select",
@@ -1343,11 +1213,11 @@
                             title: "Ordena la Frase: Ponte el sombrero de paja",
                             instructions: "Ordena las palabras para formar la frase: 'Ponte el sombrero de paja'.",
                             items: [
-                                { text: "Ponte 👒", order: 1 },
-                                { text: "el", order: 2 },
-                                { text: "sombrero 🎩", order: 3 },
-                                { text: "de", order: 4 },
-                                { text: "paja 🌾", order: 5 }
+                                { text: "Ponte 👒", order: 1, effect: "" },
+                                { text: "el", order: 2, effect: "" },
+                                { text: "sombrero 🎩", order: 3, effect: "" },
+                                { text: "de", order: 4, effect: "" },
+                                { text: "paja 🌾", order: 5, effect: "" }
                             ],
                             startCountFrom: 1
                         },
@@ -1356,18 +1226,17 @@
                             title: "Elige la Palabra Correcta (Llaves)",
                             instructions: "Selecciona la palabra que corresponde a: 'Objeto de metal que usamos para abrir puertas'.",
                             options: [
-                                { text: "Llaves 🔑", correct: true },
-                                { text: "Libro 📖", correct: false, effect: "rotated" },
-                                { text: "Celular 📱", correct: false }, // "Celular" en lugar de "Teléfono"
-                                { text: "Reloj ⌚", correct: false, effect: "grayscale" },
-                                { text: "Billetera 👛", correct: false }, // "Billetera" en lugar de "Cartera"
-                                { text: "Gafas 👓", correct: false, effect: "inverted" },
-                                { text: "Audífonos 🎧", correct: false }, // "Audífonos" en lugar de "Auriculares"
-                                { text: "Celular 📱", correct: false, effect: "hue-blue" }, // Duplicado, pero se mantiene para rellenar opciones
-                                { text: "Paraguas ☂️", correct: false },
-                                { text: "Bolso 👜", correct: false, effect: "flipped" }, // "Bolso" en lugar de "Bolsa"
-                                { text: "Gorra 🧢", correct: false },
-                                { text: "Botella 🍾", correct: false, effect: "blur" }
+                                { text: "Llaves 🔑", correct: true, effect: "" },
+                                { text: "Libro 📖", correct: false, effect: "" },
+                                { text: "Celular 📱", correct: false, effect: "" }, // "Celular" en lugar de "Teléfono"
+                                { text: "Reloj ⌚", correct: false, effect: "" },
+                                { text: "Billetera 👛", correct: false, effect: "" }, // "Billetera" en lugar de "Cartera"
+                                { text: "Gafas 👓", correct: false, effect: "" },
+                                { text: "Audífonos 🎧", correct: false, effect: "" }, // "Audífonos" en lugar de "Auriculares"
+                                { text: "Paraguas ☂️", correct: false, effect: "" },
+                                { text: "Bolso 👜", correct: false, effect: "" }, // "Bolso" en lugar de "Bolsa"
+                                { text: "Gorra 🧢", correct: false, effect: "" },
+                                { text: "Botella 🍾", correct: false, effect: "" }
                             ]
                         },
                         { // Actividad de selección de palabra (corazón)
@@ -1375,18 +1244,18 @@
                             title: "Elige la Palabra Correcta (Corazón)",
                             instructions: "Selecciona la palabra que corresponde a: 'Órgano que bombea sangre en el cuerpo'.",
                             options: [
-                                { text: "Corazón ❤️", correct: true },
-                                { text: "Pulmón 🫁", correct: false, effect: "rotated" },
-                                { text: "Hígado 🟫", correct: false },
-                                { text: "Cerebro 🧠", correct: false, effect: "grayscale" },
-                                { text: "Estómago 🍔", correct: false },
-                                { text: "Riñón 🫘", correct: false, effect: "inverted" },
-                                { text: "Páncreas 🥔", correct: false },
-                                { text: "Intestino 🥨", correct: false, effect: "hue-blue" },
-                                { text: "Músculo 💪", correct: false },
-                                { text: "Hueso 🦴", correct: false, effect: "flipped" },
-                                { text: "Nervio 🧬", correct: false },
-                                { text: "Vena 🩸", correct: false, effect: "brightness" }
+                                { text: "Corazón ❤️", correct: true, effect: "" },
+                                { text: "Pulmón 🫁", correct: false, effect: "" },
+                                { text: "Hígado 🟫", correct: false, effect: "" },
+                                { text: "Cerebro 🧠", correct: false, effect: "" },
+                                { text: "Estómago 🍔", correct: false, effect: "" },
+                                { text: "Riñón 🫘", correct: false, effect: "" },
+                                { text: "Páncreas 🥔", correct: false, effect: "" },
+                                { text: "Intestino 🥨", correct: false, effect: "" },
+                                { text: "Músculo 💪", correct: false, effect: "" },
+                                { text: "Hueso 🦴", correct: false, effect: "" },
+                                { text: "Nervio 🧬", correct: false, effect: "" },
+                                { text: "Vena 🩸", correct: false, effect: "" }
                             ]
                         },
                         {
@@ -1405,11 +1274,11 @@
                             title: "Ordena la Frase: Me da pereza dormir siesta", // "Me da pereza" en lugar de "Me apetece" y "dormir siesta"
                             instructions: "Ordena las palabras para formar la frase: 'Me da pereza dormir siesta'.",
                             items: [
-                                { text: "Me", order: 1 },
-                                { text: "da", order: 2 },
-                                { text: "pereza", order: 3 },
-                                { text: "dormir 😴", order: 4 },
-                                { text: "siesta 🛌", order: 5 }
+                                { text: "Me", order: 1, effect: "" },
+                                { text: "da", order: 2, effect: "" },
+                                { text: "pereza", order: 3, effect: "" },
+                                { text: "dormir 😴", order: 4, effect: "" },
+                                { text: "siesta 🛌", order: 5, effect: "" }
                             ],
                             startCountFrom: 1
                         },
@@ -1418,12 +1287,12 @@
                             title: "Ordena la Frase: Me voy a trastear en vacaciones", // "Me voy a trastear" en lugar de "Voy a mudarme" y "en vacaciones"
                             instructions: "Ordena las palabras para formar la frase: 'Me voy a trastear en vacaciones'.",
                             items: [
-                                { text: "Me", order: 1 },
-                                { text: "voy", order: 2 },
-                                { text: "a", order: 3 },
-                                { text: "trastear 🚚", order: 4 }, // "Trastear"
-                                { text: "en", order: 5 },
-                                { text: "vacaciones ☀️", order: 6 } // "Vacaciones" en lugar de "verano"
+                                { text: "Me", order: 1, effect: "" },
+                                { text: "voy", order: 2, effect: "" },
+                                { text: "a", order: 3, effect: "" },
+                                { text: "trastear 🚚", order: 4, effect: "" }, // "Trastear"
+                                { text: "en", order: 5, effect: "" },
+                                { text: "vacaciones ☀️", order: 6, effect: "" } // "Vacaciones" en lugar de "verano"
                             ],
                             startCountFrom: 1
                         },
@@ -1432,18 +1301,18 @@
                             title: "Elige la Palabra Correcta (Colegio)",
                             instructions: "Selecciona la palabra que corresponde a: 'Lugar al que van los niños para aprender'.",
                             options: [
-                                { text: "Colegio 🏫", correct: true },
-                                { text: "Parque 🏞️", correct: false, effect: "rotated" },
-                                { text: "Cine 🎬", correct: false },
-                                { text: "Tienda 🏪", correct: false, effect: "grayscale" },
-                                { text: "Restaurante 🍽️", correct: false },
-                                { text: "Clínica 🏥", correct: false, effect: "inverted" }, // "Clínica" en lugar de "Hospital"
-                                { text: "Biblioteca 📚", correct: false },
-                                { text: "Museo 🏛️", correct: false, effect: "hue-blue" },
-                                { text: "Teatro 🎭", correct: false },
-                                { text: "Piscina 🏊", correct: false, effect: "flipped" },
-                                { text: "Gimnasio 🏋️", correct: false },
-                                { text: "Playa 🏖️", correct: false, effect: "blur" }
+                                { text: "Colegio 🏫", correct: true, effect: "" },
+                                { text: "Parque 🏞️", correct: false, effect: "" },
+                                { text: "Cine 🎬", correct: false, effect: "" },
+                                { text: "Tienda 🏪", correct: false, effect: "" },
+                                { text: "Restaurante 🍽️", correct: false, effect: "" },
+                                { text: "Clínica 🏥", correct: false, effect: "" }, // "Clínica" en lugar de "Hospital"
+                                { text: "Biblioteca 📚", correct: false, effect: "" },
+                                { text: "Museo 🏛️", correct: false, effect: "" },
+                                { text: "Teatro 🎭", correct: false, effect: "" },
+                                { text: "Piscina 🏊", correct: false, effect: "" },
+                                { text: "Gimnasio 🏋️", correct: false, effect: "" },
+                                { text: "Playa 🏖️", correct: false, effect: "" }
                             ]
                         },
                         {
@@ -1462,18 +1331,18 @@
                             title: "Elige la Palabra Correcta (Peine)",
                             instructions: "Selecciona la palabra que corresponde a: 'Objeto que usamos para peinarnos'.",
                             options: [
-                                { text: "Peine 🪮", correct: true },
-                                { text: "Cepillo 🪥", correct: false, effect: "rotated" },
-                                { text: "Tijeras ✂️", correct: false },
-                                { text: "Espejo 🪞", correct: false, effect: "grayscale" },
-                                { text: "Secador 💨", correct: false },
-                                { text: "Gel 🧴", correct: false, effect: "inverted" },
-                                { text: "Champú 🧴", correct: false },
-                                { text: "Toalla 🧺", correct: false, effect: "hue-blue" },
-                                { text: "Brocha 🖌️", correct: false },
-                                { text: "Cuchilla 🔪", correct: false, effect: "flipped" }, // "Cuchilla" en lugar de "Navaja"
-                                { text: "Cuerda 🧶", correct: false },
-                                { text: "Candado 🔒", correct: false, effect: "brightness" }
+                                { text: "Peine 🪮", correct: true, effect: "" },
+                                { text: "Cepillo 🪥", correct: false, effect: "" },
+                                { text: "Tijeras ✂️", correct: false, effect: "" },
+                                { text: "Espejo 🪞", correct: false, effect: "" },
+                                { text: "Secador 💨", correct: false, effect: "" },
+                                { text: "Gel 🧴", correct: false, effect: "" },
+                                { text: "Champú 🧴", correct: false, effect: "" },
+                                { text: "Toalla 🧺", correct: false, effect: "" },
+                                { text: "Brocha 🖌️", correct: false, effect: "" },
+                                { text: "Cuchilla 🔪", correct: false, effect: "" }, // "Cuchilla" en lugar de "Navaja"
+                                { text: "Cuerda 🧶", correct: false, effect: "" },
+                                { text: "Candado 🔒", correct: false, effect: "" }
                             ]
                         },
                         { // Actividad de comparación de tamaños (manzana)
@@ -1497,18 +1366,18 @@
                             title: "Elige la Palabra Correcta (Miedo)",
                             instructions: "Selecciona la palabra que corresponde a: 'Sentimiento de terror'.",
                             options: [
-                                { label: "😨 Miedo", correct: true },
-                                { label: "😊 Alegría", correct: false, effect: "rotated" },
-                                { label: "😢 Tristeza", correct: false },
-                                { label: "😡 Enojo", correct: false, effect: "grayscale" },
-                                { label: "😴 Aburrimiento", correct: false },
-                                { label: "😮 Sorpresa", correct: false, effect: "inverted" },
-                                { label: "🤢 Asco", correct: false },
-                                { label: "😏 Orgullo", correct: false, effect: "hue-blue" },
-                                { label: "😐 Indiferencia", correct: false },
-                                { label: "🤔 Duda", correct: false, effect: "flipped" },
-                                { label: "😌 Calma", correct: false },
-                                { label: "🥳 Entusiasmo", correct: false, effect: "brightness" }
+                                { label: "😨 Miedo", correct: true, effect: "" },
+                                { label: "😊 Alegría", correct: false, effect: "" },
+                                { label: "😢 Tristeza", correct: false, effect: "" },
+                                { label: "😡 Enojo", correct: false, effect: "" },
+                                { label: "😴 Aburrimiento", correct: false, effect: "" },
+                                { label: "😮 Sorpresa", correct: false, effect: "" },
+                                { label: "🤢 Asco", correct: false, effect: "" },
+                                { label: "😏 Orgullo", correct: false, effect: "" },
+                                { label: "😐 Indiferencia", correct: false, effect: "" },
+                                { label: "🤔 Duda", correct: false, effect: "" },
+                                { label: "😌 Calma", correct: false, effect: "" },
+                                { label: "🥳 Entusiasmo", correct: false, effect: "" }
                             ]
                         },
                         {
@@ -1892,10 +1761,11 @@
             const shuffledItems = [...activity.gridItems].sort(() => Math.random() - 0.5);
             shuffledItems.forEach(item => {
                 const isTarget = Array.isArray(activity.target) ? activity.target.includes(item.emoji) : activity.target === item.emoji;
-                const effectClass = item.effect ? `effect-${item.effect}` : '';
+                // No aplicar effects aquí, ya que no son deseados para visual-search
+                // const effectClass = item.effect ? `effect-${item.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item" data-value="${item.emoji}" data-correct-target="${isTarget}" role="button" tabindex="0">
-                        <span class="grid-item-content ${effectClass}">${item.emoji}</span>
+                        <span class="grid-item-content">${item.emoji}</span>
                     </div>
                 `;
             });
@@ -1910,15 +1780,15 @@
          */
         function generateStrikeItemActivity(activity) {
             let html = '<div class="grid-container">';
+            // Este tipo de actividad no tiene efectos para mantener la simplicidad
             if (activity.items && activity.items[0] && activity.items[0].group) {
-                const itemGroup = activity.items[0]; 
+                const itemGroup = activity.items[0];
                 const shuffledGroupItems = [...itemGroup.group].sort(() => Math.random() - 0.5);
                 shuffledGroupItems.forEach(itemObj => {
                     const isCorrect = itemGroup.correct.includes(itemObj.emoji);
-                    const effectClass = itemObj.effect ? `effect-${itemObj.effect}` : '';
                     html += `
                         <div class="grid-item strike-item" data-value="${itemObj.emoji}" data-correct-strike="${isCorrect}" role="button" tabindex="0">
-                            <span class="grid-item-content ${effectClass}">${itemObj.emoji}</span>
+                            <span class="grid-item-content">${itemObj.emoji}</span>
                         </div>
                     `;
                 });
@@ -1926,10 +1796,9 @@
                 const shuffledItems = [...activity.items].sort(() => Math.random() - 0.5);
                 shuffledItems.forEach(item => {
                     const isCorrect = item.type === activity.targetType;
-                    const effectClass = item.effect ? `effect-${item.effect}` : '';
                     html += `
                         <div class="grid-item strike-item" data-value="${item.text}" data-type="${item.type}" data-correct-strike="${isCorrect}" role="button" tabindex="0">
-                            <span class="grid-item-content ${effectClass}">${item.text}</span>
+                            <span class="grid-item-content">${item.text}</span>
                         </div>
                     `;
                 });
@@ -1948,10 +1817,11 @@
             let html = '<div class="grid-container order-container">';
             const shuffledItems = [...activity.items].sort(() => Math.random() - 0.5);
             shuffledItems.forEach(item => {
-                const effectClass = item.effect ? `effect-${item.effect}` : '';
+                // No aplicar effects aquí
+                // const effectClass = item.effect ? `effect-${item.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item order-item" data-value="${item.text}" data-correct-order="${item.order}" role="button" tabindex="0">
-                        <span class="grid-item-content ${effectClass}">${item.text}</span>
+                        <span class="grid-item-content">${item.text}</span>
                     </div>
                 `;
             });
@@ -1978,10 +1848,11 @@
             }
             html += '<div class="grid-container">';
             activity.options.forEach(option => {
-                const effectClass = option.effect ? `effect-${option.effect}` : '';
+                // No aplicar effects aquí para mantener la simplicidad
+                // const effectClass = option.effect ? `effect-${option.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item" data-correct="${option.correct}" role="button" tabindex="0">
-                        <span class="grid-item-content ${effectClass}">${option.text || option.label}</span>
+                        <span class="grid-item-content">${option.text || option.label}</span>
                     </div>
                 `;
             });
@@ -2000,12 +1871,12 @@
                     <div>Referencia:</div>
                     <div class="size-reference-emoji size-option-${activity.reference.size}">${activity.reference.text}</div>
                 </div>
-                <div class="grid-container">
+                <div class="grid-container size-comparison">
             `;
             const shuffledOptions = [...activity.options].sort(() => Math.random() - 0.5);
             shuffledOptions.forEach(option => {
                 const sizeClass = `size-option-${option.size}`;
-                const effectClass = option.effect ? `effect-${option.effect}` : '';
+                const effectClass = option.effect ? `effect-${option.effect}` : ''; // Efectos permitidos aquí
                 html += `
                     <div class="grid-item" data-correct="${option.correct}" role="button" tabindex="0">
                         <span class="grid-item-content ${sizeClass} ${effectClass}">${option.text}</span>
@@ -2025,11 +1896,11 @@
             let html = `
                 <div class="shadow-container">
                     <div class="shadow-object">${activity.object}</div>
-                    <div class="grid-container shadow-options">
+                    <div class="grid-container shadow-options shadow-match">
             `;
             const shuffledOptions = [...activity.options].sort(() => Math.random() - 0.5);
             shuffledOptions.forEach(option => {
-                const effectClass = option.effect ? `effect-${option.effect}` : '';
+                const effectClass = option.effect ? `effect-${option.effect}` : ''; // Efectos permitidos aquí
                 html += `
                     <div class="grid-item shadow-option" data-correct="${option.correct}" role="button" tabindex="0">
                         <span class="grid-item-content ${effectClass}">${option.text}</span>
@@ -2455,8 +2326,8 @@
                     
                 case 'strike-item':
                     let allStruckCorrect = true;
-                    if (activity.targetType === "group_correct") {
-                        const itemGroup = activity.items[0]; 
+                    if (activity.items && activity.items[0] && activity.items[0].group) {
+                         const itemGroup = activity.items[0]; 
                         activityElement.querySelectorAll('.strike-item').forEach(item => {
                             const itemText = item.dataset.value;
                             const shouldBeStruck = itemGroup.correct.includes(itemText);
@@ -2478,7 +2349,7 @@
                             }
                         });
                         feedback = `Debías tachar: ${itemGroup.correct.join(', ')}.`;
-                    } else {
+                    } else { // Handle the simple strike-item, where targetType is a specific category.
                         activityElement.querySelectorAll('.strike-item').forEach(item => {
                             const itemType = item.dataset.type;
                             const shouldBeStruck = itemType === activity.targetType;
