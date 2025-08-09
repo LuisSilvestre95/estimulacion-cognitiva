@@ -853,7 +853,7 @@
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "☕", effect: "" }, { emoji: "🥛", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍶", effect: "" },
-                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "�", effect: "" },
+                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🫖", effect: "" },
                                 { emoji: "🍵", effect: "" }, { emoji: "🍹", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍾", effect: "" },
                                 { emoji: "🍵", effect: "" }, { emoji: "🥂", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🥃", effect: "" }
                             ],
@@ -904,10 +904,10 @@
                             ],
                             target: "★"
                         },
-                        { // Nueva actividad simple para compensar las eliminadas
-                            type: "word-select",
+                        { // Actividad de selección de animal de granja (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Elige el Animal de la Granja",
-                            instructions: "Selecciona el animal que vive en la granja.",
+                            instructions: "Selecciona todos los animales que viven en la granja.",
                             options: [
                                 { text: "Vaca 🐮", correct: true },
                                 { text: "León 🦁", correct: false },
@@ -947,8 +947,8 @@
                             ],
                             target: ["6", "8", "0", "7", "9", "5", "1", "4"] // Todos los números en la cuadrícula
                         },
-                        { // Nueva actividad simple
-                            type: "visual-search",
+                        { // Actividad de selección de frutas (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Encuentra las Frutas",
                             instructions: "Selecciona solo las frutas.",
                             gridItems: [
@@ -961,10 +961,20 @@
                                 { emoji: "🍐", effect: "" }, { emoji: "🍅", effect: "" }, { emoji: "🌰", effect: "" }, { emoji: "🧄", effect: "" },
                                 { emoji: "🥥", effect: "" }, { emoji: "🍠", effect: "" }, { emoji: "🌶️", effect: "" }, { emoji: "🫚", effect: "" }
                             ],
-                            target: ["🍎", "🍌", "🍊", "🍇", "🍓", "🍍", "🍒", "🍑", "🥝", "🍋", "🍉", "🥭", "🍐", "🥥"]
+                            target: ["🍎", "🍌", "🍊", "🍇", "🍓", "🍍", "🍒", "🍑", "🥝", "🍋", "🍉", "🥭", "🍐", "🥥"], // Todas las frutas
+                            options: [ // Esto es un array de objetos para Word-Select-Multiple
+                                { text: "🍎", correct: true }, { text: "🥕", correct: false }, { text: "🍌", correct: true }, { text: "🫛", correct: false },
+                                { text: "🍊", correct: true }, { text: "🥔", correct: false }, { text: "🍇", correct: true }, { text: "🥦", correct: false },
+                                { text: "🍓", correct: true }, { text: "🧅", correct: false }, { text: "🍍", correct: true }, { text: "🌶️", correct: false },
+                                { text: "🍒", correct: true }, { text: "🥒", correct: false }, { text: "🍑", correct: true }, { text: "🌽", correct: false },
+                                { text: "🥝", correct: true }, { text: "🥬", correct: false }, { text: "🍋", correct: true }, { text: "🍆", correct: false },
+                                { text: "🍉", correct: true }, { text: "🍄", correct: false }, { text: "🥭", correct: true }, { text: "🥑", correct: false },
+                                { text: "🍐", correct: true }, { text: "🍅", correct: false }, { text: "🌰", correct: false }, { text: "🧄", correct: false },
+                                { text: "🥥", correct: true }, { text: "🍠", correct: false }, { text: "🌶️", correct: false }, { text: "🫚", correct: false }
+                            ]
                         },
-                        { // Nueva actividad simple
-                            type: "word-select",
+                        { // Actividad de selección de partes de la casa (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Elige las Partes de la Casa",
                             instructions: "Selecciona las palabras que nombran partes de una casa.",
                             options: [
@@ -1015,8 +1025,8 @@
                             ],
                             startCountFrom: 1
                         },
-                        { // Nueva actividad simple
-                            type: "word-select",
+                        { // Actividad de selección de objetos de cocina (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Elige Objetos de Cocina",
                             instructions: "Selecciona las palabras que nombran objetos de cocina.",
                             options: [
@@ -1067,8 +1077,8 @@
                             ],
                             startCountFrom: 1
                         },
-                        { // Nueva actividad simple
-                            type: "visual-search",
+                        { // Actividad de selección de transportes (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Encuentra los Transportes",
                             instructions: "Selecciona solo los medios de transporte.",
                             gridItems: [
@@ -1077,7 +1087,13 @@
                                 { emoji: "🚂", effect: "" }, { emoji: "🛋️", effect: "" }, { emoji: "⛵", effect: "" }, { emoji: "⌚", effect: "" },
                                 { emoji: "🚁", effect: "" }, { emoji: "👕", effect: "" }, { emoji: "🛵", effect: "" }, { emoji: "🍳", effect: "" }
                             ],
-                            target: ["🚗", "✈️", "🚌", "🚲", "🚂", "⛵", "🚁", "🛵"]
+                            target: ["🚗", "✈️", "🚌", "🚲", "🚂", "⛵", "🚁", "🛵"], // Todos los transportes
+                            options: [ // Esto es un array de objetos para Word-Select-Multiple
+                                { text: "🚗", correct: true }, { text: "🏠", correct: false }, { text: "✈️", correct: true }, { text: "📚", correct: false },
+                                { text: "🚌", correct: true }, { text: "🌳", correct: false }, { text: "🚲", correct: true }, { text: "🍎", correct: false },
+                                { text: "🚂", correct: true }, { text: "🛋️", correct: false }, { text: "⛵", correct: true }, { text: "⌚", correct: false },
+                                { text: "🚁", correct: true }, { text: "👕", correct: false }, { text: "🛵", correct: true }, { text: "🍳", correct: false }
+                            ]
                         },
                         {
                             type: "audio-select",
@@ -1116,8 +1132,8 @@
                             ],
                             startCountFrom: 1
                         },
-                        { // Nueva actividad simple
-                            type: "word-select",
+                        { // Actividad de selección de nombres de frutas (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Nombres de Frutas",
                             instructions: "Selecciona las palabras que son nombres de frutas.",
                             options: [
@@ -1154,8 +1170,8 @@
                             ],
                             startCountFrom: 1
                         },
-                        { // Nueva actividad simple
-                            type: "word-select",
+                        { // Actividad de selección de días de la semana (Múltiple elección ahora)
+                            type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Días de la Semana",
                             instructions: "Selecciona los días de la semana.",
                             options: [
@@ -1222,8 +1238,8 @@
                             startCountFrom: 1
                         },
                         { // Actividad de selección de palabra (llaves)
-                            type: "word-select",
-                            title: "Elige la Palabra Correcta (Llaves)",
+                            type: "word-select-multiple", // Cambiado a selección múltiple
+                            title: "Elige la Palabra Correcta", // Título más genérico
                             instructions: "Selecciona la palabra que corresponde a: 'Objeto de metal que usamos para abrir puertas'.",
                             options: [
                                 { text: "Llaves 🔑", correct: true, effect: "" },
@@ -1240,8 +1256,8 @@
                             ]
                         },
                         { // Actividad de selección de palabra (corazón)
-                            type: "word-select",
-                            title: "Elige la Palabra Correcta (Corazón)",
+                            type: "word-select-multiple", // Cambiado a selección múltiple
+                            title: "Elige la Palabra Correcta", // Título más genérico
                             instructions: "Selecciona la palabra que corresponde a: 'Órgano que bombea sangre en el cuerpo'.",
                             options: [
                                 { text: "Corazón ❤️", correct: true, effect: "" },
@@ -1297,8 +1313,8 @@
                             startCountFrom: 1
                         },
                         { // Actividad de selección de palabra (colegio)
-                            type: "word-select",
-                            title: "Elige la Palabra Correcta (Colegio)",
+                            type: "word-select-multiple", // Cambiado a selección múltiple
+                            title: "Elige la Palabra Correcta", // Título más genérico
                             instructions: "Selecciona la palabra que corresponde a: 'Lugar al que van los niños para aprender'.",
                             options: [
                                 { text: "Colegio 🏫", correct: true, effect: "" },
@@ -1327,8 +1343,8 @@
                     pages: [32, 46],
                     activities: [
                         { // Actividad de selección de palabra (peine)
-                            type: "word-select",
-                            title: "Elige la Palabra Correcta (Peine)",
+                            type: "word-select-multiple", // Cambiado a selección múltiple
+                            title: "Elige la Palabra Correcta", // Título más genérico
                             instructions: "Selecciona la palabra que corresponde a: 'Objeto que usamos para peinarnos'.",
                             options: [
                                 { text: "Peine 🪮", correct: true, effect: "" },
@@ -1362,8 +1378,8 @@
                             ]
                         },
                         { // Actividad de selección de palabra (miedo)
-                            type: "word-select",
-                            title: "Elige la Palabra Correcta (Miedo)",
+                            type: "word-select-multiple", // Cambiado a selección múltiple
+                            title: "Elige la Palabra Correcta", // Título más genérico
                             instructions: "Selecciona la palabra que corresponde a: 'Sentimiento de terror'.",
                             options: [
                                 { label: "😨 Miedo", correct: true, effect: "" },
@@ -1725,9 +1741,12 @@
                     case 'order':
                         activityHTML += generateOrderActivity(activity, index);
                         break;
-                    case 'word-select':
-                    case 'audio-select': // `audio-select` ahora también usa `generateSelectActivity`
+                    case 'word-select': // Estas son de selección única
+                    case 'audio-select':
                         activityHTML += generateSelectActivity(activity);
+                        break;
+                    case 'word-select-multiple': // NUEVO tipo para selección múltiple
+                        activityHTML += generateMultipleSelectActivity(activity);
                         break;
                     case 'size-comparison':
                         activityHTML += generateSizeComparisonActivity(activity);
@@ -1833,7 +1852,7 @@
         }
 
         /**
-         * Genera el HTML para actividades de selección (word-select o audio-select).
+         * Genera el HTML para actividades de selección única (word-select o audio-select).
          * @param {object} activity - Objeto de actividad con `options`.
          * @returns {string} HTML de la actividad.
          */
@@ -1854,6 +1873,26 @@
                 // const effectClass = option.effect ? `effect-${option.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item" data-correct="${option.correct}" role="button" tabindex="0">
+                        <span class="grid-item-content">${option.text || option.label}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        /**
+         * Genera el HTML para actividades de selección múltiple (word-select-multiple).
+         * @param {object} activity - Objeto de actividad con `options`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateMultipleSelectActivity(activity) {
+            let html = '';
+            html += '<div class="grid-container">';
+            activity.options.forEach(option => {
+                // No aplicar effects aquí para mantener la simplicidad
+                html += `
+                    <div class="grid-item multiple-select-item" data-correct="${option.correct}" role="button" tabindex="0">
                         <span class="grid-item-content">${option.text || option.label}</span>
                     </div>
                 `;
@@ -1961,6 +2000,7 @@
                 'strike-item': 'fa-times-circle', // Ícono para tachar
                 'order': 'fa-list-ol',
                 'word-select': 'fa-font',
+                'word-select-multiple': 'fa-check-double', // Ícono para selección múltiple
                 'audio-select': 'fa-volume-up',
                 'size-comparison': 'fa-arrows-alt-h', // Mejor para tamaño horizontal
                 'shadow-match': 'fa-lightbulb', // Sugiere coincidencia o iluminación
@@ -1974,11 +2014,19 @@
          * Asigna todos los event listeners a los elementos interactivos después de cargar una sesión.
          */
         function setupActivityEventListeners() {
-            // Para actividades con .grid-item (selección simple/múltiple)
-            document.querySelectorAll('.grid-item:not(.order-item):not(.strike-item)').forEach(item => {
-                item.addEventListener('click', handleGridItemClick);
+            // Para actividades con .grid-item de selección única
+            document.querySelectorAll('.grid-item:not(.order-item):not(.strike-item):not(.multiple-select-item)').forEach(item => {
+                item.addEventListener('click', handleSingleSelectGridItemClick);
                 item.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleGridItemClick(e); }
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSingleSelectGridItemClick(e); }
+                });
+            });
+
+            // Para actividades de selección múltiple (.multiple-select-item)
+            document.querySelectorAll('.multiple-select-item').forEach(item => {
+                item.addEventListener('click', handleMultipleSelectGridItemClick);
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMultipleSelectGridItemClick(e); }
                 });
             });
             
@@ -2044,20 +2092,26 @@
          * Maneja el clic en un ítem de cuadrícula para actividades de selección simple.
          * @param {Event} } e - El evento de clic.
          */
-        function handleGridItemClick(e) {
+        function handleSingleSelectGridItemClick(e) {
             const item = e.currentTarget;
-            const activityContainer = item.closest('.activity-container');
-            const activityIndex = parseInt(activityContainer.dataset.activityIndex);
-            const activity = programData.sessions[currentSessionId].activities[activityIndex];
-            
             // Evita la interacción si ya está calificado
             if (item.classList.contains('correct') || item.classList.contains('incorrect')) return;
 
-            // Para selección única: deselecciona todos los demás ítems primero
-            if (activity.type === 'word-select' || activity.type === 'audio-select' || activity.type === 'size-comparison' || activity.type === 'shadow-match') {
-                activityContainer.querySelectorAll('.grid-item').forEach(i => i.classList.remove('selected'));
-            }
+            // Para selección única: deselecciona todos los demás ítems primero en la misma actividad
+            item.closest('.activity-container').querySelectorAll('.grid-item:not(.multiple-select-item)').forEach(i => i.classList.remove('selected'));
             
+            item.classList.toggle('selected'); // Alterna el estado de selección
+        }
+
+        /**
+         * Maneja el clic en un ítem de cuadrícula para actividades de selección múltiple.
+         * @param {Event} } e - El evento de clic.
+         */
+        function handleMultipleSelectGridItemClick(e) {
+            const item = e.currentTarget;
+            // Evita la interacción si ya está calificado
+            if (item.classList.contains('correct') || item.classList.contains('incorrect')) return;
+
             item.classList.toggle('selected'); // Alterna el estado de selección
         }
 
@@ -2316,6 +2370,7 @@
                                 selectedIncorrectlyVS++;
                                 isCorrect = false;
                             }
+                            // Si el ítem no es target y no está seleccionado, no es un error ni un acierto
                         }
                     });
 
@@ -2405,22 +2460,22 @@
                     feedback = `Orden correcto: ${activity.items.sort((a, b) => a.order - b.order).map(i => i.text).join(' → ')}`;
                     break;
                     
-                case 'word-select':
+                case 'word-select': // Selección única
                 case 'audio-select':
                 case 'size-comparison':
                 case 'shadow-match':
-                    const selectedItem = activityElement.querySelector('.grid-item.selected');
+                    const selectedItemSingle = activityElement.querySelector('.grid-item.selected');
                     
-                    if (!selectedItem) {
+                    if (!selectedItemSingle) {
                         isCorrect = false;
                         feedback = 'No has seleccionado ninguna opción.';
                         break;
                     }
                     
-                    if (selectedItem.dataset.correct === 'true') {
-                        selectedItem.classList.add('correct');
+                    if (selectedItemSingle.dataset.correct === 'true') {
+                        selectedItemSingle.classList.add('correct');
                     } else {
-                        selectedItem.classList.add('incorrect');
+                        selectedItemSingle.classList.add('incorrect');
                         isCorrect = false;
                         
                         const correctItem = activityElement.querySelector('.grid-item[data-correct="true"]');
@@ -2434,7 +2489,53 @@
                         }
                     }
                     break;
+                
+                case 'word-select-multiple': // NUEVO: Lógica para selección múltiple
+                    const allItemsMultiple = activityElement.querySelectorAll('.multiple-select-item');
+                    let correctSelections = 0;
+                    let incorrectSelections = 0;
+                    let totalCorrectOptions = 0;
+
+                    // Determinar el total de opciones correctas
+                    activity.options.forEach(option => {
+                        if (option.correct) {
+                            totalCorrectOptions++;
+                        }
+                    });
+
+                    allItemsMultiple.forEach(item => {
+                        const isCorrectOption = item.dataset.correct === 'true';
+                        const isSelected = item.classList.contains('selected');
+
+                        if (isCorrectOption) {
+                            if (isSelected) {
+                                item.classList.add('correct');
+                                correctSelections++;
+                            } else {
+                                item.classList.add('incorrect'); // Marcar como incorrecto si debía ser seleccionado y no lo fue
+                                isCorrect = false;
+                            }
+                        } else { // No es una opción correcta
+                            if (isSelected) {
+                                item.classList.add('incorrect'); // Marcar como incorrecto si fue seleccionado y no debía serlo
+                                incorrectSelections++;
+                                isCorrect = false;
+                            }
+                            // Si no es correcto y no está seleccionado, no es un error ni un acierto
+                        }
+                    });
+
+                    // La actividad es correcta si:
+                    // 1. Se seleccionaron todas las opciones correctas.
+                    // 2. No se seleccionó ninguna opción incorrecta.
+                    if (correctSelections !== totalCorrectOptions || incorrectSelections > 0) {
+                        isCorrect = false;
+                    }
                     
+                    const correctTexts = activity.options.filter(opt => opt.correct).map(opt => opt.text || opt.label);
+                    feedback = `Las respuestas correctas eran: ${correctTexts.join(', ')}.`;
+                    break;
+
                 case 'counting':
                     const input = activityElement.querySelector('.input-field');
                     const userAnswer = input.value.trim();
