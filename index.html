@@ -1,0 +1,2760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Estimulación Cognitiva Súper Mejorado</title>
+    <!-- Google Fonts: Poppins (para un diseño moderno y legible) y Open Sans (complemento) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para íconos variados y visualmente atractivos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS para una personalización sencilla y coherente del diseño */
+        :root {
+            --primary: #4361ee; /* Azul vibrante para acentos y elementos principales */
+            --primary-light: #4895ef; /* Tono más claro de azul */
+            --secondary: #3f37c9; /* Azul más oscuro para degradados */
+            --success: #4cc9f0; /* Turquesa para indicadores de éxito */
+            --error: #f72585; /* Rosa intenso para errores y acciones de reinicio */
+            --warning: #f8961e; /* Naranja para pistas y lectura de voz */
+            --background: #f8f9fa; /* Fondo general de la página */
+            --card-bg: #ffffff; /* Fondo para tarjetas y secciones de contenido */
+            --text: #2b2d42; /* Color principal del texto, un gris oscuro */
+            --text-light: #8d99ae; /* Color para texto secundario o menos prominente */
+            --border-radius: 16px; /* Radio de borde global para elementos redondeados */
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra estándar para profundidad */
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave para animaciones */
+
+            /* Colores de feedback para sesiones */
+            --session-completed-color: #a7e0c4; /* Verde suave, alegre */
+            --session-error-color: #ffcdd2; /* Rojo suave, triste */
+        }
+
+        /* Reseteo y estilos base del cuerpo para una visualización consistente */
+        * {
+            box-sizing: border-box; /* Incluye padding y borde en el tamaño del elemento */
+            margin: 0; /* Elimina márgenes predeterminados */
+            padding: 0; /* Elimina rellenos predeterminados */
+        }
+
+        html {
+            scroll-behavior: smooth; /* Desplazamiento suave al navegar por anclas */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Fuente principal para el cuerpo */
+            background-color: var(--background); /* Color de fondo */
+            color: var(--text); /* Color de texto predeterminado */
+            line-height: 1.6; /* Espaciado de línea para mejor legibilidad */
+            font-size: 18px; /* Tamaño de fuente base */
+            padding: 20px; /* Relleno alrededor del contenido */
+            min-height: 100vh; /* Altura mínima para ocupar toda la vista */
+            display: flex; /* Flexbox para centrar el contenido */
+            justify-content: center; /* Centrado horizontal */
+            align-items: flex-start; /* Alineación al inicio vertical */
+        }
+
+        /* Contenedor principal de la aplicación */
+        .container {
+            max-width: 1200px; /* Ancho máximo */
+            width: 100%; /* Ocupa todo el ancho disponible */
+            margin: 0 auto; /* Centrado horizontal */
+            padding: 20px; /* Relleno interno */
+        }
+
+        /* Estilos del encabezado principal */
+        header {
+            text-align: center; /* Centra el texto */
+            margin-bottom: 30px; /* Margen inferior */
+            padding: 30px; /* Relleno */
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); /* Degradado de color */
+            color: white; /* Color de texto blanco */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            box-shadow: var(--box-shadow); /* Sombra */
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Tamaño de fuente grande */
+            margin-bottom: 10px; /* Margen inferior */
+            display: flex; /* Flexbox para alinear ícono y texto */
+            align-items: center; /* Alineación vertical */
+            justify-content: center; /* Centrado horizontal */
+            gap: 15px; /* Espacio entre elementos */
+        }
+
+        /* Contenedor de la barra de progreso dentro del encabezado */
+        .progress-container {
+            background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            padding: 20px; /* Relleno */
+            margin-bottom: 30px; /* Margen inferior */
+            backdrop-filter: blur(10px); /* Efecto de desenfoque */
+        }
+
+        /* Barra de progreso visual */
+        .progress-bar {
+            height: 25px; /* Altura */
+            background-color: rgba(255, 255, 255, 0.3); /* Fondo de la barra vacía */
+            border-radius: 12px; /* Bordes redondeados */
+            overflow: hidden; /* Oculta el contenido que se desborda */
+            margin-bottom: 10px; /* Margen inferior */
+            position: relative; /* Para el relleno animado */
+        }
+
+        /* Relleno de la barra de progreso (el progreso actual) */
+        .progress-fill {
+            height: 100%; /* Ocupa toda la altura */
+            background: linear-gradient(90deg, var(--success), #4cc9f0); /* Degradado de éxito */
+            width: 0%; /* Ancho inicial (0%) */
+            transition: width 0.5s ease; /* Transición suave al cambiar el ancho */
+        }
+
+        /* Texto de progreso */
+        .progress-text {
+            color: white; /* Color de texto blanco */
+            font-weight: 600; /* Semi-negrita */
+            text-align: center; /* Centra el texto */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Sombra de texto para contraste */
+        }
+
+        /* Selector de sesiones (grid de tarjetas de sesión) */
+        .session-selector {
+            display: grid; /* Habilita CSS Grid */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Columnas responsivas */
+            gap: 20px; /* Espacio entre las tarjetas */
+            margin-bottom: 40px; /* Margen inferior */
+        }
+
+        /* Tarjeta de sesión individual */
+        .session-card {
+            background-color: var(--card-bg); /* Fondo blanco */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            padding: 25px; /* Relleno */
+            box-shadow: var(--box-shadow); /* Sombra */
+            transition: var(--transition); /* Transición suave */
+            cursor: pointer; /* Cursor de puntero */
+            border: 2px solid transparent; /* Borde transparente inicial */
+            position: relative; /* Para el icono de completado */
+            overflow: hidden; /* Oculta el desbordamiento */
+        }
+
+        .session-card:hover {
+            transform: translateY(-5px); /* Se eleva ligeramente al pasar el ratón */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+        }
+
+        .session-card.active {
+            border-color: var(--primary); /* Borde primario cuando está activa */
+            background-color: #f0f7ff; /* Fondo ligeramente azul */
+        }
+
+        /* Estilos para sesión completada correctamente (color alegre) */
+        .session-card.completed-correctly {
+            background: linear-gradient(135deg, var(--session-completed-color), #8ac7a2); /* Verde suave a más intenso */
+            color: var(--text); /* Mantener texto oscuro para contraste */
+            border-color: var(--success); /* Borde verde */
+        }
+
+        .session-card.completed-correctly::after {
+            content: "\f00c"; /* Ícono de marca de verificación */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            color: var(--success); /* Color del ícono de éxito */
+        }
+
+        /* Estilos para sesión con errores (color triste) */
+        .session-card.attempted-with-errors {
+            background: linear-gradient(135deg, var(--session-error-color), #e29090); /* Rojo suave a más intenso */
+            color: var(--text); /* Mantener texto oscuro para contraste */
+            border-color: var(--error); /* Borde rojo */
+        }
+
+        .session-card.attempted-with-errors::after {
+            content: "\f06a"; /* Ícono de exclamación */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            color: var(--error); /* Color del ícono de error */
+        }
+
+        .session-number {
+            font-size: 1.2rem; /* Tamaño de fuente */
+            font-weight: 700; /* Negrita */
+            color: var(--primary); /* Color primario */
+            margin-bottom: 10px; /* Margen inferior */
+        }
+        .session-card.completed-correctly .session-number,
+        .session-card.attempted-with-errors .session-number {
+            color: var(--text); /* Cambiar a texto principal para contraste en tarjetas coloreadas */
+        }
+
+        .session-title {
+            font-size: 1.3rem; /* Tamaño de fuente */
+            font-weight: 600; /* Semi-negrita */
+            margin-bottom: 15px; /* Margen inferior */
+            color: var(--text); /* Color de texto */
+        }
+
+        .session-pages {
+            color: var(--text-light); /* Color de texto secundario */
+            font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+            margin-bottom: 15px; /* Margen inferior */
+        }
+
+        .content-area {
+            background-color: var(--card-bg); /* Fondo blanco */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            padding: 30px; /* Relleno */
+            box-shadow: var(--box-shadow); /* Sombra */
+            margin-bottom: 30px; /* Margen inferior */
+        }
+
+        .activity-container {
+            margin-bottom: 40px; /* Margen inferior */
+            padding-bottom: 20px; /* Relleno inferior */
+            border-bottom: 1px solid #eee; /* Línea divisoria entre actividades */
+        }
+
+        .activity-container:last-child {
+            border-bottom: none; /* Elimina la línea divisoria de la última actividad */
+            margin-bottom: 0; /* Elimina el margen inferior de la última actividad */
+        }
+
+        .activity-header {
+            display: flex; /* Flexbox para alinear ícono, título y botón de reiniciar orden */
+            align-items: center; /* Alineación vertical */
+            margin-bottom: 20px; /* Margen inferior */
+            justify-content: space-between; /* Distribuye espacio entre elementos */
+        }
+
+        .activity-icon {
+            font-size: 1.8rem; /* Tamaño del ícono */
+            color: var(--primary); /* Color primario */
+            margin-right: 15px; /* Margen derecho */
+        }
+
+        .activity-title-text { /* Renombrado para evitar conflicto con .session-title */
+            font-size: 1.5rem; /* Tamaño de fuente */
+            font-weight: 600; /* Semi-negrita */
+            color: var(--text); /* Color de texto */
+        }
+
+        .instructions {
+            background-color: #f0f7ff; /* Fondo azul claro */
+            padding: 20px; /* Relleno */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            margin-bottom: 25px; /* Margen inferior */
+            border-left: 5px solid var(--primary); /* Borde lateral */
+            font-size: 1.1rem; /* Tamaño de fuente */
+            line-height: 1.6; /* Espaciado de línea */
+        }
+
+        /* Cuadrícula general para elementos interactivos de actividad */
+        .grid-container {
+            display: grid; /* Habilita CSS Grid */
+            /* Flexibilidad para que los ítems se adapten y llenen el espacio */
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Ajuste de min-width para más espacio por ítem */
+            gap: 15px; /* Espacio entre ítems */
+            margin: 20px 0; /* Margen superior e inferior */
+            padding: 15px; /* Relleno interno para mejor visualización de la cuadrícula */
+            background-color: #f0f4f8; /* Fondo ligero para la cuadrícula */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            border: 1px solid #e2e8f0; /* Borde sutil */
+        }
+
+        /* Ítem individual dentro de la cuadrícula */
+        .grid-item {
+            background-color: white; /* Fondo blanco */
+            border: 2px solid #e0e0e0; /* Borde sutil */
+            border-radius: 12px; /* Bordes redondeados */
+            padding: 14px; /* Aumentado ligeramente para más espacio */
+            display: flex; /* Flexbox para centrar contenido */
+            flex-direction: column; /* Cambiado a columna para centrado vertical y horizontal del texto */
+            align-items: center; /* Alineación horizontal al centro */
+            justify-content: center; /* Alineación vertical al centro */
+            cursor: pointer; /* Cursor de puntero */
+            transition: var(--transition); /* Transición suave */
+            font-size: 1.2rem; /* Ajuste de fuente para nombres largos */
+            min-height: 100px; /* Altura mínima para asegurar espacio */
+            position: relative; /* Para números de orden */
+            text-align: center; /* Centra el texto */
+            word-break: break-word; /* Permite que palabras largas se rompan y pasen a la siguiente línea */
+            white-space: normal; /* Permite que el texto se envuelva */
+            line-height: 1.3; /* Ajuste de interlineado para mejor lectura con texto envuelto */
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05); /* Ligeramente más grande al pasar el ratón */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra */
+        }
+
+        .grid-item.selected {
+            border-color: var(--primary); /* Borde primario al seleccionar */
+            background-color: #e3f2fd; /* Fondo ligeramente azul */
+        }
+
+        .grid-item.correct {
+            border-color: var(--success); /* Borde de éxito */
+            background-color: #e8f5e9; /* Fondo de éxito */
+        }
+
+        .grid-item.incorrect {
+            border-color: var(--error); /* Borde de error */
+            background-color: #ffebee; /* Fondo de error */
+        }
+
+        /* Estilo para elementos tachados (actividad 'strike-item') */
+        .strike-item.struck {
+            text-decoration: line-through; /* Línea a través */
+            text-decoration-thickness: 3px; /* Grosor de la línea */
+            text-decoration-color: var(--error); /* Color de la línea de error */
+            color: var(--text-light); /* Color de texto más claro */
+            background-color: #f5f5f5; /* Fondo gris claro */
+        }
+
+        /* Número de orden para la actividad 'order' */
+        .order-number {
+            position: absolute; /* Posicionamiento absoluto */
+            top: -10px; /* Fuera de la parte superior */
+            left: -10px; /* Fuera de la parte izquierda */
+            background-color: var(--primary); /* Fondo primario */
+            color: white; /* Texto blanco */
+            width: 30px; /* Ancho */
+            height: 30px; /* Alto */
+            border-radius: 50%; /* Forma circular */
+            display: flex; /* Flexbox para centrar el número */
+            align-items: center; /* Alineación vertical */
+            justify-content: center; /* Centrado horizontal */
+            font-weight: bold; /* Negrita */
+            font-size: 0.9rem; /* Tamaño de fuente */
+            border: 2px solid white; /* Borde blanco */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra sutil */
+        }
+
+        /* Botón para reiniciar el orden en actividades 'order' */
+        .clear-order-btn {
+            background: none; /* Sin fondo */
+            border: none; /* Sin borde */
+            color: var(--error); /* Color de error */
+            font-size: 1.2rem; /* Tamaño del ícono */
+            cursor: pointer; /* Cursor de puntero */
+            margin-left: auto; /* Empuja el botón a la derecha */
+            transition: var(--transition); /* Transición suave */
+        }
+
+        .clear-order-btn:hover {
+            transform: scale(1.1); /* Ligeramente más grande al pasar el ratón */
+        }
+
+        /* Estilos para la actividad 'size-comparison' */
+        .size-reference {
+            text-align: center; /* Centra el contenido */
+            margin: 20px 0; /* Margen superior e inferior */
+            font-size: 3rem; /* Tamaño grande para el emoji de referencia */
+        }
+        /* Clases para diferentes tamaños de emojis en comparación */
+        .size-option-small { font-size: 2rem; }
+        .size-option-medium { font-size: 3rem; }
+        .size-option-large { font-size: 4rem; }
+        .size-option-xlarge { font-size: 5rem; }
+
+        /* Estilos para la actividad 'shadow-match' */
+        .shadow-container {
+            display: flex; /* Flexbox para organizar contenido */
+            flex-direction: column; /* Elementos en columna */
+            align-items: center; /* Centra horizontalmente */
+            margin: 20px 0; /* Margen superior e inferior */
+        }
+
+        .shadow-object {
+            font-size: 4rem; /* Tamaño grande para el objeto de referencia */
+            margin-bottom: 20px; /* Margen inferior */
+        }
+
+        .shadow-options {
+            display: flex; /* Flexbox para las opciones de sombra */
+            flex-wrap: wrap; /* Envuelve las opciones en múltiples líneas */
+            justify-content: center; /* Centra las opciones horizontalmente */
+            gap: 15px; /* Espacio entre opciones */
+        }
+
+        .shadow-option {
+            font-size: 3rem; /* Tamaño de las sombras */
+            padding: 20px; /* Relleno */
+            border: 2px solid #ddd; /* Borde */
+            border-radius: 12px; /* Bordes redondeados */
+            cursor: pointer; /* Cursor de puntero */
+            transition: var(--transition); /* Transición suave */
+            filter: grayscale(70%) brightness(0.7); /* Estilo de sombra (desaturado y oscuro) */
+        }
+
+        .shadow-option:hover {
+            transform: scale(1.05); /* Ligeramente más grande al pasar el ratón */
+        }
+
+        .shadow-option.selected {
+            border-color: var(--primary); /* Borde primario al seleccionar */
+            filter: none; /* Elimina el filtro de sombra al seleccionar */
+        }
+
+        .shadow-option.correct {
+            border-color: var(--success); /* Borde de éxito */
+            filter: none; /* Elimina el filtro de sombra */
+        }
+
+        .shadow-option.incorrect {
+            border-color: var(--error); /* Borde de error */
+        }
+
+        /* Campo de entrada de texto */
+        .input-field {
+            padding: 15px; /* Relleno */
+            font-size: 1.2rem; /* Tamaño de fuente */
+            border: 2px solid #e0e0e0; /* Borde sutil */
+            border-radius: 12px; /* Bordes redondeados */
+            width: 100%; /* Ancho completo */
+            max-width: 300px; /* Ancho máximo */
+            margin: 20px auto; /* Centrado horizontal y margen */
+            display: block; /* Ocupa su propia línea */
+            text-align: center; /* Centra el texto */
+            transition: var(--transition); /* Transición suave */
+        }
+
+        .input-field:focus {
+            border-color: var(--primary); /* Borde primario al enfocar */
+            outline: none; /* Elimina el contorno predeterminado */
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2); /* Sombra de enfoque */
+        }
+
+        .input-field.correct {
+            border-color: var(--success); /* Borde de éxito */
+            background-color: #e8f5e9; /* Fondo de éxito */
+        }
+
+        .input-field.incorrect {
+            border-color: var(--error); /* Borde de error */
+            background-color: #ffebee; /* Fondo de error */
+        }
+
+        /* Contenedor para la actividad de dibujo */
+        .drawing-container {
+            text-align: center; /* Centra el contenido */
+            margin: 20px 0; /* Margen superior e inferior */
+        }
+
+        .drawing-canvas {
+            border: 2px solid #e0e0e0; /* Borde sutil */
+            border-radius: 12px; /* Bordes redondeados */
+            background-color: white; /* Fondo blanco */
+            margin: 10px auto; /* Centrado y margen */
+            cursor: crosshair; /* Cursor de cruz para indicar dibujo */
+            touch-action: none; /* Previene el desplazamiento táctil */
+        }
+
+        /* Contenedor de botones de acción */
+        .button-container {
+            display: flex; /* Flexbox */
+            justify-content: center; /* Centrado horizontal */
+            gap: 15px; /* Espacio entre botones */
+            margin: 30px 0; /* Margen superior e inferior */
+            flex-wrap: wrap; /* Permite que los botones se envuelvan */
+        }
+
+        /* Estilo base para todos los botones */
+        .btn {
+            padding: 12px 25px; /* Relleno */
+            font-size: 1.1rem; /* Tamaño de fuente */
+            border-radius: 12px; /* Bordes redondeados */
+            border: none; /* Sin borde */
+            cursor: pointer; /* Cursor de puntero */
+            transition: var(--transition); /* Transición suave */
+            display: flex; /* Flexbox para ícono y texto */
+            align-items: center; /* Alineación vertical */
+            gap: 10px; /* Espacio entre elementos */
+            font-weight: 600; /* Semi-negrita */
+        }
+
+        /* Variantes de color para los botones */
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--secondary); transform: translateY(-2px); }
+        .btn-success { background-color: var(--success); color: white; }
+        .btn-success:hover { background-color: #00b4d8; transform: translateY(-2px); } /* Tono ligeramente diferente para hover */
+        .btn-error { background-color: var(--error); color: white; }
+        .btn-error:hover { background-color: #d90429; transform: translateY(-2px); } /* Tono ligeramente diferente para hover */
+        .btn-warning { background-color: var(--warning); color: white; }
+        .btn-warning:hover { background-color: #f3722c; transform: translateY(-2px); } /* Tono ligeramente diferente para hover */
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; transform: translateY(-2px); } /* Tono ligeramente diferente para hover */
+
+        /* Área de feedback de resultados */
+        .feedback {
+            padding: 20px; /* Relleno */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            margin-top: 30px; /* Margen superior */
+            display: none; /* Oculto por defecto */
+        }
+
+        .feedback.correct {
+            background-color: #e8f5e9; /* Fondo de éxito */
+            display: block; /* Visible */
+            border-left: 5px solid var(--success); /* Borde lateral de éxito */
+        }
+
+        .feedback.incorrect {
+            background-color: #ffebee; /* Fondo de error */
+            display: block; /* Visible */
+            border-left: 5px solid var(--error); /* Borde lateral de error */
+        }
+
+        .feedback-title {
+            font-size: 1.3rem; /* Tamaño de fuente */
+            font-weight: 600; /* Semi-negrita */
+            margin-bottom: 15px; /* Margen inferior */
+            display: flex; /* Flexbox para ícono y texto */
+            align-items: center; /* Alineación vertical */
+            gap: 10px; /* Espacio entre elementos */
+        }
+
+        .feedback-item {
+            margin: 15px 0; /* Margen superior e inferior */
+            padding: 15px; /* Relleno */
+            border-radius: 8px; /* Bordes redondeados */
+        }
+
+        .feedback-item.correct {
+            background-color: #e8f5e9; /* Fondo de éxito */
+            border-left: 3px solid var(--success); /* Borde lateral de éxito */
+        }
+
+        .feedback-item.incorrect {
+            background-color: #ffebee; /* Fondo de error */
+            border-left: 3px solid var(--error); /* Borde lateral de error */
+        }
+
+        .solution {
+            font-style: italic; /* Texto en cursiva */
+            color: var(--text-light); /* Color de texto secundario */
+            margin-top: 5px; /* Margen superior */
+            font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+        }
+
+        /* Estilos del modal (ventana emergente) */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Posición fija en la ventana */
+            z-index: 1000; /* Siempre encima */
+            left: 0;
+            top: 0;
+            width: 100%; /* Ancho completo */
+            height: 100%; /* Alto completo */
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente oscuro */
+            backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
+            align-items: center; /* Centrado vertical */
+            justify-content: center; /* Centrado horizontal */
+        }
+
+        .modal-content {
+            background-color: white; /* Fondo blanco */
+            border-radius: var(--border-radius); /* Bordes redondeados */
+            width: 90%; /* Ancho */
+            max-width: 500px; /* Ancho máximo */
+            padding: 30px; /* Relleno */
+            box-shadow: var(--box-shadow); /* Sombra */
+            text-align: center; /* Centra el texto */
+            position: relative; /* Para la animación */
+            animation: modalFadeIn 0.3s ease; /* Animación de aparición */
+        }
+
+        /* Animación de aparición del modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-icon {
+            font-size: 3rem; /* Tamaño del ícono */
+            margin-bottom: 20px; /* Margen inferior */
+        }
+
+        .modal-icon.success { color: var(--success); } /* Ícono de éxito verde */
+        .modal-icon.error { color: var(--error); } /* Ícono de error rojo */
+
+        .modal-title {
+            font-size: 1.5rem; /* Tamaño de fuente */
+            font-weight: 600; /* Semi-negrita */
+            margin-bottom: 15px; /* Margen inferior */
+        }
+
+        .modal-message {
+            margin-bottom: 25px; /* Margen inferior */
+            line-height: 1.6; /* Espaciado de línea */
+        }
+
+        .modal-buttons {
+            display: flex; /* Flexbox para los botones */
+            justify-content: center; /* Centrado horizontal */
+            gap: 15px; /* Espacio entre botones */
+        }
+
+        /* Media queries para responsividad en tablets */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px; /* Ajuste de fuente */
+                padding: 10px; /* Ajuste de relleno */
+            }
+
+            .container {
+                padding: 10px; /* Ajuste de relleno */
+            }
+
+            header {
+                padding: 20px; /* Ajuste de relleno */
+            }
+
+            h1 {
+                font-size: 1.8rem; /* Ajuste de fuente */
+            }
+
+            .session-selector {
+                grid-template-columns: 1fr; /* Una columna para el selector de sesiones */
+            }
+
+            .session-card {
+                padding: 20px; /* Ajuste de relleno */
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Columnas más pequeñas */
+            }
+
+            .grid-item {
+                padding: 10px; /* Ajuste de relleno para espacio */
+                min-height: 80px; /* Ajuste de altura mínima */
+                font-size: 1.1rem; /* Ajuste de fuente */
+            }
+
+            .size-reference {
+                font-size: 2.5rem; /* Ajuste de fuente */
+            }
+
+            .shadow-object {
+                font-size: 3rem; /* Ajuste de fuente */
+            }
+
+            .shadow-option {
+                font-size: 2.5rem; /* Ajuste de fuente */
+                padding: 15px; /* Ajuste de relleno */
+            }
+
+            .btn {
+                padding: 10px 20px; /* Ajuste de relleno */
+                font-size: 1rem; /* Ajuste de fuente */
+            }
+        }
+
+        /* Media queries para responsividad en móviles */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem; /* Ajuste de fuente */
+                flex-direction: column; /* Columna para el título en móviles */
+            }
+
+            .progress-container {
+                padding: 15px; /* Ajuste de relleno */
+            }
+
+            .content-area {
+                padding: 20px; /* Ajuste de relleno */
+            }
+
+            .activity-title-text { /* Ajuste de fuente para el título de actividad */
+                font-size: 1.2rem;
+            }
+
+            .instructions {
+                padding: 15px; /* Ajuste de relleno */
+                font-size: 1rem; /* Ajuste de fuente */
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Columnas más pequeñas */
+                gap: 10px; /* Ajuste de espacio */
+            }
+
+            .grid-item {
+                padding: 8px; /* Ajuste de relleno */
+                min-height: 60px; /* Ajuste de altura mínima */
+                font-size: 0.95rem; /* Ajuste de fuente */
+            }
+
+            .modal-content {
+                padding: 20px; /* Ajuste de relleno */
+            }
+
+            .modal-title {
+                font-size: 1.3rem; /* Ajuste de fuente */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <i class="fas fa-brain"></i>
+                Programa de Estimulación Cognitiva
+            </h1>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Progreso: 0%</div>
+                <div class="progress-text">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="completed-sessions">0 de 12 sesiones completadas</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="session-selector" id="session-selector">
+            <!-- Las tarjetas de sesión se generarán dinámicamente aquí -->
+        </div>
+
+        <div class="content-area">
+            <div class="session-info" id="session-info" style="display: none;"></div>
+            <div id="activities-container"></div>
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="button-container">
+                <button class="btn btn-success" id="check-answers" style="display: none;">
+                    <i class="fas fa-check"></i> Verificar respuestas
+                </button>
+                <button class="btn btn-warning" id="voice-btn" style="display: none;">
+                    <i class="fas fa-volume-up"></i> Leer instrucciones
+                </button>
+                <button class="btn btn-error" id="reset-session" style="display: none;">
+                    <i class="fas fa-redo"></i> Reiniciar sesión
+                </button>
+            </div>
+            
+            <div style="display: flex; justify-content: center;">
+                <button class="btn btn-primary" id="next-session" style="display: none;">
+                    <i class="fas fa-arrow-right"></i> Siguiente sesión
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- El modal ha sido modificado para servir como confirmación genérica/error, no para audio -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modal-icon-display">
+                <i class="fas fa-check-circle" id="modal-icon-success" style="display: none;"></i>
+                <i class="fas fa-exclamation-circle" id="modal-icon-error" style="display: none;"></i>
+            </div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-message" id="modal-message"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="close-modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del programa de estimulación cognitiva
+        const programData = {
+            totalSessions: 12, // Número total de sesiones
+            sessions: { // Objeto que contiene la definición de cada sesión
+                1: {
+                    title: "Atención y Búsqueda Visual",
+                    pages: [2, 3, 4], // Páginas de referencia del documento original
+                    activities: [
+                        { // Actividad de búsqueda visual de plátanos
+                            type: "visual-search",
+                            title: "Encuentra los Plátanos",
+                            instructions: "Selecciona todos los plátanos (🍌).",
+                            // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
+                            gridItems: ["🍌", "👟", "🦋", "🍐", "🦋", "🍐", "🔑", "🍌", 
+                                        "🔑", "👟", "🍌", "🦋", "🍐", "🔑", "👟", "🍌",
+                                        "🍎", "🍌", "🍇", "🍊", "🍌", "🍍", "🍓", "🍌",
+                                        "🥝", "🍑", "🍌", "🍋", "🍒", "🍌", "🍉", "🍌"],
+                            target: "🍌" // El elemento a buscar
+                        },
+                        { // Actividad de búsqueda visual de teteras
+                            type: "visual-search",
+                            title: "Encuentra las Teteras",
+                            instructions: "Selecciona todas las teteras (🍵).",
+                            // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
+                            gridItems: ["🛑", "🍎", "🍵", "🍫", "🛑", "🍎", "🍵", "🍫", 
+                                        "🛑", "🍎", "🍵", "🍫", "🛑", "🍎", "🍵", "🍫",
+                                        "☕", "🥛", "🍵", "🍶", "🍵", "🥤", "🍵", "🫖",
+                                        "🍵", "🍹", "🍵", "🍾", "🍵", "🥂", "🍵", "🥃"],
+                            target: "🍵"
+                        },
+                        { // Actividad de selección de audio, la palabra correcta y opciones se generan dinámicamente
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                2: {
+                    title: "Atención Selectiva y Discriminación",
+                    pages: [5, 7, 8],
+                    activities: [
+                        { // Actividad de búsqueda visual de números 7
+                            type: "visual-search",
+                            title: "Encuentra los Números 7",
+                            instructions: "Selecciona todos los números 7 que encuentres en la siguiente cuadrícula.",
+                            // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
+                            gridItems: ["6", "7", "8", "9", "7", "5", "4", "7", 
+                                        "3", "2", "7", "1", "7", "0", "7", "6",
+                                        "7", "8", "7", "9", "5", "7", "4", "7",
+                                        "2", "7", "1", "0", "7", "3", "7", "8"],
+                            target: "7"
+                        },
+                        { // Actividad de búsqueda visual de estrellas
+                            type: "visual-search",
+                            title: "Encuentra las Estrellas",
+                            instructions: "Selecciona todas las estrellas (★) que encuentres en la siguiente cuadrícula.",
+                            // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
+                            gridItems: ["★", "●", "▲", "■", "●", "★", "▲", "■", 
+                                        "★", "●", "▲", "★", "■", "●", "★", "▲",
+                                        "■", "★", "●", "▲", "■", "●", "★", "▲",
+                                        "■", "★", "●", "▲", "■", "●", "★", "▲"],
+                            target: "★"
+                        },
+                        { // Actividad de tachar ítems (letras)
+                            type: "strike-item",
+                            title: "Tacha las Letras",
+                            instructions: "Tacha todas las letras que encuentres en la siguiente lista.",
+                            // Rellenado para 32 elementos, 4x8 visualmente si el grid se ajusta
+                            items: [
+                                { text: "7", type: "number" }, { text: "A", type: "letter" },
+                                { text: "3", type: "number" }, { text: "B", type: "letter" },
+                                { text: "9", type: "number" }, { text: "C", type: "letter" },
+                                { text: "2", type: "number" }, { text: "D", type: "letter" },
+                                { text: "1", type: "number" }, { text: "E", type: "letter" },
+                                { text: "8", type: "number" }, { text: "F", type: "letter" },
+                                { text: "5", type: "number" }, { text: "G", type: "letter" },
+                                { text: "4", type: "number" }, { text: "H", type: "letter" },
+                                { text: "6", type: "number" }, { text: "I", type: "letter" },
+                                { text: "0", type: "number" }, { text: "J", type: "letter" },
+                                { text: "11", type: "number" }, { text: "K", type: "letter" },
+                                { text: "12", type: "number" }, { text: "L", type: "letter" },
+                                { text: "10", type: "number" }, { text: "M", type: "letter" },
+                                { text: "13", type: "number" }, { text: "N", type: "letter" },
+                                { text: "14", type: "number" }, { text: "O", type: "letter" },
+                                { text: "15", type: "number" }, { text: "P", type: "letter" }
+                            ],
+                            targetType: "letter" // El tipo de elemento a tachar
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                3: {
+                    title: "Discriminación Visual y Patrones",
+                    pages: [9, 10, 6],
+                    activities: [
+                        { // Actividad de búsqueda visual de números
+                            type: "visual-search",
+                            title: "Encuentra Sólo los Números",
+                            instructions: "Selecciona solo los números, ignora las letras.",
+                            // Cuadrícula 8x4 = 32 elementos, rellenado para ser denso y completo
+                            gridItems: ["b", "j", "6", "r", "z", "j", "e", "q", 
+                                        "8", "0", "7", "6", "j", "7", "5", "i", 
+                                        "k", "w", "k", "s", "d", "9", "0", "l", 
+                                        "8", "9", "a", "c", "1", "f", "4", "g"],
+                            target: ["6", "8", "0", "7", "9", "5", "1", "4"] // Todos los números en la cuadrícula
+                        },
+                        { // Actividad de tachar ítems (plátanos repetidos)
+                            type: "strike-item",
+                            title: "Tacha los Plátanos Repetidos",
+                            instructions: "Tacha los plátanos que se repiten en cada fila.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "🍌", type: "banana" }, { text: "🍎", type: "apple" },
+                                { text: "🍌", type: "banana" }, { text: "🍊", type: "orange" },
+                                { text: "🍓", type: "strawberry" }, { text: "🍌", type: "banana" },
+                                { text: "🍒", type: "cherry" }, { text: "🍌", type: "banana" },
+                                { text: "🍑", type: "peach" }, { text: "🍌", type: "banana" },
+                                { text: "🍍", type: "pineapple" }, { text: "🍌", type: "banana" },
+                                { text: "🥝", type: "kiwi" }, { text: "🍌", type: "banana" },
+                                { text: "🍋", type: "lemon" }, { text: "🍌", type: "banana" },
+                                { text: "🍇", type: "grape" }, { text: "🍌", type: "banana" },
+                                { text: "🍉", type: "watermelon" }, { text: "🍌", type: "banana" },
+                                { text: "🥭", type: "mango" }, { text: "🍌", type: "banana" },
+                                { text: "🥥", type: "coconut" }, { text: "🍌", type: "banana" },
+                                { text: "🥑", type: "avocado" }, { text: "🍌", type: "banana" },
+                                { text: "🍆", type: "eggplant" }, { text: "🍌", type: "banana" },
+                                { text: "🌶️", type: "chilli" }, { text: "🍌", type: "banana" }
+                            ],
+                            targetType: "banana"
+                        },
+                        { // Actividad de tachar ítems (mariposas repetidas)
+                            type: "strike-item",
+                            title: "Imágenes Repetidas (Fila 3)",
+                            instructions: "Selecciona las imágenes que se repiten en esta fila.",
+                            // Rellenar con más elementos para una cuadrícula más completa (32 elementos)
+                            items: [ { group: ["🚲", "🦋", "💄", "🦋", "🍓", "🚗", "🦋", "🚲", "🦋", "🎈", "🦋", "🔑", "🦋", "✏️", "🦋", "📱", "🦋", "🚲", "🦋", "💄", "🦋", "🍓", "🚗", "🦋", "🎈", "🦋", "🔑", "🦋", "✏️", "🦋", "📱", "🦋"], correct: ["🦋"] } ], // 32 elementos
+                            targetType: "group_correct" // Nuevo tipo para indicar que se usa 'group' y 'correct'
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                4: {
+                    title: "Funciones Ejecutivas y Secuenciación",
+                    pages: [11, 13, 15],
+                    activities: [
+                        { // Actividad de tachar símbolos repetidos
+                            type: "strike-item",
+                            title: "Símbolos Repetidos",
+                            instructions: "Selecciona los símbolos que se repiten en la cuadrícula.",
+                            // Rellenar con más elementos para una cuadrícula más completa (32 elementos)
+                            items: [ { group: ["▲", "●", "▲", "■", "●", "★", "■", "★", "▲", "■", "★", "▲", "●", "■", "★", "▲", "●", "■", "★", "▲", "●", "■", "★", "▲", "●", "■", "★", "▲", "●", "■", "★", "▲"], correct: ["▲", "●", "■", "★"] } ], // 32 elementos
+                            targetType: "group_correct"
+                        },
+                        { // Actividad de ordenar pasos para lavarse el pelo
+                            type: "order",
+                            title: "Ordena los Pasos para Lavarse el Pelo",
+                            instructions: "Haz clic en los pasos en el orden correcto para lavarse el pelo.",
+                            items: [
+                                { text: "Mojar el pelo 💦", order: 1 },
+                                { text: "Aplicar champú 🧴", order: 2 },
+                                { text: "Enjuagar con agua 💧", order: 3 },
+                                { text: "Secar con toalla 🧺", order: 4 },
+                                { text: "Peinar el pelo 💇", order: 5 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de ordenar pasos para tomar un taxi
+                            type: "order",
+                            title: "Ordena los Pasos para Tomar un Taxi",
+                            instructions: "Haz clic en los pasos en el orden correcto para tomar un taxi.",
+                            items: [
+                                { text: "Levantar la mano para parar el taxi ✋", order: 1 },
+                                { text: "Subir al taxi 🚕", order: 2 },
+                                { text: "Decir el destino al conductor 🗣️", order: 3 },
+                                { text: "Pagar al conductor 💰", order: 4 },
+                                { text: "Bajar del taxi 👋", order: 5 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                5: {
+                    title: "Categorización y Planificación",
+                    pages: [14, 16, 18],
+                    activities: [
+                        { // Actividad de ordenar pasos para comprar pan
+                            type: "order",
+                            title: "Ordena los Pasos para Comprar el Pan",
+                            instructions: "Haz clic en los pasos en el orden correcto para comprar pan.",
+                            items: [
+                                { text: "Ir a la panadería 🏪", order: 1 },
+                                { text: "Pedir el pan 🥖", order: 2 },
+                                { text: "Pagar al panadero 💰", order: 3 },
+                                { text: "Llevar el pan a casa 🏠", order: 4 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de ordenar pasos para viajar en tren
+                            type: "order",
+                            title: "Ordena los Pasos para Viajar en Tren",
+                            instructions: "Haz clic en los pasos en el orden correcto para viajar en tren.",
+                            items: [
+                                { text: "Comprar el billete 🎫", order: 1 },
+                                { text: "Esperar en el andén 🚉", order: 2 },
+                                { text: "Subir al tren 🚂", order: 3 },
+                                { text: "Mostrar el billete al revisor 📋", order: 4 },
+                                { text: "Buscar asiento 💺", order: 5 },
+                                { text: "Bajar en tu destino 🚶‍♀️", order: 6 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de tachar el intruso (útiles de escritura)
+                            type: "strike-item",
+                            title: "Encuentra el Intruso (Útiles de Escritura)",
+                            instructions: "Tacha el elemento que no pertenece al grupo.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "Lápiz ✏️", type: "writing" },
+                                { text: "Esfero 🖊️", type: "writing" }, /* Cambiado de Bolígrafo a Esfero */
+                                { text: "Marcador 🖌️", type: "writing" }, /* Cambiado de Libro a Marcador */
+                                { text: "Taza ☕", type: "not-writing" },
+                                { text: "Borrador 🧼", type: "writing" }, /* Cambiado de Goma de borrar a Borrador y emoji */
+                                { text: "Sacapuntas ✏️", type: "writing" }, /* Emoji mejorado */
+                                { text: "Mochila 🎒", type: "not-writing" },
+                                { text: "Cuaderno 📒", type: "writing" },
+                                { text: "Resaltador 🖍️", type: "writing" }, /* Cambiado de Subrayador a Resaltador y emoji */
+                                { text: "Tijeras ✂️", type: "writing" },
+                                { text: "Cosedora 📎", type: "writing" }, /* Cambiado de Grapadora a Cosedora y emoji */
+                                { text: "Agua 💧", type: "not-writing" },
+                                { text: "Regla 📏", type: "writing" },
+                                { text: "Compás 📐", type: "writing" },
+                                { text: "Pegamento 🧴", type: "writing" },
+                                { text: "Comida 🍔", type: "not-writing" },
+                                { text: "Pincel 🖌️", type: "writing" },
+                                { text: "Crayola 🖍️", type: "writing" },
+                                { text: "Calculadora 🧮", type: "writing" },
+                                { text: "Flor 🌸", type: "not-writing" },
+                                { text: "Carpetas 📁", type: "writing" },
+                                { text: "Clips 📎", type: "writing" },
+                                { text: "Destornillador 🔩", type: "not-writing" },
+                                { text: "Tinta 💧", type: "writing" }, /* Emoji mejorado */
+                                { text: "Post-it 🗒️", type: "writing" },
+                                { text: "Periódico 📰", type: "not-writing" },
+                                { text: "Globo 🎈", type: "not-writing" },
+                                { text: "Gafas 👓", type: "not-writing" },
+                                { text: "Plato 🍽️", type: "not-writing" },
+                                { text: "Cuchillo 🔪", type: "not-writing" },
+                                { text: "Reloj ⌚", type: "not-writing" },
+                                { text: "Bufanda 🧣", type: "not-writing" }
+                            ],
+                            targetType: "not-writing"
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                6: {
+                    title: "Funciones Ejecutivas Avanzadas",
+                    pages: [17, 19, 20],
+                    activities: [
+                        { // Actividad de ordenar pasos para cenar en un restaurante
+                            type: "order",
+                            title: "Ordena los Pasos para Cenar en un Restaurante",
+                            instructions: "Ordena los siguientes pasos en el orden correcto para cenar en un restaurante.",
+                            items: [
+                                { text: "Reservar mesa 📅", order: 1 },
+                                { text: "Llegar al restaurante 🏢", order: 2 },
+                                { text: "Revisar el menú 📜", order: 3 },
+                                { text: "Pedir la comida 🍽️", order: 4 },
+                                { text: "Comer 😋", order: 5 },
+                                { text: "Pagar la cuenta 💳", order: 6 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de tachar el intruso (electrodomésticos)
+                            type: "strike-item",
+                            title: "Encuentra el Intruso (Electrodomésticos)",
+                            instructions: "Tacha el elemento que no es un electrodoméstico.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "Nevera ❄️", type: "appliance" },
+                                { text: "Lavadora 🧺", type: "appliance" },
+                                { text: "Televisor 📺", type: "appliance" },
+                                { text: "Cepillo de dientes 🪥", type: "not-appliance" },
+                                { text: "Horno 🍳", type: "appliance" },
+                                { text: "Microondas ♨️", type: "appliance" },
+                                { text: "Tostadora 🍞", type: "appliance" },
+                                { text: "Cama 🛏️", type: "not-appliance" },
+                                { text: "Batidora 🥣", type: "appliance" }, /* Emoji mejorado */
+                                { text: "Aspiradora 🧹", type: "appliance" },
+                                { text: "Secadora de ropa 👕", type: "appliance" }, /* Más específico */
+                                { text: "Sofá 🛋️", type: "not-appliance" }, /* Corregido acento */
+                                { text: "Lavaplatos 🍽️", type: "appliance" }, /* Cambiado a Lavaplatos */
+                                { text: "Plancha 👕", type: "appliance" }, /* Emoji mejorado */
+                                { text: "Cafetera ☕", type: "appliance" },
+                                { text: "Lámpara de mesa 💡", type: "not-appliance" }, /* Más específico */
+                                { text: "Robot de cocina 🤖", type: "appliance" },
+                                { text: "Extractor de aire 💨", type: "appliance" }, /* Más específico */
+                                { text: "Campana extractora 💨", type: "appliance" }, /* Más específico y emoji */
+                                { text: "Zapatos 👟", type: "not-appliance" },
+                                { text: "Sandwichera 🥪", type: "appliance" },
+                                { text: "Exprimidor 🍊", type: "appliance" },
+                                { text: "Pava eléctrica ♨️", type: "appliance" }, /* Cambiado a Pava eléctrica */
+                                { text: "Mueble 🚪", type: "not-appliance" },
+                                { text: "Calefactor 🔥", type: "appliance" },
+                                { text: "Aire Acondicionado 🌬️", type: "appliance" },
+                                { text: "Reloj de pared 🕰️", type: "not-appliance" }, /* Definido como no electrodoméstico */
+                                { text: "Manta 🧣", type: "not-appliance" },
+                                { text: "Licuadora 🥤", type: "appliance" },
+                                { text: "Picadora 🔪", type: "appliance" },
+                                { text: "Freidora de aire 🍟", type: "appliance" },
+                                { text: "Cojín 🪶", type: "not-appliance" }
+                            ],
+                            targetType: "not-appliance"
+                        },
+                        { // Actividad de tachar la palabra intrusa (texturas)
+                            type: "strike-item",
+                            title: "Palabra Intruso (Texturas)",
+                            instructions: "Tacha la palabra que no describe una textura.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "Áspero 🪨", type: "texture" },
+                                { text: "Suave 🧸", type: "texture" },
+                                { text: "Liso 🪞", type: "texture" },
+                                { text: "Fuerte 💪", type: "not-texture" },
+                                { text: "Rugoso 🧱", type: "texture" },
+                                { text: "Esponjoso ☁️", type: "texture" },
+                                { text: "Dulce 🍬", type: "not-texture" },
+                                { text: "Frío 🥶", type: "not-texture" },
+                                { text: "Pegajoso 🍯", type: "texture" },
+                                { text: "Brillante ✨", type: "not-texture" },
+                                { text: "Caliente 🔥", type: "not-texture" },
+                                { text: "Húmedo 💧", type: "texture" }, /* Emoji mejorado */
+                                { text: "Seco ☀️", type: "texture" }, /* Emoji mejorado */
+                                { text: "Rígido 🧱", type: "texture" }, /* Emoji mejorado */
+                                { text: "Flexible 🧘", type: "texture" }, /* Emoji mejorado */
+                                { text: "Colorido 🌈", type: "not-texture" },
+                                { text: "Resbaladizo ⚠️", type: "texture" }, /* Emoji mejorado */
+                                { text: "Cristalino 💧", type: "not-texture" },
+                                { text: "Pesado 🏋️", type: "not-texture" },
+                                { text: "Ligero 🍃", type: "not-texture" },
+                                { text: "Granuloso 🌰", type: "texture" }, /* Emoji mejorado */
+                                { text: "Peludo 🐕", type: "texture" }, /* Emoji mejorado */
+                                { text: "Hinchado 🎈", type: "not-texture" },
+                                { text: "Ácido 🍋", type: "not-texture" },
+                                { text: "Crujiente 🍂", type: "texture" }, /* Emoji mejorado */
+                                { text: "Delgado 📏", type: "not-texture" },
+                                { text: "Grueso 🪵", type: "not-texture" },
+                                { text: "Afilado 🗡️", type: "not-texture" },
+                                { text: "Redondo ⚪", type: "not-texture" },
+                                { text: "Cuadrado ⬛", type: "not-texture" },
+                                { text: "Triangular 🔺", type: "not-texture" },
+                                { text: "Amargo ☕", type: "not-texture" }
+                            ],
+                            targetType: "not-texture"
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                7: {
+                    title: "Lenguaje y Razonamiento Verbal",
+                    pages: [21, 24],
+                    activities: [
+                        { // Actividad de tachar el intruso (metales)
+                            type: "strike-item",
+                            title: "Encuentra el Intruso (Metales)",
+                            instructions: "Tacha el elemento que no es un metal.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "Aluminio 🥫", type: "metal" },
+                                { text: "Cobre 🪙", type: "metal" }, /* Emoji mejorado */
+                                { text: "Hierro ⛓️", type: "metal" }, /* Emoji mejorado */
+                                { text: "Madera 🪵", type: "not-metal" },
+                                { text: "Plata 🥈", type: "metal" },
+                                { text: "Oro 🥇", type: "metal" },
+                                { text: "Vidrio 🪞", type: "not-metal" },
+                                { text: "Plástico 🧪", type: "not-metal" },
+                                { text: "Acero 🔩", type: "metal" },
+                                { text: "Bronce 🥉", type: "metal" }, /* Emoji mejorado */
+                                { text: "Níquel 💰", type: "metal" }, /* Emoji mejorado */
+                                { text: "Papel 📄", type: "not-metal" },
+                                { text: "Diamante 💎", type: "not-metal" },
+                                { text: "Grafito 📝", type: "not-metal" },
+                                { text: "Tierra 🏞️", type: "not-metal" },
+                                { text: "Agua 💧", type: "not-metal" },
+                                { text: "Litio 🔋", type: "metal" },
+                                { text: "Zinc ⚡", type: "metal" },
+                                { text: "Titanio 🚀", type: "metal" },
+                                { text: "Tela 🧵", type: "not-metal" },
+                                { text: "Plomo 🎱", type: "metal" },
+                                { text: "Estaño 🥫", type: "metal" },
+                                { text: "Uranio ☢️", type: "metal" },
+                                { text: "Roca ⛰️", type: "not-metal" },
+                                { text: "Platino 💍", type: "metal" },
+                                { text: "Mercurio 🌡️", type: "metal" },
+                                { text: "Tungsteno 💡", type: "metal" },
+                                { text: "Aire 🌬️", type: "not-metal" },
+                                { text: "Sodio 🧂", type: "metal" },
+                                { text: "Potasio 🍌", type: "metal" },
+                                { text: "Calcio 🥛", type: "metal" },
+                                { text: "Carbón 🖤", type: "not-metal" }
+                            ],
+                            targetType: "not-metal"
+                        },
+                        { // Actividad de tachar el intruso (eventos)
+                            type: "strike-item",
+                            title: "Encuentra el Intruso (Eventos)",
+                            instructions: "Tacha la palabra que no describe un evento.",
+                            // Rellenado para 32 elementos
+                            items: [
+                                { text: "Fiesta 🎉", type: "event" },
+                                { text: "Reunión 🤝", type: "event" },
+                                { text: "Concierto 🎵", type: "event" },
+                                { text: "Árbol 🌳", type: "not-event" },
+                                { text: "Boda 👰", type: "event" },
+                                { text: "Cumpleaños 🎂", type: "event" },
+                                { text: "Silla 🪑", type: "not-event" },
+                                { text: "Computadora 💻", type: "not-event" },
+                                { text: "Festival 🎪", type: "event" },
+                                { text: "Graduación 🎓", type: "event" },
+                                { text: "Exposición 🖼️", type: "event" },
+                                { text: "Coche 🚗", type: "not-event" },
+                                { text: "Seminario 🗣️", type: "event" },
+                                { text: "Desfile 🎈", type: "event" },
+                                { text: "Ceremonia 🎗️", type: "event" },
+                                { text: "Montaña ⛰️", type: "not-event" },
+                                { text: "Aniversario 🥂", type: "event" },
+                                { text: "Funeral 🕊️", type: "event" },
+                                { text: "Inauguración 🎊", type: "event" },
+                                { text: "Libro 📖", type: "not-event" },
+                                { text: "Conferencia 🎤", type: "event" },
+                                { text: "Taller 🛠️", type: "event" },
+                                { text: "Debate 🗣️", type: "event" },
+                                { text: "Casa 🏠", type: "not-event" },
+                                { text: "Copa 🏆", type: "event" },
+                                { text: "Torneo 🏅", type: "event" },
+                                { text: "Clase 📚", type: "event" },
+                                { text: "Mesa 🪑", type: "not-event" },
+                                { text: "Viaje ✈️", type: "event" },
+                                { text: "Paseo 🚶", type: "event" },
+                                { text: "Cena 🍽️", type: "event" },
+                                { text: "Sol ☀️", type: "not-event" }
+                            ],
+                            targetType: "not-event"
+                        },
+                        { // Actividad de ordenar palabras para formar una frase
+                            type: "order",
+                            title: "Ordena la Frase: He roto un vaso",
+                            instructions: "Ordena las palabras para formar la frase: 'He roto un vaso'.",
+                            items: [
+                                { text: "He", order: 1 },
+                                { text: "roto", order: 2 },
+                                { text: "un", order: 3 },
+                                { text: "vaso 🥛", order: 4 }
+                            ],
+                            startCountFrom: 1 
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                8: {
+                    title: "Lenguaje y Comprensión",
+                    pages: [25, 29],
+                    activities: [
+                        { // Actividad de ordenar palabras para formar una frase
+                            type: "order",
+                            title: "Ordena la Frase: Ponte el sombrero de paja",
+                            instructions: "Ordena las palabras para formar la frase: 'Ponte el sombrero de paja'.",
+                            items: [
+                                { text: "Ponte 👒", order: 1 },
+                                { text: "el", order: 2 },
+                                { text: "sombrero 🎩", order: 3 },
+                                { text: "de", order: 4 },
+                                { text: "paja 🌾", order: 5 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de selección de palabra (llaves)
+                            type: "word-select",
+                            title: "Elige la Palabra Correcta (Llaves)",
+                            instructions: "Selecciona la palabra que corresponde a: 'Objeto de metal que usamos para abrir puertas'.",
+                            options: [
+                                { text: "Llaves 🔑", correct: true },
+                                { text: "Libro 📖", correct: false },
+                                { text: "Teléfono 📱", correct: false },
+                                { text: "Reloj ⌚", correct: false },
+                                { text: "Cartera 👛", correct: false },
+                                { text: "Gafas 👓", correct: false },
+                                { text: "Auriculares 🎧", correct: false },
+                                { text: "Móvil 📱", correct: false },
+                                { text: "Paraguas ☂️", correct: false },
+                                { text: "Bolsa 👜", correct: false },
+                                { text: "Gorra 🧢", correct: false },
+                                { text: "Botella 🍾", correct: false }
+                            ]
+                        },
+                        { // Actividad de selección de palabra (corazón)
+                            type: "word-select",
+                            title: "Elige la Palabra Correcta (Corazón)",
+                            instructions: "Selecciona la palabra que corresponde a: 'Órgano que bombea sangre en el cuerpo'.",
+                            options: [
+                                { text: "Corazón ❤️", correct: true },
+                                { text: "Pulmón 🫁", correct: false },
+                                { text: "Hígado 🟫", correct: false },
+                                { text: "Cerebro 🧠", correct: false },
+                                { text: "Estómago 🍔", correct: false },
+                                { text: "Riñón 🫘", correct: false },
+                                { text: "Páncreas 🥔", correct: false },
+                                { text: "Intestino 🥨", correct: false },
+                                { text: "Músculo 💪", correct: false },
+                                { text: "Hueso 🦴", correct: false },
+                                { text: "Nervio 🧬", correct: false },
+                                { text: "Vena 🩸", correct: false }
+                            ]
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                9: {
+                    title: "Lenguaje y Vocabulario",
+                    pages: [26, 30],
+                    activities: [
+                        { // Actividad de ordenar palabras para formar una frase
+                            type: "order",
+                            title: "Ordena la Frase: Me apetece dormir una siesta",
+                            instructions: "Ordena las palabras para formar la frase: 'Me apetece dormir una siesta'.",
+                            items: [
+                                { text: "Me", order: 1 },
+                                { text: "apetece", order: 2 },
+                                { text: "dormir 😴", order: 3 },
+                                { text: "una", order: 4 },
+                                { text: "siesta 🛌", order: 5 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de ordenar palabras para formar una frase
+                            type: "order",
+                            title: "Ordena la Frase: Voy a mudarme en verano",
+                            instructions: "Ordena las palabras para formar la frase: 'Voy a mudarme en verano'.",
+                            items: [
+                                { text: "Voy", order: 1 },
+                                { text: "a", order: 2 },
+                                { text: "mudarme 🚚", order: 3 },
+                                { text: "en", order: 4 },
+                                { text: "verano ☀️", order: 5 }
+                            ],
+                            startCountFrom: 1
+                        },
+                        { // Actividad de selección de palabra (colegio)
+                            type: "word-select",
+                            title: "Elige la Palabra Correcta (Colegio)",
+                            instructions: "Selecciona la palabra que corresponde a: 'Lugar al que van los niños para aprender'.",
+                            options: [
+                                { text: "Colegio 🏫", correct: true },
+                                { text: "Parque 🏞️", correct: false },
+                                { text: "Cine 🎬", correct: false },
+                                { text: "Tienda 🏪", correct: false },
+                                { text: "Restaurante 🍽️", correct: false },
+                                { text: "Hospital 🏥", correct: false },
+                                { text: "Biblioteca 📚", correct: false },
+                                { text: "Museo 🏛️", correct: false },
+                                { text: "Teatro 🎭", correct: false },
+                                { text: "Piscina 🏊", correct: false },
+                                { text: "Gimnasio 🏋️", correct: false },
+                                { text: "Playa 🏖️", correct: false }
+                            ]
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                10: {
+                    title: "Memoria y Percepción Visual",
+                    pages: [32, 46],
+                    activities: [
+                        { // Actividad de selección de palabra (peine)
+                            type: "word-select",
+                            title: "Elige la Palabra Correcta (Peine)",
+                            instructions: "Selecciona la palabra que corresponde a: 'Objeto que usamos para peinarnos'.",
+                            options: [
+                                { text: "Peine 🪮", correct: true },
+                                { text: "Cepillo 🪥", correct: false },
+                                { text: "Tijeras ✂️", correct: false },
+                                { text: "Espejo 🪞", correct: false },
+                                { text: "Secador 💨", correct: false },
+                                { text: "Gel 🧴", correct: false },
+                                { text: "Champú 🧴", correct: false },
+                                { text: "Toalla 🧺", correct: false },
+                                { text: "Brocha 🖌️", correct: false },
+                                { text: "Navaja 🔪", correct: false },
+                                { text: "Cuerda 🧶", correct: false },
+                                { text: "Candado 🔒", correct: false } // Corregido emoji
+                            ]
+                        },
+                        { // Actividad de comparación de tamaños (manzana)
+                            type: "size-comparison",
+                            title: "Comparación de Tamaños (Manzana)",
+                            instructions: "Selecciona la imagen que tiene el mismo tamaño que la imagen de referencia.",
+                            reference: { text: "🍎", size: "medium" }, // Objeto de referencia y su tamaño
+                            options: [ // Opciones con diferentes tamaños
+                                { text: "🍎", size: "small", correct: false },
+                                { text: "🍎", size: "medium", correct: true },
+                                { text: "🍎", size: "large", correct: false },
+                                { text: "🍎", size: "xlarge", correct: false },
+                                { text: "🍎", size: "small", correct: false },
+                                { text: "🍎", size: "medium", correct: true },
+                                { text: "🍎", size: "large", correct: false },
+                                { text: "🍎", size: "xlarge", correct: false } // Añadidos para 8 elementos
+                            ]
+                        },
+                        { // Actividad de selección de palabra (miedo)
+                            type: "word-select",
+                            title: "Elige la Palabra Correcta (Miedo)",
+                            instructions: "Selecciona la palabra que corresponde a: 'Sentimiento de terror'.",
+                            options: [
+                                { label: "😨 Miedo", correct: true },
+                                { label: "😊 Alegría", correct: false },
+                                { label: "😢 Tristeza", correct: false },
+                                { label: "😡 Enojo", correct: false },
+                                { label: "😴 Aburrimiento", correct: false },
+                                { label: "😮 Sorpresa", correct: false },
+                                { label: "🤢 Asco", correct: false },
+                                { label: "😏 Orgullo", correct: false },
+                                { label: "😐 Indiferencia", correct: false },
+                                { label: "🤔 Duda", correct: false },
+                                { label: "😌 Calma", correct: false },
+                                { label: "🥳 Entusiasmo", correct: false }
+                            ]
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                11: {
+                    title: "Percepción y Discriminación Visual",
+                    pages: [47, 48, 51],
+                    activities: [
+                        { // Actividad de comparación de tamaños (naranja)
+                            type: "size-comparison",
+                            title: "Comparación de Tamaños (Naranja)",
+                            instructions: "Selecciona la imagen que tiene el mismo tamaño que la imagen de referencia.",
+                            reference: { text: "🍊", size: "medium" },
+                            options: [
+                                { text: "🍊", size: "small", correct: false },
+                                { text: "🍊", size: "medium", correct: true },
+                                { text: "🍊", size: "large", correct: false },
+                                { text: "🍊", size: "xlarge", correct: false },
+                                { text: "🍊", size: "small", correct: false },
+                                { text: "🍊", size: "medium", correct: true },
+                                { text: "🍊", size: "large", correct: false },
+                                { text: "🍊", size: "xlarge", correct: false } // Añadidos para 8 elementos
+                            ]
+                        },
+                        { // Actividad de comparación de tamaños (estrella)
+                            type: "size-comparison",
+                            title: "Comparación de Tamaños (Estrella)",
+                            instructions: "Selecciona la imagen que tiene el mismo tamaño que la imagen de referencia.",
+                            reference: { text: "⭐", size: "medium" },
+                            options: [
+                                { text: "⭐", size: "small", correct: false },
+                                { text: "⭐", size: "medium", correct: true },
+                                { text: "⭐", size: "large", correct: false },
+                                { text: "⭐", size: "xlarge", correct: false },
+                                { text: "⭐", size: "small", correct: false },
+                                { text: "⭐", size: "medium", correct: true },
+                                { text: "⭐", size: "large", correct: false },
+                                { text: "⭐", size: "xlarge", correct: false } // Añadidos para 8 elementos
+                            ]
+                        },
+                        { // Actividad de emparejar sombras (árbol)
+                            type: "shadow-match",
+                            title: "Empareja la Sombra (Árbol)",
+                            instructions: "Selecciona la sombra que corresponde al objeto mostrado.",
+                            object: "🌳", // Objeto de referencia
+                            options: [ // Opciones de sombra
+                                { text: "🌳", correct: true, shadow: true }, // La sombra correcta
+                                { text: "🌲", correct: false, shadow: true }, // Distractor similar
+                                { text: "🌴", correct: false, shadow: true }, // Distractor
+                                { text: "🌵", correct: false, shadow: true },  // Distractor
+                                { text: "🌱", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🌿", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🍂", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🍁", correct: false, shadow: true }  // Nuevo distractor
+                            ]
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                },
+                12: {
+                    title: "Percepción, Conteo y Grafomotricidad",
+                    pages: [49, 52, 63],
+                    activities: [
+                        { // Actividad de comparación de tamaños (hoja)
+                            type: "size-comparison",
+                            title: "Comparación de Tamaños (Hoja)",
+                            instructions: "Selecciona la imagen que tiene el mismo tamaño que la imagen de referencia.",
+                            reference: { text: "🍃", size: "medium" },
+                            options: [
+                                { text: "🍃", size: "small", correct: false },
+                                { text: "🍃", size: "medium", correct: true },
+                                { text: "🍃", size: "large", correct: false },
+                                { text: "🍃", size: "xlarge", correct: false },
+                                { text: "🍃", size: "small", correct: false },
+                                { text: "🍃", size: "medium", correct: true },
+                                { text: "🍃", size: "large", correct: false },
+                                { text: "🍃", size: "xlarge", correct: false } // Añadidos para 8 elementos
+                            ]
+                        },
+                        { // Actividad de emparejar sombras (casa)
+                            type: "shadow-match",
+                            title: "Empareja la Sombra (Casa)",
+                            instructions: "Selecciona la sombra que corresponde al objeto mostrado.",
+                            object: "🏠",
+                            options: [
+                                { text: "🏠", correct: true, shadow: true },
+                                { text: "🏡", correct: false, shadow: true },
+                                { text: "🏚️", correct: false, shadow: true },
+                                { text: "🏢", correct: false, shadow: true },
+                                { text: "🏭", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🏗️", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🏥", correct: false, shadow: true }, // Nuevo distractor
+                                { text: "🏫", correct: false, shadow: true }  // Nuevo distractor
+                            ]
+                        },
+                        { // Actividad de conteo (helados)
+                            type: "counting",
+                            title: "Contar Helados",
+                            instructions: "Cuenta cuántos helados (🍦) hay y escribe el número.",
+                            // `iceCreamData` contendrá tanto el `count` como el `display` de forma coherente
+                            iceCreamData: null // Se inicializa a null y se llena dinámicamente en loadSession
+                        },
+                        { // Actividad de dibujo
+                            type: "drawing",
+                            title: "Dibuja un Árbol",
+                            instructions: "Dibuja a la derecha un árbol como el del ejemplo.",
+                            canvasId: "drawing-canvas-12-3", // ID único para el canvas
+                            example: "🌳"
+                        },
+                        {
+                            type: "audio-select",
+                            title: "¿Qué palabra escuchaste?",
+                            instructions: "Escucha la palabra y selecciona la opción correcta.",
+                        }
+                    ]
+                }
+            }
+        };
+
+        // Variables de estado global de la aplicación
+        let currentSessionId = null; // ID de la sesión actualmente cargada
+        // Un mapa para almacenar los contadores de las actividades de ordenar por su índice de actividad.
+        const orderCounters = new Map();
+
+        // Lista de palabras predefinidas para la actividad de comprensión auditiva
+        // ¡LISTA EXPANDIDA PARA MAYOR VARIEDAD Y LLENAR ESPACIOS!
+        const audioWordsList = [
+            {word: "Sol", icon: "☀️"}, {word: "Luna", icon: "🌙"}, {word: "Árbol", icon: "🌳"},
+            {word: "Casa", icon: "🏠"}, {word: "Río", icon: "🌊"}, {word: "Cielo", icon: "☁️"},
+            {word: "Flor", icon: "🌸"}, {word: "Mar", icon: "🌊"}, {word: "Nube", icon: "☁️"},
+            {word: "Viento", icon: "🌬️"}, {word: "Estrella", icon: "⭐"}, {word: "Montaña", icon: "⛰️"},
+            {word: "Piedra", icon: "🪨"}, {word: "Lluvia", icon: "🌧️"}, {word: "Fuego", icon: "🔥"},
+            {word: "Tierra", icon: "🌍"}, {word: "Agua", icon: "💧"}, {word: "Aire", icon: "💨"},
+            {word: "Nieve", icon: "❄️"}, {word: "Arena", icon: "🏖️"}, {word: "Pájaro", icon: "🐦"},
+            {word: "Perro", icon: "🐶"}, {word: "Gato", icon: "🐱"}, {word: "Libro", icon: "📚"},
+            {word: "Mesa", icon: " میز"}, {word: "Silla", icon: "🪑"}, {word: "Ventana", icon: "🪟"},
+            {word: "Puerta", icon: "🚪"}, {word: "Coche", icon: "🚗"}, {word: "Tren", icon: "🚂"},
+            {word: "Avión", icon: "✈️"}, {word: "Barco", icon: "⛵"}, {word: "Bicicleta", icon: "🚲"},
+            {word: "Camino", icon: "🛣️"}, {word: "Puente", icon: "🌉"}, {word: "Bosque", icon: "🌲"},
+            {word: "Desierto", icon: "🏜️"}, {word: "Playa", icon: "🏖️"}, {word: "Ciudad", icon: "🏙️"},
+            {word: "Pueblo", icon: "🏘️"}, {word: "Semáforo", icon: "🚦"}, {word: "Reloj", icon: "⌚"},
+            {word: "Teléfono", icon: "📱"}, {word: "Computadora", icon: "💻"}, {word: "Ratón", icon: "🖱️"},
+            {word: "Teclado", icon: "⌨️"}, {word: "Auriculares", icon: "🎧"}, {word: "Cámara", icon: "📸"},
+            {word: "Música", icon: "🎶"}, {word: "Película", icon: "🎬"}, {word: "Deporte", icon: "⚽"},
+            {word: "Comida", icon: "🍔"}, {word: "Bebida", icon: "🥤"}, {word: "Fruta", icon: "🍎"},
+            {word: "Verdura", icon: "🥕"}, {word: "Carne", icon: "🥩"}, {word: "Pescado", icon: "🐟"},
+            {word: "Pan", icon: "🍞"}, {word: "Leche", icon: "🥛"}, {word: "Queso", icon: "🧀"},
+            {word: "Huevo", icon: "🥚"}, {word: "Azúcar", icon: "🍚"}, {word: "Sal", icon: "🧂"},
+            {word: "Café", icon: "☕"}, {word: "Té", icon: "🍵"}, {word: "Zumo", icon: "🍹"},
+            {word: "Agua", icon: "💧"}, {word: "Vino", icon: "🍷"}, {word: "Cerveza", icon: "🍺"},
+            {word: "Dinero", icon: "💰"}, {word: "Tienda", icon: "🏪"}, {word: "Hospital", icon: "🏥"},
+            {word: "Escuela", icon: "🏫"}, {word: "Parque", icon: "🌳"}, {word: "Museo", icon: "🏛️"},
+            {word: "Iglesia", icon: "⛪"}, {word: "Banco", icon: "🏦"}, {word: "Policía", icon: "👮"},
+            {word: "Bombero", icon: "👨‍🚒"}, {word: "Médico", icon: "👨‍⚕️"}, {word: "Maestro", icon: "🧑‍🏫"},
+            {word: "Estudiante", icon: "🧑‍🎓"}, {word: "Familia", icon: "👨‍👩‍👧‍👦"}, {word: "Amigo", icon: "🤝"},
+            {word: "Amor", icon: "❤️"}, {word: "Felicidad", icon: "😊"}, {word: "Tristeza", icon: "😢"},
+            {word: "Enojo", icon: "😡"}, {word: "Miedo", icon: "😨"}, {word: "Sorpresa", icon: "😮"},
+            {word: "Sueño", icon: "😴"}, {word: "Trabajo", icon: "💼"}, {word: "Vacaciones", icon: "🏖️"},
+            {word: "Celebración", icon: "🥳"}, {word: "Regalo", icon: "🎁"}, {word: "Fiesta", icon: "🎉"},
+            {word: "Deporte", icon: "🏅"}, {word: "Juego", icon: "🎮"}, {word: "Lectura", icon: "📖"},
+            {word: "Escritura", icon: "✍️"}, {word: "Pintura", icon: "🎨"}, {word: "Dibujo", icon: "✏️"},
+            {word: "Canto", icon: "🎤"}, {word: "Baile", icon: "💃"}, {word: "Viaje", icon: "✈️"},
+            {word: "Aventura", icon: "🗺️"}, {word: "Descanso", icon: "🛋️"}, {word: "Ejercicio", icon: "🏋️"},
+            {word: "Salud", icon: "❤️‍🩹"}, {word: "Cuerpo", icon: "🧍"}, {word: "Mano", icon: "✋"},
+            {word: "Pie", icon: "🦶"}, {word: "Ojo", icon: "👁️"}, {word: "Oído", icon: "👂"},
+            {word: "Nariz", icon: "👃"}, {word: "Boca", icon: "👄"}, {word: "Cabeza", icon: "👤"},
+            {word: "Pelo", icon: "💇"}, {word: "Piel", icon: "🖐️"}, {word: "Uña", icon: "💅"}
+        ];
+
+        /**
+         * Obtiene una palabra aleatoria de la lista `audioWordsList`,
+         * excluyendo las palabras ya usadas si se proporcionan en el array `exclude`.
+         * @param {Array<string>} exclude - Array de palabras (solo la cadena de texto de la palabra) a excluir.
+         * @returns {Object} Un objeto {word: string, icon: string} aleatorio, o un objeto de fallback si no hay palabras disponibles.
+         */
+        function getRandomAudioWord(exclude = []) {
+            if (audioWordsList.length === 0) {
+                console.error("audioWordsList array is empty! Cannot pick a word.");
+                return { word: "FALLBACK_ERROR", icon: "❌" };
+            }
+
+            const availableWords = audioWordsList.filter(item => !exclude.includes(item.word));
+
+            if (availableWords.length === 0) {
+                console.warn("getRandomAudioWord: Ran out of unique words for distractors. Re-using words.");
+                return audioWordsList[Math.floor(Math.random() * audioWordsList.length)];
+            }
+            return availableWords[Math.floor(Math.random() * availableWords.length)];
+        }
+
+        /**
+         * Genera un número aleatorio de helados y su representación visual en emojis.
+         * La cuenta y la representación visual están sincronizadas para evitar errores de validación.
+         * @returns {{count: string, display: string}} Objeto con la cantidad numérica (como string) y los emojis de helado.
+         */
+        function generateRandomIceCreams() {
+            const count = Math.floor(Math.random() * (11 - 2 + 1)) + 2; // Número aleatorio entre 2 y 11
+            return { count: count.toString(), display: "🍦".repeat(count) };
+        }
+
+        // --- LÓGICA PRINCIPAL DE LA APLICACIÓN ---
+
+        // Se ejecuta cuando el DOM está completamente cargado
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeSessionSelector(); // Renderiza los botones de sesión y carga el progreso
+            addGlobalEventListeners(); // Asigna event listeners a botones globales
+            loadSession(1); // Carga la primera sesión al iniciar
+        });
+
+        /**
+         * Renderiza los botones de selección de sesión en la interfaz de usuario.
+         */
+        function initializeSessionSelector() {
+            const selector = document.getElementById('session-selector');
+            selector.innerHTML = ""; // Limpia cualquier botón existente
+            for (let i = 1; i <= programData.totalSessions; i++) {
+                const session = programData.sessions[i];
+                const sessionCard = document.createElement('div');
+                sessionCard.className = 'session-card';
+                sessionCard.dataset.session = i; // Almacena el ID de la sesión
+                
+                sessionCard.innerHTML = `
+                    <div class="session-number">Sesión ${i}</div>
+                    <h3 class="session-title">${session.title}</h3>
+                    <div class="session-pages">Páginas: ${session.pages.join(', ')}</div>
+                    <div class="session-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                `;
+                sessionCard.addEventListener('click', () => loadSession(i));
+                selector.appendChild(sessionCard);
+            }
+            loadProgress(); // Carga el progreso guardado y actualiza la UI
+        }
+
+        /**
+         * Carga y muestra las actividades de una sesión específica.
+         * @param {number} sessionId - El ID numérico de la sesión a cargar.
+         */
+        function loadSession(sessionId) {
+            currentSessionId = sessionId; // Actualiza la sesión actual
+            const session = programData.sessions[sessionId];
+            const activitiesContainer = document.getElementById('activities-container');
+            activitiesContainer.innerHTML = ''; // Limpia el contenido anterior
+
+            // Actualiza la visualización de la sesión activa en el selector
+            document.querySelectorAll('.session-card').forEach(card => {
+                card.classList.remove('active'); // Remover clase active de todas las tarjetas
+                if (parseInt(card.dataset.session) === sessionId) {
+                    card.classList.add('active'); // Añadir clase active a la tarjeta actual
+                }
+            });
+            
+            // Muestra la información de la sesión
+            const sessionInfo = document.getElementById('session-info');
+            sessionInfo.innerHTML = `
+                <h2>Sesión ${sessionId}: ${session.title}</h2>
+                <p>Páginas de referencia: ${session.pages.join(', ')}</p>
+            `;
+            sessionInfo.style.display = 'block';
+            
+            // Reinicia los contadores de orden para las nuevas actividades
+            orderCounters.clear();
+            
+            // Oculta el feedback y muestra/oculta botones de acción
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('check-answers').style.display = 'flex';
+            document.getElementById('voice-btn').style.display = 'flex';
+            document.getElementById('reset-session').style.display = 'flex';
+            document.getElementById('next-session').style.display = sessionId < programData.totalSessions ? 'flex' : 'none';
+            document.getElementById('next-session').disabled = true; // Deshabilita el botón "Siguiente" inicialmente
+
+            // Genera y añade el HTML para cada actividad de la sesión
+            session.activities.forEach((activity, index) => {
+                const activityContainer = document.createElement('div');
+                activityContainer.className = 'activity-container';
+                activityContainer.dataset.activityIndex = index; // Para identificar la actividad al verificar
+
+                // Lógica para generar contenido dinámico (ej. helados, palabras de audio)
+                if (activity.type === "counting") {
+                    activity.iceCreamData = generateRandomIceCreams(); // Genera los datos de helados
+                } else if (activity.type === "audio-select") {
+                    const correctAudioWord = getRandomAudioWord();
+                    if (!correctAudioWord || correctAudioWord.word === "FALLBACK_ERROR") {
+                        console.error("Skipping audio-select activity due to missing correct word.");
+                        return; // Omite si no se puede generar la palabra
+                    }
+                    activity.correctWord = correctAudioWord.word;
+                    const distractors = [];
+                    let tempExclude = [activity.correctWord];
+                    // Asegura que siempre haya suficientes distractores (para un total de 8 opciones, si es posible)
+                    // Si ya hay opciones predefinidas en activity.options, usarlas como base para el total.
+                    const desiredDistractors = Math.max(7, activity.options ? activity.options.length - 1 : 7); // Mínimo 7 distractores para 8 opciones
+                    
+                    while (distractors.length < desiredDistractors && tempExclude.length < audioWordsList.length) {
+                        const distractorObj = getRandomAudioWord(tempExclude);
+                        if (!distractorObj || distractorObj.word === "FALLBACK_ERROR") {
+                            console.warn("Could not find enough unique distractors. Breaking loop.");
+                            break;
+                        }
+                        if (!distractors.includes(distractorObj.word)) {
+                            distractors.push(distractorObj.word);
+                            tempExclude.push(distractorObj.word);
+                        }
+                    }
+                    activity.options = [
+                        { text: correctAudioWord.word + " " + correctAudioWord.icon, correct: true },
+                        ...distractors.map(dWord => {
+                            const dObj = audioWordsList.find(item => item.word === dWord);
+                            return { text: dObj ? dObj.word + " " + dObj.icon : dWord + " ❌", correct: false };
+                        })
+                    ].sort(() => Math.random() - 0.5); // Aleatoriza las opciones
+                }
+                
+                let activityHTML = `
+                    <div class="activity-header">
+                        <div style="display: flex; align-items: center;">
+                            <div class="activity-icon">
+                                <i class="fas ${getActivityIcon(activity.type)}"></i>
+                            </div>
+                            <h3 class="activity-title-text">${activity.title}</h3>
+                        </div>
+                        ${activity.type === 'order' ? `<button class="clear-order-btn" data-activity-index="${index}"><i class="fas fa-trash"></i> Reiniciar orden</button>` : ''}
+                    </div>
+                    <div class="instructions">${activity.instructions}</div>
+                `;
+                
+                // Genera el HTML específico según el tipo de actividad
+                switch (activity.type) {
+                    case 'visual-search':
+                        activityHTML += generateVisualSearchActivity(activity);
+                        break;
+                    case 'strike-item':
+                        activityHTML += generateStrikeItemActivity(activity);
+                        break;
+                    case 'order':
+                        activityHTML += generateOrderActivity(activity, index);
+                        break;
+                    case 'word-select':
+                    case 'audio-select': // `audio-select` ahora también usa `generateSelectActivity`
+                        activityHTML += generateSelectActivity(activity);
+                        break;
+                    case 'size-comparison':
+                        activityHTML += generateSizeComparisonActivity(activity);
+                        break;
+                    case 'shadow-match':
+                        activityHTML += generateShadowMatchActivity(activity);
+                        break;
+                    case 'counting':
+                        activityHTML += generateCountingActivity(activity);
+                        break;
+                    case 'drawing':
+                        activityHTML += generateDrawingActivity(activity);
+                        break;
+                }
+                
+                activityContainer.innerHTML = activityHTML;
+                activitiesContainer.appendChild(activityContainer);
+            });
+            
+            setupActivityEventListeners(); // Configura event listeners para la sesión recién cargada
+        }
+
+        /**
+         * Genera el HTML para una actividad de tipo 'visual-search'.
+         * @param {object} activity - Objeto de actividad con `gridItems` y `target`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateVisualSearchActivity(activity) {
+            let html = '<div class="grid-container">';
+            // Baraja los ítems para que aparezcan en un orden diferente cada vez
+            const shuffledItems = [...activity.gridItems].sort(() => Math.random() - 0.5);
+            shuffledItems.forEach(item => {
+                const isTarget = Array.isArray(activity.target) ? activity.target.includes(item) : activity.target === item;
+                html += `<div class="grid-item" data-value="${item}" data-correct-target="${isTarget}" role="button" tabindex="0">${item}</div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de tipo 'strike-item'.
+         * @param {object} activity - Objeto de actividad con `items` y `targetType`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateStrikeItemActivity(activity) {
+            let html = '<div class="grid-container">';
+            // Para la actividad 'strike-item' con 'group' y 'correct' (como en Sesión 3, Actividad 2)
+            if (activity.items && activity.items[0] && activity.items[0].group) {
+                const itemGroup = activity.items[0];
+                const shuffledGroupItems = [...itemGroup.group].sort(() => Math.random() - 0.5);
+                shuffledGroupItems.forEach(itemText => {
+                    const isCorrect = itemGroup.correct.includes(itemText);
+                    html += `<div class="grid-item strike-item" data-value="${itemText}" data-correct-strike="${isCorrect}" role="button" tabindex="0">${itemText}</div>`;
+                });
+            } else { // Para la actividad 'strike-item' con 'type' (como en Sesión 2, Actividad 3)
+                const shuffledItems = [...activity.items].sort(() => Math.random() - 0.5);
+                shuffledItems.forEach(item => {
+                    const isCorrect = item.type === activity.targetType;
+                    html += `<div class="grid-item strike-item" data-value="${item.text}" data-type="${item.type}" data-correct-strike="${isCorrect}" role="button" tabindex="0">${item.text}</div>`;
+                });
+            }
+            html += '</div>';
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de tipo 'order'.
+         * @param {object} activity - Objeto de actividad con `items` y `startCountFrom`.
+         * @param {number} activityIndex - Índice de la actividad dentro de la sesión.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateOrderActivity(activity, activityIndex) {
+            let html = '<div class="grid-container order-container">';
+            // Baraja los ítems para que el usuario los ordene
+            const shuffledItems = [...activity.items].sort(() => Math.random() - 0.5);
+            shuffledItems.forEach(item => {
+                html += `
+                    <div class="grid-item order-item" data-value="${item.text}" data-correct-order="${item.order}" role="button" tabindex="0">
+                        ${item.text}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            // Inicializa el contador para esta actividad de ordenación
+            orderCounters.set(activityIndex, activity.startCountFrom || 1);
+            return html;
+        }
+
+        /**
+         * Genera el HTML para actividades de selección (word-select o audio-select).
+         * @param {object} activity - Objeto de actividad con `options`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateSelectActivity(activity) {
+            let html = '';
+            if (activity.type === 'audio-select') {
+                html += `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <button class="btn btn-secondary play-audio-btn" data-word="${activity.correctWord}" aria-label="Reproducir palabra">
+                            <i class="fas fa-play"></i> Reproducir palabra
+                        </button>
+                    </div>
+                `;
+            }
+            html += '<div class="grid-container">';
+            activity.options.forEach(option => {
+                html += `<div class="grid-item" data-correct="${option.correct}" role="button" tabindex="0">${option.text || option.label}</div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de comparación de tamaños.
+         * @param {object} activity - Objeto de actividad con `reference` y `options`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateSizeComparisonActivity(activity) {
+            let html = `
+                <div class="size-reference">
+                    <div>Referencia:</div>
+                    <div class="size-reference-emoji size-option-${activity.reference.size}">${activity.reference.text}</div>
+                </div>
+                <div class="grid-container">
+            `;
+            // Baraja las opciones de tamaño
+            const shuffledOptions = [...activity.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(option => {
+                const sizeClass = `size-option-${option.size}`;
+                html += `<div class="grid-item ${sizeClass}" data-correct="${option.correct}" role="button" tabindex="0">${option.text}</div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de emparejar sombras.
+         * @param {object} activity - Objeto de actividad con `object` y `options`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateShadowMatchActivity(activity) {
+            let html = `
+                <div class="shadow-container">
+                    <div class="shadow-object">${activity.object}</div>
+                    <div class="grid-container shadow-options">
+            `;
+            // Baraja las opciones de sombra
+            const shuffledOptions = [...activity.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(option => {
+                // Aplica la clase 'shadow-option' solo si el ítem es una sombra
+                const shadowClass = option.shadow ? 'shadow-option' : '';
+                html += `
+                    <div class="grid-item ${shadowClass}" data-correct="${option.correct}" role="button" tabindex="0">
+                        ${option.text}
+                    </div>
+                `;
+            });
+            html += `
+                    </div>
+                </div>
+            `;
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de conteo.
+         * @param {object} activity - Objeto de actividad con `iceCreamData`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateCountingActivity(activity) {
+            const { display } = activity.iceCreamData; // Obtiene el display generado dinámicamente
+            let html = `
+                <div style="text-align: center; font-size: 2rem; margin: 20px 0;">
+                    ${display}
+                </div>
+                <input type="text" class="input-field" placeholder="Escribe el número" aria-label="Escribe tu respuesta">
+            `;
+            return html;
+        }
+
+        /**
+         * Genera el HTML para una actividad de dibujo.
+         * @param {object} activity - Objeto de actividad con `canvasId` y `example`.
+         * @returns {string} HTML de la actividad.
+         */
+        function generateDrawingActivity(activity) {
+            let html = `
+                <div class="drawing-container">
+                    <p style="margin-bottom: 10px;">Ejemplo: <span style="font-size: 2em;">${activity.example}</span></p>
+                    <canvas id="${activity.canvasId}" class="drawing-canvas" width="400" height="300"></canvas>
+                    <button class="btn btn-error clear-drawing-btn" style="margin-top: 15px;" aria-label="Limpiar dibujo">
+                        <i class="fas fa-eraser"></i> Limpiar dibujo
+                    </button>
+                </div>
+            `;
+            return html;
+        }
+
+        /**
+         * Obtiene el ícono Font Awesome para un tipo de actividad dado.
+         * @param {string} type - El tipo de actividad.
+         * @returns {string} Clase de ícono Font Awesome.
+         */
+        function getActivityIcon(type) {
+            const icons = {
+                'visual-search': 'fa-search',
+                'strike-item': 'fa-times-circle', // Ícono para tachar
+                'order': 'fa-list-ol',
+                'word-select': 'fa-font',
+                'audio-select': 'fa-volume-up',
+                'size-comparison': 'fa-arrows-alt-h', // Mejor para tamaño horizontal
+                'shadow-match': 'fa-lightbulb', // Sugiere coincidencia o iluminación
+                'counting': 'fa-calculator',
+                'drawing': 'fa-pencil-alt' // Ícono de lápiz
+            };
+            return icons[type] || 'fa-tasks'; // Ícono por defecto
+        }
+
+        /**
+         * Asigna todos los event listeners a los elementos interactivos después de cargar una sesión.
+         */
+        function setupActivityEventListeners() {
+            // Para actividades con .grid-item (selección simple/múltiple)
+            document.querySelectorAll('.grid-item:not(.order-item):not(.strike-item)').forEach(item => {
+                item.addEventListener('click', handleGridItemClick);
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleGridItemClick(e); }
+                });
+            });
+            
+            // Para actividades de tachar (.strike-item)
+            document.querySelectorAll('.strike-item').forEach(item => {
+                item.addEventListener('click', handleStrikeItemClick);
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleStrikeItemClick(e); }
+                });
+            });
+            
+            // Para actividades de ordenar (.order-item)
+            document.querySelectorAll('.order-item').forEach(item => {
+                item.addEventListener('click', handleOrderItemClick);
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleOrderItemClick(e); }
+                });
+            });
+
+            // Para los botones de limpiar orden
+            document.querySelectorAll('.clear-order-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const activityIndex = parseInt(e.currentTarget.dataset.activityIndex);
+                    resetOrderActivity(activityIndex);
+                });
+            });
+            
+            // Para los botones de reproducción de audio
+            document.querySelectorAll('.play-audio-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const word = e.currentTarget.dataset.word;
+                    playAudio(word);
+                });
+            });
+            
+            // Para los botones de limpiar dibujo
+            document.querySelectorAll('.clear-drawing-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const canvas = e.currentTarget.closest('.drawing-container').querySelector('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpia el canvas
+                });
+            });
+            
+            // Configura todos los canvas de dibujo en la sesión actual
+            document.querySelectorAll('.drawing-canvas').forEach(canvas => {
+                setupDrawingCanvas(canvas);
+            });
+        }
+
+        /**
+         * Asigna event listeners a los botones de acción globales.
+         */
+        function addGlobalEventListeners() {
+            document.getElementById('check-answers').addEventListener('click', checkAnswers);
+            document.getElementById('voice-btn').addEventListener('click', readInstructions);
+            document.getElementById('reset-session').addEventListener('click', resetCurrentSession);
+            document.getElementById('next-session').addEventListener('click', goToNextSession);
+            document.getElementById('close-modal').addEventListener('click', closeModal);
+        }
+
+        /**
+         * Maneja el clic en un ítem de cuadrícula para actividades de selección simple.
+         * @param {Event} } e - El evento de clic.
+         */
+        function handleGridItemClick(e) {
+            const item = e.currentTarget;
+            const activityContainer = item.closest('.activity-container');
+            const activityIndex = parseInt(activityContainer.dataset.activityIndex);
+            const activity = programData.sessions[currentSessionId].activities[activityIndex];
+            
+            // Evita la interacción si ya está calificado
+            if (item.classList.contains('correct') || item.classList.contains('incorrect')) return;
+
+            // Para selección única: deselecciona todos los demás ítems primero
+            if (activity.type === 'word-select' || activity.type === 'audio-select' || activity.type === 'size-comparison' || activity.type === 'shadow-match') {
+                activityContainer.querySelectorAll('.grid-item').forEach(i => i.classList.remove('selected'));
+            }
+            
+            item.classList.toggle('selected'); // Alterna el estado de selección
+        }
+
+        /**
+         * Maneja el clic en un ítem para la actividad 'strike-item' (tachar).
+         * @param {Event} e - El evento de clic.
+         */
+        function handleStrikeItemClick(e) {
+            const item = e.currentTarget;
+            // Evita la interacción si ya está calificado
+            if (item.classList.contains('correct') || item.classList.contains('incorrect')) return;
+            item.classList.toggle('struck'); // Alterna la clase 'struck'
+        }
+
+        /**
+         * Maneja el clic en un ítem para la actividad 'order' (ordenar).
+         * Asigna un número de orden al ítem clicado.
+         * @param {Event} e - El evento de clic.
+         */
+        function handleOrderItemClick(e) {
+            const item = e.currentTarget;
+            const activityContainer = item.closest('.activity-container');
+            const activityIndex = parseInt(activityContainer.dataset.activityIndex);
+            
+            // Si el ítem ya tiene un orden asignado o ya fue calificado, no hace nada
+            if (item.dataset.userOrder || item.classList.contains('correct') || item.classList.contains('incorrect')) return;
+
+            let currentCount = orderCounters.get(activityIndex); // Obtiene el contador para esta actividad
+            item.dataset.userOrder = currentCount; // Asigna el orden al ítem
+            
+            // Crea y añade el número visualmente
+            const orderNumber = document.createElement('div');
+            orderNumber.className = 'order-number';
+            orderNumber.textContent = currentCount;
+            item.appendChild(orderNumber);
+            
+            orderCounters.set(activityIndex, currentCount + 1); // Incrementa el contador para el siguiente clic
+        }
+
+        /**
+         * Reinicia una actividad de tipo 'order', limpiando selecciones y contadores.
+         * @param {number} activityIndex - El índice de la actividad a reiniciar.
+         */
+        function resetOrderActivity(activityIndex) {
+            const activityContainer = document.querySelector(`.activity-container[data-activity-index="${activityIndex}"]`);
+            const session = programData.sessions[currentSessionId];
+            const activity = session.activities[activityIndex];
+            
+            activityContainer.querySelectorAll('.order-item').forEach(item => {
+                const orderNumber = item.querySelector('.order-number');
+                if (orderNumber) item.removeChild(orderNumber); // Elimina el número visual
+                delete item.dataset.userOrder; // Elimina el orden asignado por el usuario
+                item.classList.remove('correct', 'incorrect'); // Limpia clases de feedback
+            });
+            
+            // Reinicia el contador de orden a su valor inicial (1 o `startCountFrom`)
+            orderCounters.set(activityIndex, activity.startCountFrom || 1);
+        }
+
+        /**
+         * Reproduce una palabra en voz alta utilizando la API de síntesis de voz.
+         * Se ha ELIMINADO la llamada a showModal para que no aparezca el pop-up.
+         * @param {string} word - La palabra a reproducir.
+         */
+        function playAudio(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'es-ES'; // Idioma español
+                utterance.rate = 0.8; // Velocidad de reproducción
+
+                const button = document.querySelector(`.play-audio-btn[data-word="${word}"]`);
+                if (button) button.disabled = true; // Deshabilita el botón durante la reproducción
+                
+                utterance.onend = () => { if (button) button.disabled = false; };
+                utterance.onerror = (event) => {
+                    console.error('SpeechSynthesis Utterance Error:', event);
+                    // Si hay un error, aún mostrar un modal, pero no durante la reproducción normal.
+                    showModal('Error de Voz', 'No se pudo reproducir el audio. Inténtalo de nuevo.', false, true);
+                    if (button) button.disabled = false;
+                };
+                
+                window.speechSynthesis.speak(utterance);
+                
+                // *** Eliminada la línea que mostraba el modal "Reproduciendo Audio" ***
+                // showModal('Reproduciendo Audio', 'Reproduciendo audio...', true, true);
+            } else {
+                showModal('No Soportado', 'La síntesis de voz no es compatible con tu navegador.', false);
+            }
+        }
+
+        /**
+         * Configura la funcionalidad de dibujo para un elemento canvas dado.
+         * @param {HTMLCanvasElement} canvas - El elemento canvas a configurar.
+         */
+        function setupDrawingCanvas(canvas) {
+            const ctx = canvas.getContext('2d'); // Obtiene el contexto 2D para dibujar
+            let isDrawing = false; // Bandera para saber si el usuario está dibujando
+            let lastX = 0; // Última coordenada X
+            let lastY = 0; // Última coordenada Y
+            
+            // Eventos para iniciar el dibujo (ratón y táctil)
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('touchstart', startDrawing);
+            
+            // Eventos para dibujar mientras se mueve (ratón y táctil)
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('touchmove', draw);
+            
+            // Eventos para finalizar el dibujo (ratón y táctil)
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getPosition(e); // Obtiene la posición inicial
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return; // No dibuja si no se está "presionando"
+                e.preventDefault(); // Evita el desplazamiento de la página en táctil
+                
+                const [x, y] = getPosition(e); // Obtiene la posición actual
+                
+                ctx.beginPath(); // Inicia un nuevo camino de dibujo
+                ctx.moveTo(lastX, lastY); // Mueve el punto de inicio al último conocido
+                ctx.lineTo(x, y); // Dibuja una línea hasta la posición actual
+                ctx.strokeStyle = '#000'; // Color de la línea (negro)
+                ctx.lineWidth = 3; // Grosor de la línea
+                ctx.lineCap = 'round'; // Estilo de los extremos de la línea
+                ctx.stroke(); // Aplica el trazo
+                
+                lastX = x; // Actualiza las últimas coordenadas
+                lastY = y;
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+                ctx.beginPath(); // Finaliza el camino actual al soltar
+            }
+            
+            function getPosition(e) {
+                const rect = canvas.getBoundingClientRect(); // Dimensiones del canvas en la pantalla
+                let x, y;
+                
+                if (e.type.includes('touch')) { // Si es un evento táctil
+                    x = e.touches[0].clientX - rect.left;
+                    y = e.touches[0].clientY - rect.top;
+                } else { // Si es un evento de ratón
+                    x = e.clientX - rect.left;
+                    y = e.clientY - rect.top;
+                }
+                return [x, y];
+            }
+        }
+
+        /**
+         * Verifica las respuestas de todas las actividades en la sesión actual.
+         * Muestra feedback visual y habilita el botón de siguiente sesión si todo es correcto.
+         */
+        function checkAnswers() {
+            const session = programData.sessions[currentSessionId];
+            let allActivitiesCorrect = true; // Bandera para el estado general de la sesión
+            let feedbackHTML = ''; // Acumula el HTML para el feedback detallado
+            
+            session.activities.forEach((activity, index) => {
+                const activityElement = document.querySelector(`.activity-container[data-activity-index="${index}"]`);
+                const { isCorrect, feedback } = checkActivityAnswers(activity, activityElement); // Llama a la función de verificación específica
+                
+                if (!isCorrect) {
+                    allActivitiesCorrect = false; // Si alguna actividad es incorrecta, la sesión completa no es correcta
+                }
+                
+                // Construye el HTML para el feedback individual de cada actividad
+                feedbackHTML += `
+                    <div class="feedback-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                        <strong>${activity.title}:</strong> ${isCorrect ? '¡Correcto!' : 'Incorrecto.'}
+                        ${feedback ? `<div class="solution">${feedback}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            // Muestra el feedback general en la interfaz
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.innerHTML = `
+                <h3 class="feedback-title">
+                    <i class="fas ${allActivitiesCorrect ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    Resultados: ${allActivitiesCorrect ? '¡Todo correcto!' : 'Algunas respuestas incorrectas'}
+                </h3>
+                ${feedbackHTML}
+            `;
+            feedbackElement.className = `feedback ${allActivitiesCorrect ? 'correct' : 'incorrect'}`;
+            feedbackElement.style.display = 'block';
+            
+            // Habilita/deshabilita el botón "Siguiente Sesión" y marca el estado de la tarjeta de sesión
+            if (allActivitiesCorrect) {
+                document.getElementById('next-session').disabled = false;
+                markSessionAsCompleted(currentSessionId, true); // True para indicar completada correctamente
+            } else {
+                document.getElementById('next-session').disabled = false; // El botón Siguiente siempre debe estar habilitado, pero la tarjeta reflejará el error
+                markSessionAsCompleted(currentSessionId, false); // False para indicar errores
+            }
+            
+            feedbackElement.scrollIntoView({ behavior: 'smooth' }); // Desplaza la vista al feedback
+        }
+
+        /**
+         * Verifica las respuestas de una actividad específica.
+         * @param {object} activity - Objeto de la actividad a verificar.
+         * @param {HTMLElement} activityElement - El elemento DOM que contiene la actividad.
+         * @returns {{isCorrect: boolean, feedback: string}} Objeto con el estado de corrección y el mensaje de feedback.
+         */
+        function checkActivityAnswers(activity, activityElement) {
+            let isCorrect = true;
+            let feedback = '';
+            
+            // Limpiar clases de feedback previas para permitir reintentos.
+            // Es importante NO remover 'selected' o 'struck' ANTES de la verificación,
+            // ya que estos indican la selección del usuario. Se removerán DESPUÉS de evaluar.
+            activityElement.querySelectorAll('.correct, .incorrect').forEach(el => {
+                el.classList.remove('correct', 'incorrect');
+            });
+            
+            switch (activity.type) {
+                case 'visual-search':
+                    const allGridItems = activityElement.querySelectorAll('.grid-item');
+                    const targetValue = activity.target; 
+                    
+                    // Calculate the actual number of target items in the grid
+                    // This handles cases where target is a single string but appears multiple times
+                    const totalActualTargets = Array.isArray(targetValue)
+                        ? activity.gridItems.filter(item => targetValue.includes(item)).length
+                        : activity.gridItems.filter(item => item === targetValue).length;
+
+                    let selectedCorrectly = 0;
+                    let selectedIncorrectly = 0; // Count of non-target items selected
+
+                    allGridItems.forEach(item => {
+                        const isCurrentItemTarget = Array.isArray(targetValue)
+                            ? targetValue.includes(item.dataset.value)
+                            : (item.dataset.value === targetValue);
+                        const isItemSelected = item.classList.contains('selected');
+
+                        if (isCurrentItemTarget) {
+                            if (isItemSelected) {
+                                item.classList.add('correct');
+                                selectedCorrectly++;
+                            } else {
+                                item.classList.add('incorrect'); // Target not selected
+                                isCorrect = false;
+                            }
+                        } else { // If the item is NOT a target
+                            if (isItemSelected) {
+                                item.classList.add('incorrect'); // Non-target selected
+                                selectedIncorrectly++;
+                                isCorrect = false;
+                            }
+                        }
+                    });
+
+                    // The activity is correct if:
+                    // 1. All target items were selected.
+                    // 2. NO non-target items were selected.
+                    if (selectedCorrectly !== totalActualTargets || selectedIncorrectly > 0) {
+                        isCorrect = false;
+                    }
+                    
+                    feedback = `Debías seleccionar ${totalActualTargets} elementos (ej. "${Array.isArray(targetValue) ? targetValue.join(', ') : targetValue}") y solo esos.`;
+                    break;
+                    
+                case 'strike-item':
+                    let allStruckCorrect = true;
+                    if (activity.targetType === "group_correct") { // Case for 'group' and 'correct'
+                        const itemGroup = activity.items[0]; 
+                        activityElement.querySelectorAll('.strike-item').forEach(item => {
+                            const itemText = item.dataset.value;
+                            const shouldBeStruck = itemGroup.correct.includes(itemText);
+                            const isStruck = item.classList.contains('struck');
+
+                            if (shouldBeStruck) {
+                                if (isStruck) {
+                                    item.classList.add('correct');
+                                } else {
+                                    item.classList.add('incorrect'); // Should be struck but isn't
+                                    allStruckCorrect = false;
+                                }
+                            } else { // Should NOT be struck
+                                if (isStruck) {
+                                    item.classList.add('incorrect'); // Is struck but shouldn't be
+                                    allStruckCorrect = false;
+                                }
+                            }
+                        });
+                        feedback = `Debías tachar: ${itemGroup.correct.join(', ')}.`;
+                    } else { // Original case with 'type' and 'targetType'
+                        activityElement.querySelectorAll('.strike-item').forEach(item => {
+                            const itemType = item.dataset.type;
+                            const shouldBeStruck = itemType === activity.targetType;
+                            const isStruck = item.classList.contains('struck');
+
+                            if (shouldBeStruck) {
+                                if (isStruck) {
+                                    item.classList.add('correct');
+                                } else {
+                                    item.classList.add('incorrect');
+                                    allStruckCorrect = false;
+                                }
+                            } else {
+                                if (isStruck) {
+                                    item.classList.add('incorrect');
+                                    allStruckCorrect = false;
+                                }
+                            }
+                        });
+                        feedback = `Debías tachar los elementos de tipo "${activity.targetType}".`;
+                    }
+                    isCorrect = allStruckCorrect;
+                    break;
+                    
+                case 'order':
+                    const orderItems = Array.from(activityElement.querySelectorAll('.order-item'));
+                    // Check if all items have been ordered by the user
+                    const hasAllOrders = orderItems.every(item => item.dataset.userOrder);
+                    if (!hasAllOrders) {
+                        isCorrect = false;
+                        feedback = 'No has ordenado todos los elementos. Por favor, asigna un número a cada uno.';
+                        orderItems.forEach(item => { // Mark unordered items as incorrect visually
+                            if (!item.dataset.userOrder) item.classList.add('incorrect');
+                        });
+                        break;
+                    }
+                    
+                    // Sort by the user's assigned order to compare with the correct sequence
+                    orderItems.sort((a, b) => {
+                        return parseInt(a.dataset.userOrder) - parseInt(b.dataset.userOrder);
+                    });
+                    
+                    // Verify if the user's order matches the correct sequence
+                    orderItems.forEach((item, index) => {
+                        const correctOrder = parseInt(item.dataset.correctOrder);
+                        // The user's order should match the 'order' property for the current index + 1
+                        if (index + 1 === correctOrder) {
+                            item.classList.add('correct');
+                        } else {
+                            item.classList.add('incorrect');
+                            isCorrect = false;
+                        }
+                    });
+                    feedback = `Orden correcto: ${activity.items.sort((a, b) => a.order - b.order).map(i => i.text).join(' → ')}`;
+                    break;
+                    
+                case 'word-select':
+                case 'audio-select':
+                case 'size-comparison':
+                case 'shadow-match':
+                    const selectedItem = activityElement.querySelector('.grid-item.selected');
+                    
+                    if (!selectedItem) { // If nothing was selected
+                        isCorrect = false;
+                        feedback = 'No has seleccionado ninguna opción.';
+                        break;
+                    }
+                    
+                    if (selectedItem.dataset.correct === 'true') {
+                        selectedItem.classList.add('correct');
+                    } else {
+                        selectedItem.classList.add('incorrect');
+                        isCorrect = false;
+                        
+                        // Show which was the correct option
+                        const correctItem = activityElement.querySelector('.grid-item[data-correct="true"]');
+                        if (correctItem) correctItem.classList.add('correct');
+                        
+                        // Build specific feedback message
+                        if (activity.type === 'audio-select') {
+                            feedback = `La respuesta correcta era: "${activity.correctWord}".`;
+                        } else {
+                             const correctOption = activity.options.find(opt => opt.correct);
+                             feedback = `La respuesta correcta era: "${correctOption ? (correctOption.text || correctOption.label) : 'No encontrada'}".`;
+                        }
+                    }
+                    break;
+                    
+                case 'counting':
+                    const input = activityElement.querySelector('.input-field');
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = activity.iceCreamData.count; // The correct answer is the dynamically generated count
+
+                    if (userAnswer === correctAnswer) {
+                        input.classList.add('correct');
+                    } else {
+                        input.classList.add('incorrect');
+                        isCorrect = false;
+                        feedback = `La respuesta correcta era: ${correctAnswer}.`;
+                    }
+                    break;
+                    
+                case 'drawing':
+                    // Drawing activities do not have automatic correction verification
+                    isCorrect = true; // Considered correct by default
+                    feedback = '¡Buen trabajo! La evaluación del dibujo es manual.';
+                    break;
+            }
+            
+            return { isCorrect, feedback };
+        }
+
+        /**
+         * Reads the instructions for the current session aloud.
+         */
+        function readInstructions() {
+            if ('speechSynthesis' in window) {
+                const instructions = Array.from(document.querySelectorAll('.instructions')).map(el => el.textContent).join('. ');
+                
+                if (instructions) {
+                    const utterance = new SpeechSynthesisUtterance(instructions);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 0.9;
+                    
+                    const button = document.getElementById('voice-btn');
+                    button.disabled = true; // Disable button during playback
+                    
+                    utterance.onend = () => { button.disabled = false; };
+                    utterance.onerror = (event) => {
+                        console.error('SpeechSynthesis Error:', event);
+                        showModal('Error', 'No se pudieron reproducir las instrucciones.', false, true);
+                        button.disabled = false;
+                    };
+                    
+                    window.speechSynthesis.speak(utterance);
+                    
+                    // *** Eliminada la línea que mostraba el modal "Reproduciendo Audio" ***
+                    // showModal('Reproduciendo Audio', 'Reproduciendo audio...', true, true);
+                } else {
+                    showModal('Error', 'No hay instrucciones para leer en esta sección.', false);
+                }
+            } else {
+                showModal('Error', 'La síntesis de voz no es compatible con tu navegador.', false);
+            }
+        }
+
+        /**
+         * Resets the current session, asking for user confirmation.
+         */
+        function resetCurrentSession() {
+            showModal(
+                'Reiniciar Sesión',
+                '¿Estás seguro de que quieres reiniciar esta sesión? Se perderán todas tus respuestas actuales.',
+                false, // Not a success message
+                true, // Show Confirm/Cancel buttons
+                (confirmed) => { // Callback to handle user response
+                    if (confirmed) {
+                        loadSession(currentSessionId); // Reload the session
+                        showModal('Sesión Reiniciada', 'La sesión se ha reiniciado correctamente.', true, true);
+                    }
+                }
+            );
+        }
+
+        /**
+         * Advances to the next session if it's not the last one.
+         * If it's the last session, shows the final results.
+         */
+        function goToNextSession() {
+            // First, ensure the current session is properly marked (this happens on checkAnswers)
+            // Then, proceed to the next session or final results
+            if (currentSessionId < programData.totalSessions) {
+                loadSession(currentSessionId + 1);
+            } else {
+                // If it's the last session, show a final results summary
+                let totalCorrectSessions = 0;
+                let totalAttemptedSessions = 0;
+                const sessionsState = JSON.parse(localStorage.getItem('cognitiveProgramProgress') || '{}');
+
+                for (const sessionId in sessionsState) {
+                    if (sessionsState[sessionId] === 'correctly') {
+                        totalCorrectSessions++;
+                        totalAttemptedSessions++;
+                    } else if (sessionsState[sessionId] === 'with_errors') {
+                        totalAttemptedSessions++;
+                    }
+                }
+
+                const percentageCorrect = programData.totalSessions > 0 ?
+                                          Math.round((totalCorrectSessions / programData.totalSessions) * 100) : 0;
+
+                let finalMessage = `Has completado todas las sesiones.<br>`;
+                finalMessage += `<strong>Sesiones correctas: ${totalCorrectSessions} de ${programData.totalSessions}</strong>.<br>`;
+                finalMessage += `Tu porcentaje de éxito es del ${percentageCorrect}%.<br>`;
+                
+                if (percentageCorrect === 100) {
+                    finalMessage += "¡Felicidades! ¡Un rendimiento excepcional! 🎉";
+                } else if (percentageCorrect >= 70) {
+                    finalMessage += "¡Muy bien! Has hecho un gran trabajo. 💪";
+                } else {
+                    finalMessage += "¡Sigue practicando! La constancia es clave. ✨";
+                }
+
+                showModal(
+                    'Programa Completado',
+                    finalMessage,
+                    totalCorrectSessions === programData.totalSessions, // Success if all are correct
+                    false // Don't auto-close, let user read
+                );
+            }
+        }
+
+        /**
+         * Muestra un modal (ventana emergente) con un título, mensaje e icono.
+         * @param {string} title - El título del modal.
+         * @param {string} message - El mensaje del modal.
+         * @param {boolean} isSuccess - True para icono de éxito, false para icono de error.
+         * @param {boolean} showConfirm - True para mostrar botones de "Confirmar" y "Cancelar".
+         * @param {function} [callback] - Función de callback que se llama con `true` si se confirma, `false` si se cancela.
+         * @param {boolean} [autoClose=false] - True para que el modal se cierre automáticamente después de 3 segundos.
+         */
+        function showModal(title, message, isSuccess, showConfirm = false, callback = null, autoClose = false) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const successIcon = document.getElementById('modal-icon-success');
+            const errorIcon = document.getElementById('modal-icon-error');
+            const modalButtons = modal.querySelector('.modal-buttons');
+            
+            modalTitle.innerHTML = title; // Usar innerHTML para permitir negritas en el título
+            modalMessage.innerHTML = message; // Usar innerHTML para permitir negritas en el mensaje
+
+            // Show the correct icon
+            if (isSuccess) {
+                successIcon.style.display = 'block';
+                errorIcon.style.display = 'none';
+                modal.querySelector('.modal-icon').className = 'modal-icon success';
+            } else {
+                successIcon.style.display = 'none';
+                errorIcon.style.display = 'block';
+                modal.querySelector('.modal-icon').className = 'modal-icon error';
+            }
+            
+            // Clear existing buttons
+            modalButtons.innerHTML = ''; 
+
+            if (showConfirm) {
+                const confirmBtn = document.createElement('button');
+                confirmBtn.textContent = 'Confirmar';
+                confirmBtn.className = 'btn btn-primary';
+                confirmBtn.onclick = () => {
+                    closeModal();
+                    if (callback) callback(true);
+                };
+                modalButtons.appendChild(confirmBtn);
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.textContent = 'Cancelar';
+                cancelBtn.className = 'btn btn-error';
+                cancelBtn.onclick = () => {
+                    closeModal();
+                    if (callback) callback(false);
+                };
+                modalButtons.appendChild(cancelBtn);
+            } else {
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = 'Cerrar';
+                closeBtn.className = 'btn btn-primary';
+                closeBtn.onclick = closeModal;
+                modalButtons.appendChild(closeBtn);
+            }
+
+            modal.style.display = 'flex'; // Make modal visible
+
+            if (autoClose) {
+                if (modal.dataset.timeoutId) {
+                    clearTimeout(parseInt(modal.dataset.timeoutId));
+                }
+                const timeoutId = setTimeout(() => {
+                    closeModal();
+                    if (!showConfirm && callback) callback(); // Only call callback if not a confirm dialog
+                }, 3000);
+                modal.dataset.timeoutId = timeoutId.toString();
+            }
+        }
+
+        /**
+         * Closes the modal and clears any associated state.
+         */
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            if (modal.dataset.timeoutId) {
+                clearTimeout(parseInt(modal.dataset.timeoutId));
+                delete modal.dataset.timeoutId;
+            }
+            modal.style.display = 'none';
+        }
+
+        /**
+         * Marks a session as completed (correct or with errors) in the interface and saves the progress.
+         * @param {number} sessionId - The ID of the session to mark.
+         * @param {boolean} [completedCorrectly=false] - True if the session was completed without errors, false if there were errors.
+         */
+        function markSessionAsCompleted(sessionId, completedCorrectly = false) {
+            const sessionCard = document.querySelector(`.session-card[data-session="${sessionId}"]`);
+            if (sessionCard) {
+                // Clear previous completion state classes
+                sessionCard.classList.remove('completed-correctly', 'attempted-with-errors');
+
+                if (completedCorrectly) {
+                    sessionsState[sessionId] = 'correctly';
+                    sessionCard.classList.add('completed-correctly'); // Class for green/happy
+                } else {
+                    sessionsState[sessionId] = 'with_errors';
+                    sessionCard.classList.add('attempted-with-errors'); // Class for red/sad
+                }
+                saveProgress(); // Save updated progress
+                updateProgressBar(); // Update progress bar
+            }
+        }
+
+        /**
+         * Saves the progress of completed sessions to `localStorage`.
+         * Now stores whether the session was completed correctly or with errors.
+         */
+        let sessionsState = {}; // Declarar globalmente para que saveProgress y loadProgress puedan usarla.
+        function saveProgress() {
+            document.querySelectorAll('.session-card').forEach(card => {
+                const sessionId = card.dataset.session;
+                if (card.classList.contains('completed-correctly')) {
+                    sessionsState[sessionId] = 'correctly';
+                } else if (card.classList.contains('attempted-with-errors')) {
+                    sessionsState[sessionId] = 'with_errors';
+                } else if (!sessionsState[sessionId]) { // Solo si no está ya definida, evitar sobrescribir con 'not_attempted'
+                    sessionsState[sessionId] = 'not_attempted';
+                }
+            });
+            localStorage.setItem('cognitiveProgramProgress', JSON.stringify(sessionsState));
+        }
+
+        /**
+         * Loads the progress of sessions from `localStorage` and applies the corresponding styles.
+         */
+        function loadProgress() {
+            sessionsState = JSON.parse(localStorage.getItem('cognitiveProgramProgress') || '{}'); // Asignar a la variable global
+            for (const sessionId in sessionsState) {
+                const sessionCard = document.querySelector(`.session-card[data-session="${sessionId}"]`);
+                if (sessionCard) {
+                    if (sessionsState[sessionId] === 'correctly') {
+                        sessionCard.classList.add('completed-correctly');
+                    } else if (sessionsState[sessionId] === 'with_errors') {
+                        sessionCard.classList.add('attempted-with-errors');
+                    }
+                }
+            }
+            updateProgressBar(); // Update progress bar upon loading
+        }
+
+        /**
+         * Updates the visual progress bar and status text.
+         * Now only counts correctly completed sessions for the percentage.
+         */
+        function updateProgressBar() {
+            const completedCorrectly = Object.values(sessionsState).filter(status => status === 'correctly').length;
+            const total = programData.totalSessions;
+            const percent = Math.round((completedCorrectly / total) * 100);
+            
+            document.getElementById('progress-fill').style.width = `${percent}%`;
+            document.getElementById('progress-text').textContent = `Progreso: ${percent}%`;
+            document.getElementById('completed-sessions').textContent = `${completedCorrectly} de ${total} sesiones completadas correctamente`;
+        }
+    </script>
+</body>
+</html>
