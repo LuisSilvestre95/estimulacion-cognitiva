@@ -835,7 +835,7 @@
                                 { emoji: "🦋", effect: "" }, { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "🍌", effect: "" },
                                 { emoji: "🔑", effect: "" }, { emoji: "👟", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🦋", effect: "" },
                                 { emoji: "🍐", effect: "" }, { emoji: "🔑", effect: "" }, { emoji: "👟", effect: "" }, { emoji: "🍌", effect: "" },
-                                { emoji: "🍎", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍇", effect: "" }, { emoji: "�", effect: "" },
+                                { emoji: "🍎", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍇", effect: "" }, { emoji: "🍊", effect: "" },
                                 { emoji: "🍌", effect: "" }, { emoji: "🍍", effect: "" }, { emoji: "🍓", effect: "" }, { emoji: "🍌", effect: "" },
                                 { emoji: "🥝", effect: "" }, { emoji: "🍑", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍋", effect: "" },
                                 { emoji: "🍒", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🍉", effect: "" }, { emoji: "🍌", effect: "" }
@@ -853,7 +853,7 @@
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "🛑", effect: "" }, { emoji: "🍎", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍫", effect: "" },
                                 { emoji: "☕", effect: "" }, { emoji: "🥛", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍶", effect: "" },
-                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🫖", effect: "" },
+                                { emoji: "🍵", effect: "" }, { emoji: "🥤", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "�", effect: "" },
                                 { emoji: "🍵", effect: "" }, { emoji: "🍹", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🍾", effect: "" },
                                 { emoji: "🍵", effect: "" }, { emoji: "🥂", effect: "" }, { emoji: "🍵", effect: "" }, { emoji: "🥃", effect: "" }
                             ],
@@ -1748,6 +1748,8 @@
             });
             
             setupActivityEventListeners(); // Configura event listeners para la sesión recién cargada
+            // SCROLL TO TOP: Desplaza la vista al inicio del contenido de la sesión.
+            document.getElementById('session-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         /**
