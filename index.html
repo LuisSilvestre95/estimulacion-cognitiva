@@ -793,7 +793,10 @@
                 </button>
             </div>
             
-            <div style="display: flex; justify-content: center;">
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button class="btn btn-secondary" id="prev-session" style="display: none;">
+                    <i class="fas fa-arrow-left"></i> Sesión anterior
+                </button>
                 <button class="btn btn-primary" id="next-session" style="display: none;">
                     <i class="fas fa-arrow-right"></i> Siguiente sesión
                 </button>
@@ -1570,6 +1573,7 @@
 
             if (availableWords.length === 0) {
                 console.warn("getRandomAudioWord: Ran out of unique words for distractors. Re-using words.");
+                // Fallback: si no hay palabras únicas disponibles, se permite repetir.
                 return audioWordsList[Math.floor(Math.random() * audioWordsList.length)];
             }
             return availableWords[Math.floor(Math.random() * availableWords.length)];
@@ -1625,6 +1629,12 @@
          * @param {number} sessionId - El ID numérico de la sesión a cargar.
          */
         function loadSession(sessionId) {
+            // Asegura que el sessionId esté dentro de los límites válidos
+            if (sessionId < 1 || sessionId > programData.totalSessions) {
+                console.warn(`Intento de cargar sesión inválida: ${sessionId}`);
+                return;
+            }
+
             currentSessionId = sessionId; // Actualiza la sesión actual
             const session = programData.sessions[sessionId];
             const activitiesContainer = document.getElementById('activities-container');
@@ -1654,8 +1664,12 @@
             document.getElementById('check-answers').style.display = 'flex';
             document.getElementById('voice-btn').style.display = 'flex';
             document.getElementById('reset-session').style.display = 'flex';
+            
+            // Controla la visibilidad y estado de los botones de navegación
+            document.getElementById('prev-session').style.display = sessionId > 1 ? 'flex' : 'none';
             document.getElementById('next-session').style.display = sessionId < programData.totalSessions ? 'flex' : 'none';
             document.getElementById('next-session').disabled = true; // Deshabilita el botón "Siguiente" inicialmente
+            document.getElementById('prev-session').disabled = false; // Habilita el botón "Anterior"
 
             // Genera y añade el HTML para cada actividad de la sesión
             session.activities.forEach((activity, index) => {
@@ -1681,13 +1695,15 @@
                     // Si ya hay opciones predefinidas en activity.options, usarlas como base para el total.
                     const desiredDistractors = Math.max(7, activity.options ? activity.options.length - 1 : 7); // Mínimo 7 distractores para 8 opciones
                     
+                    // Genera distractores únicos hasta alcanzar la cantidad deseada o agotar la lista
                     while (distractors.length < desiredDistractors && tempExclude.length < audioWordsList.length) {
                         const distractorObj = getRandomAudioWord(tempExclude);
                         if (!distractorObj || distractorObj.word === "FALLBACK_ERROR") {
                             console.warn("Could not find enough unique distractors. Breaking loop.");
                             break;
                         }
-                        if (!distractors.includes(distractorObj.word)) {
+                        // Asegura que el distractor no sea el mismo que la palabra correcta o un distractor ya añadido
+                        if (!distractors.includes(distractorObj.word) && distractorObj.word !== activity.correctWord) {
                             distractors.push(distractorObj.word);
                             tempExclude.push(distractorObj.word);
                         }
@@ -1709,7 +1725,7 @@
                             </div>
                             <h3 class="activity-title-text">${activity.title}</h3>
                         </div>
-                        ${activity.type === 'order' ? `<button class="clear-order-btn" data-activity-index="${index}"><i class="fas fa-trash"></i> Reiniciar orden</button>` : ''}
+                        ${activity.type === 'order' ? `<button class="clear-order-btn" data-activity-index="${index}" aria-label="Reiniciar orden"><i class="fas fa-trash"></i> Reiniciar orden</button>` : ''}
                     </div>
                     <div class="instructions">${activity.instructions}</div>
                 `;
@@ -1942,7 +1958,7 @@
                 <div style="text-align: center; font-size: 2rem; margin: 20px 0;">
                     ${display}
                 </div>
-                <input type="text" class="input-field" placeholder="Escribe el número" aria-label="Escribe tu respuesta">
+                <input type="number" class="input-field" placeholder="Escribe el número" aria-label="Escribe tu respuesta" min="0">
             `;
             return html;
         }
@@ -2051,6 +2067,13 @@
             document.querySelectorAll('.drawing-canvas').forEach(canvas => {
                 setupDrawingCanvas(canvas);
             });
+
+            // Para la actividad de conteo, asegurar que solo se ingresen números
+            document.querySelectorAll('.counting .input-field').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, ''); // Solo permite dígitos
+                });
+            });
         }
 
         /**
@@ -2061,6 +2084,7 @@
             document.getElementById('voice-btn').addEventListener('click', readInstructions);
             document.getElementById('reset-session').addEventListener('click', resetCurrentSession);
             document.getElementById('next-session').addEventListener('click', goToNextSession);
+            document.getElementById('prev-session').addEventListener('click', goToPreviousSession); // Nuevo listener
             document.getElementById('close-modal').addEventListener('click', closeModal);
         }
 
@@ -2527,7 +2551,7 @@
                     break;
                     
                 case 'drawing':
-                    isCorrect = true;
+                    isCorrect = true; // La evaluación del dibujo es manual
                     feedback = '¡Buen trabajo! La evaluación del dibujo es manual.';
                     break;
             }
@@ -2630,6 +2654,17 @@
         }
 
         /**
+         * Goes to the previous session if it's not the first one.
+         */
+        function goToPreviousSession() {
+            if (currentSessionId > 1) {
+                loadSession(currentSessionId - 1);
+            } else {
+                showModal('Primera Sesión', 'Ya estás en la primera sesión.', false, false, null, true);
+            }
+        }
+
+        /**
          * Muestra un modal (ventana emergente) con un título, mensaje e icono.
          * @param {string} title - El título del modal.
          * @param {string} message - El mensaje del modal.
@@ -2718,6 +2753,7 @@
          * @param {number} sessionId - The ID of the session to mark.
          * @param {boolean} [completedCorrectly=false] - True if the session was completed without errors, false if there were errors.
          */
+        let sessionsState = {}; // Declarar sessionsState globalmente
         function markSessionAsCompleted(sessionId, completedCorrectly = false) {
             const sessionCard = document.querySelector(`.session-card[data-session="${sessionId}"]`);
             if (sessionCard) {
@@ -2739,15 +2775,15 @@
          * Saves the progress of completed sessions to `localStorage`.
          * Now stores whether the session was completed correctly or with errors.
          */
-        let sessionsState = {};
         function saveProgress() {
+            // Asegurarse de que sessionsState esté actualizado con el estado actual de las tarjetas
             document.querySelectorAll('.session-card').forEach(card => {
                 const sessionId = card.dataset.session;
                 if (card.classList.contains('completed-correctly')) {
                     sessionsState[sessionId] = 'correctly';
                 } else if (card.classList.contains('attempted-with-errors')) {
                     sessionsState[sessionId] = 'with_errors';
-                } else if (!sessionsState[sessionId]) {
+                } else if (!sessionsState[sessionId]) { // Si no tiene ninguna clase de estado, se considera no intentada
                     sessionsState[sessionId] = 'not_attempted';
                 }
             });
