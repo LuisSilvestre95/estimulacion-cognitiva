@@ -951,17 +951,6 @@
                             type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Encuentra las Frutas",
                             instructions: "Selecciona solo las frutas.",
-                            gridItems: [
-                                { emoji: "🍎", effect: "" }, { emoji: "🥕", effect: "" }, { emoji: "🍌", effect: "" }, { emoji: "🫛", effect: "" },
-                                { emoji: "🍊", effect: "" }, { emoji: "🥔", effect: "" }, { emoji: "🍇", effect: "" }, { emoji: "🥦", effect: "" },
-                                { emoji: "🍓", effect: "" }, { emoji: "🧅", effect: "" }, { emoji: "🍍", effect: "" }, { emoji: "🌶️", effect: "" },
-                                { emoji: "🍒", effect: "" }, { emoji: "🥒", effect: "" }, { emoji: "🍑", effect: "" }, { emoji: "🌽", effect: "" },
-                                { emoji: "🥝", effect: "" }, { emoji: "🥬", effect: "" }, { emoji: "🍋", effect: "" }, { emoji: "🍆", effect: "" },
-                                { emoji: "🍉", effect: "" }, { emoji: "🍄", effect: "" }, { emoji: "🥭", effect: "" }, { emoji: "🥑", effect: "" },
-                                { emoji: "🍐", effect: "" }, { emoji: "🍅", effect: "" }, { emoji: "🌰", effect: "" }, { emoji: "🧄", effect: "" },
-                                { emoji: "🥥", effect: "" }, { emoji: "🍠", effect: "" }, { emoji: "🌶️", effect: "" }, { emoji: "🫚", effect: "" }
-                            ],
-                            target: ["🍎", "🍌", "🍊", "🍇", "🍓", "🍍", "🍒", "🍑", "🥝", "🍋", "🍉", "🥭", "🍐", "🥥"], // Todas las frutas
                             options: [ // Esto es un array de objetos para Word-Select-Multiple
                                 { text: "🍎", correct: true }, { text: "🥕", correct: false }, { text: "🍌", correct: true }, { text: "🫛", correct: false },
                                 { text: "🍊", correct: true }, { text: "🥔", correct: false }, { text: "🍇", correct: true }, { text: "🥦", correct: false },
@@ -1081,13 +1070,6 @@
                             type: "word-select-multiple", // Cambiado a selección múltiple
                             title: "Encuentra los Transportes",
                             instructions: "Selecciona solo los medios de transporte.",
-                            gridItems: [
-                                { emoji: "🚗", effect: "" }, { emoji: "🏠", effect: "" }, { emoji: "✈️", effect: "" }, { emoji: "📚", effect: "" },
-                                { emoji: "🚌", effect: "" }, { emoji: "🌳", effect: "" }, { emoji: "🚲", effect: "" }, { emoji: "🍎", effect: "" },
-                                { emoji: "🚂", effect: "" }, { emoji: "🛋️", effect: "" }, { emoji: "⛵", effect: "" }, { emoji: "⌚", effect: "" },
-                                { emoji: "🚁", effect: "" }, { emoji: "👕", effect: "" }, { emoji: "🛵", effect: "" }, { emoji: "🍳", effect: "" }
-                            ],
-                            target: ["🚗", "✈️", "🚌", "🚲", "🚂", "⛵", "🚁", "🛵"], // Todos los transportes
                             options: [ // Esto es un array de objetos para Word-Select-Multiple
                                 { text: "🚗", correct: true }, { text: "🏠", correct: false }, { text: "✈️", correct: true }, { text: "📚", correct: false },
                                 { text: "🚌", correct: true }, { text: "🌳", correct: false }, { text: "🚲", correct: true }, { text: "🍎", correct: false },
@@ -1680,6 +1662,8 @@
                 const activityContainer = document.createElement('div');
                 activityContainer.className = 'activity-container';
                 activityContainer.dataset.activityIndex = index; // Para identificar la actividad al verificar
+                // Añadir una clase basada en el tipo de actividad para facilitar la selección de eventos
+                activityContainer.classList.add(activity.type);
 
                 // Lógica para generar contenido dinámico (ej. helados, palabras de audio)
                 if (activity.type === "counting") {
@@ -1782,8 +1766,6 @@
             const shuffledItems = [...activity.gridItems].sort(() => Math.random() - 0.5);
             shuffledItems.forEach(item => {
                 const isTarget = Array.isArray(activity.target) ? activity.target.includes(item.emoji) : activity.target === item.emoji;
-                // No aplicar effects aquí, ya que no son deseados para visual-search
-                // const effectClass = item.effect ? `effect-${item.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item" data-value="${item.emoji}" data-correct-target="${isTarget}" role="button" tabindex="0">
                         <span class="grid-item-content">${item.emoji}</span>
@@ -1801,7 +1783,6 @@
          */
         function generateStrikeItemActivity(activity) {
             let html = '<div class="grid-container">';
-            // Este tipo de actividad no tiene efectos para mantener la simplicidad
             if (activity.items && activity.items[0] && activity.items[0].group) {
                 const itemGroup = activity.items[0];
                 const shuffledGroupItems = [...itemGroup.group].sort(() => Math.random() - 0.5);
@@ -1838,8 +1819,6 @@
             let html = '<div class="grid-container order-container">';
             const shuffledItems = [...activity.items].sort(() => Math.random() - 0.5);
             shuffledItems.forEach(item => {
-                // No aplicar effects aquí
-                // const effectClass = item.effect ? `effect-${item.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item order-item" data-value="${item.text}" data-correct-order="${item.order}" role="button" tabindex="0">
                         <span class="grid-item-content">${item.text}</span>
@@ -1869,8 +1848,6 @@
             }
             html += '<div class="grid-container">';
             activity.options.forEach(option => {
-                // No aplicar effects aquí para mantener la simplicidad
-                // const effectClass = option.effect ? `effect-${option.effect}` : ''; // Removido
                 html += `
                     <div class="grid-item" data-correct="${option.correct}" role="button" tabindex="0">
                         <span class="grid-item-content">${option.text || option.label}</span>
@@ -1890,7 +1867,6 @@
             let html = '';
             html += '<div class="grid-container">';
             activity.options.forEach(option => {
-                // No aplicar effects aquí para mantener la simplicidad
                 html += `
                     <div class="grid-item multiple-select-item" data-correct="${option.correct}" role="button" tabindex="0">
                         <span class="grid-item-content">${option.text || option.label}</span>
@@ -2014,16 +1990,16 @@
          * Asigna todos los event listeners a los elementos interactivos después de cargar una sesión.
          */
         function setupActivityEventListeners() {
-            // Para actividades con .grid-item de selección única
-            document.querySelectorAll('.grid-item:not(.order-item):not(.strike-item):not(.multiple-select-item)').forEach(item => {
+            // Para actividades de selección única (word-select, audio-select, size-comparison, shadow-match)
+            document.querySelectorAll('.word-select .grid-item, .audio-select .grid-item, .size-comparison .grid-item, .shadow-match .grid-item').forEach(item => {
                 item.addEventListener('click', handleSingleSelectGridItemClick);
                 item.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSingleSelectGridItemClick(e); }
                 });
             });
 
-            // Para actividades de selección múltiple (.multiple-select-item)
-            document.querySelectorAll('.multiple-select-item').forEach(item => {
+            // Para actividades de selección múltiple (visual-search y word-select-multiple)
+            document.querySelectorAll('.visual-search .grid-item, .word-select-multiple .grid-item').forEach(item => {
                 item.addEventListener('click', handleMultipleSelectGridItemClick);
                 item.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleMultipleSelectGridItemClick(e); }
@@ -2089,7 +2065,7 @@
         }
 
         /**
-         * Maneja el clic en un ítem de cuadrícula para actividades de selección simple.
+         * Maneja el clic en un ítem de cuadrícula para actividades de selección única.
          * @param {Event} } e - El evento de clic.
          */
         function handleSingleSelectGridItemClick(e) {
@@ -2356,21 +2332,21 @@
                             : (item.dataset.value === targetValueVS);
                         const isItemSelected = item.classList.contains('selected');
 
-                        if (isCurrentItemTarget) {
+                        if (isCurrentItemTarget) { // Si el ítem es un objetivo
                             if (isItemSelected) {
                                 item.classList.add('correct');
                                 selectedCorrectlyVS++;
-                            } else {
+                            } else { // Si es un objetivo pero no está seleccionado
                                 item.classList.add('incorrect');
                                 isCorrect = false;
                             }
-                        } else {
-                            if (isItemSelected) {
+                        } else { // Si el ítem NO es un objetivo
+                            if (isItemSelected) { // Si NO es un objetivo pero está seleccionado
                                 item.classList.add('incorrect');
                                 selectedIncorrectlyVS++;
                                 isCorrect = false;
                             }
-                            // Si el ítem no es target y no está seleccionado, no es un error ni un acierto
+                            // Si no es un objetivo y no está seleccionado, no es un error ni un acierto
                         }
                     });
 
@@ -2406,7 +2382,7 @@
                             }
                         });
                         feedback = `Debías tachar: ${itemGroup.correct.join(', ')}.`;
-                    } else { // Handle the simple strike-item, where targetType is a specific category.
+                    } else { // Manejar el strike-item simple, donde targetType es una categoría específica.
                         activityElement.querySelectorAll('.strike-item').forEach(item => {
                             const itemType = item.dataset.type;
                             const shouldBeStruck = itemType === activity.targetType;
@@ -2490,7 +2466,7 @@
                     }
                     break;
                 
-                case 'word-select-multiple': // NUEVO: Lógica para selección múltiple
+                case 'word-select-multiple': // Lógica para selección múltiple
                     const allItemsMultiple = activityElement.querySelectorAll('.multiple-select-item');
                     let correctSelections = 0;
                     let incorrectSelections = 0;
